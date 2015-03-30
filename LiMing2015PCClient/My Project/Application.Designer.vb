@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.LiMing2015PCClient.TextBox_Connection_log
+            Me.MainForm = Global.LiMing2015PCClient.Form_ORRM
         End Sub
     End Class
 End Namespace
