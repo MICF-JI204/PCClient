@@ -32,6 +32,8 @@ Partial Class Form_ORRM
         Me.GroupBox_Functions = New System.Windows.Forms.GroupBox()
         Me.Label_LastLine = New System.Windows.Forms.Label()
         Me.GroupBox_GameStatus = New System.Windows.Forms.GroupBox()
+        Me.Label_XBox_Connection = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox_Connection.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -39,6 +41,8 @@ Partial Class Form_ORRM
         '
         Me.GroupBox_Connection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox_Connection.Controls.Add(Me.Label2)
+        Me.GroupBox_Connection.Controls.Add(Me.Label_XBox_Connection)
         Me.GroupBox_Connection.Controls.Add(Me.Label_Connection_Status)
         Me.GroupBox_Connection.Controls.Add(Me.ComboPort)
         Me.GroupBox_Connection.Controls.Add(Me.Button_ConsoleSend)
@@ -55,7 +59,7 @@ Partial Class Form_ORRM
         '
         Me.Label_Connection_Status.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Label_Connection_Status.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label_Connection_Status.Location = New System.Drawing.Point(6, 24)
+        Me.Label_Connection_Status.Location = New System.Drawing.Point(6, 22)
         Me.Label_Connection_Status.Name = "Label_Connection_Status"
         Me.Label_Connection_Status.Size = New System.Drawing.Size(211, 20)
         Me.Label_Connection_Status.TabIndex = 3
@@ -135,6 +139,25 @@ Partial Class Form_ORRM
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
         '
+        'Label_XBox_Connection
+        '
+        Me.Label_XBox_Connection.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label_XBox_Connection.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label_XBox_Connection.Location = New System.Drawing.Point(6, 167)
+        Me.Label_XBox_Connection.Name = "Label_XBox_Connection"
+        Me.Label_XBox_Connection.Size = New System.Drawing.Size(211, 20)
+        Me.Label_XBox_Connection.TabIndex = 4
+        Me.Label_XBox_Connection.Text = "Label1"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 151)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(77, 12)
+        Me.Label2.TabIndex = 5
+        Me.Label2.Text = "Xbox GamePad"
+        '
         'Form_ORRM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -165,5 +188,7 @@ Partial Class Form_ORRM
     Friend WithEvents GroupBox_GameStatus As System.Windows.Forms.GroupBox
     Friend WithEvents ComboPort As System.Windows.Forms.ComboBox
     Friend WithEvents Label_Connection_Status As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label_XBox_Connection As System.Windows.Forms.Label
 
 End Class

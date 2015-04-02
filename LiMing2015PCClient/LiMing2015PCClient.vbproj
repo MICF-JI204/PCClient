@@ -75,6 +75,9 @@
     <Compile Include="Com.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GamePad.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Out_Msg.vb" />
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
@@ -103,6 +106,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GamePad.resx">
+      <DependentUpon>GamePad.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
@@ -123,7 +129,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
