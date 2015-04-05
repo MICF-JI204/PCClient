@@ -5,6 +5,7 @@
         While Not Me.IsHandleCreated
         End While
         ChangeLabel(Label_Connection_Status, "Serching For Ports...", Drawing.Color.Blue)
+        ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Serching For Ports", Drawing.Color.Blue)
 
     End Sub
 

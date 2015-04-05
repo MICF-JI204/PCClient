@@ -40,11 +40,24 @@ Partial Class Form_ORRM
         Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.GroupBox_Operation = New System.Windows.Forms.GroupBox()
         Me.PictureBox_Trejection = New System.Windows.Forms.PictureBox()
-        Me.Label_LastLine = New System.Windows.Forms.Label()
         Me.GroupBox_GameStatus = New System.Windows.Forms.GroupBox()
+        Me.Button_LR = New System.Windows.Forms.Button()
+        Me.Button_RR = New System.Windows.Forms.Button()
+        Me.Button_FD = New System.Windows.Forms.Button()
+        Me.Button_LT = New System.Windows.Forms.Button()
+        Me.Button_RT = New System.Windows.Forms.Button()
+        Me.Button_BK = New System.Windows.Forms.Button()
+        Me.StatusStrip = New System.Windows.Forms.StatusStrip()
+        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_GamePad_Status = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_Com_status = New System.Windows.Forms.ToolStripStatusLabel()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox_Connection
@@ -210,13 +223,19 @@ Partial Class Form_ORRM
         '
         'GroupBox_Operation
         '
+        Me.GroupBox_Operation.Controls.Add(Me.Button_BK)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_RT)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_LT)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_FD)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_RR)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_LR)
         Me.GroupBox_Operation.Controls.Add(Me.PictureBox_Trejection)
         Me.GroupBox_Operation.Location = New System.Drawing.Point(245, 14)
         Me.GroupBox_Operation.Name = "GroupBox_Operation"
         Me.GroupBox_Operation.Size = New System.Drawing.Size(288, 387)
         Me.GroupBox_Operation.TabIndex = 1
         Me.GroupBox_Operation.TabStop = False
-        Me.GroupBox_Operation.Text = "Motions & Functions"
+        Me.GroupBox_Operation.Text = "Motions && Functions"
         '
         'PictureBox_Trejection
         '
@@ -225,15 +244,6 @@ Partial Class Form_ORRM
         Me.PictureBox_Trejection.Size = New System.Drawing.Size(267, 225)
         Me.PictureBox_Trejection.TabIndex = 0
         Me.PictureBox_Trejection.TabStop = False
-        '
-        'Label_LastLine
-        '
-        Me.Label_LastLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label_LastLine.Location = New System.Drawing.Point(13, 416)
-        Me.Label_LastLine.Name = "Label_LastLine"
-        Me.Label_LastLine.Size = New System.Drawing.Size(761, 19)
-        Me.Label_LastLine.TabIndex = 3
-        Me.Label_LastLine.Text = "System Status: Not Started"
         '
         'GroupBox_GameStatus
         '
@@ -244,13 +254,111 @@ Partial Class Form_ORRM
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
         '
+        'Button_LR
+        '
+        Me.Button_LR.Location = New System.Drawing.Point(11, 253)
+        Me.Button_LR.Name = "Button_LR"
+        Me.Button_LR.Size = New System.Drawing.Size(130, 30)
+        Me.Button_LR.TabIndex = 1
+        Me.Button_LR.Text = "LEFT Rotate"
+        Me.Button_LR.UseVisualStyleBackColor = True
+        '
+        'Button_RR
+        '
+        Me.Button_RR.Location = New System.Drawing.Point(148, 253)
+        Me.Button_RR.Name = "Button_RR"
+        Me.Button_RR.Size = New System.Drawing.Size(130, 30)
+        Me.Button_RR.TabIndex = 2
+        Me.Button_RR.Text = "Right-Rotate"
+        Me.Button_RR.UseVisualStyleBackColor = True
+        '
+        'Button_FD
+        '
+        Me.Button_FD.Location = New System.Drawing.Point(50, 289)
+        Me.Button_FD.Name = "Button_FD"
+        Me.Button_FD.Size = New System.Drawing.Size(56, 26)
+        Me.Button_FD.TabIndex = 3
+        Me.Button_FD.Text = "Foward"
+        Me.Button_FD.UseVisualStyleBackColor = True
+        '
+        'Button_LT
+        '
+        Me.Button_LT.Location = New System.Drawing.Point(11, 321)
+        Me.Button_LT.Name = "Button_LT"
+        Me.Button_LT.Size = New System.Drawing.Size(56, 26)
+        Me.Button_LT.TabIndex = 4
+        Me.Button_LT.Text = "Left"
+        Me.Button_LT.UseVisualStyleBackColor = True
+        '
+        'Button_RT
+        '
+        Me.Button_RT.Location = New System.Drawing.Point(85, 321)
+        Me.Button_RT.Name = "Button_RT"
+        Me.Button_RT.Size = New System.Drawing.Size(56, 26)
+        Me.Button_RT.TabIndex = 5
+        Me.Button_RT.Text = "Right"
+        Me.Button_RT.UseVisualStyleBackColor = True
+        '
+        'Button_BK
+        '
+        Me.Button_BK.Location = New System.Drawing.Point(50, 355)
+        Me.Button_BK.Name = "Button_BK"
+        Me.Button_BK.Size = New System.Drawing.Size(56, 26)
+        Me.Button_BK.TabIndex = 6
+        Me.Button_BK.Text = "Back"
+        Me.Button_BK.UseVisualStyleBackColor = True
+        '
+        'StatusStrip
+        '
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel_GamePad_Status, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel_Com_status, Me.ToolStripStatusLabel5})
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 422)
+        Me.StatusStrip.Name = "StatusStrip"
+        Me.StatusStrip.Size = New System.Drawing.Size(788, 22)
+        Me.StatusStrip.TabIndex = 5
+        Me.StatusStrip.Text = "System_Status"
+        '
+        'ToolStripStatusLabel1
+        '
+        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(0, 17)
+        '
+        'ToolStripStatusLabel2
+        '
+        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(74, 17)
+        Me.ToolStripStatusLabel2.Text = "Xbox链接："
+        '
+        'ToolStripStatusLabel_GamePad_Status
+        '
+        Me.ToolStripStatusLabel_GamePad_Status.Name = "ToolStripStatusLabel_GamePad_Status"
+        Me.ToolStripStatusLabel_GamePad_Status.Size = New System.Drawing.Size(67, 17)
+        Me.ToolStripStatusLabel_GamePad_Status.Text = "UNKOWN"
+        '
+        'ToolStripStatusLabel4
+        '
+        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(68, 17)
+        Me.ToolStripStatusLabel4.Text = "网络链接："
+        '
+        'ToolStripStatusLabel5
+        '
+        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
+        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(68, 17)
+        Me.ToolStripStatusLabel5.Text = "最后信息："
+        '
+        'ToolStripStatusLabel_Com_status
+        '
+        Me.ToolStripStatusLabel_Com_status.Name = "ToolStripStatusLabel_Com_status"
+        Me.ToolStripStatusLabel_Com_status.Size = New System.Drawing.Size(77, 17)
+        Me.ToolStripStatusLabel_Com_status.Text = "UNKNOWN"
+        '
         'Form_ORRM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(788, 444)
+        Me.Controls.Add(Me.StatusStrip)
         Me.Controls.Add(Me.GroupBox_GameStatus)
-        Me.Controls.Add(Me.Label_LastLine)
         Me.Controls.Add(Me.GroupBox_Operation)
         Me.Controls.Add(Me.GroupBox_Connection)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -263,7 +371,10 @@ Partial Class Form_ORRM
         Me.GroupBox_Connection.PerformLayout()
         Me.GroupBox_Operation.ResumeLayout(False)
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.StatusStrip.ResumeLayout(False)
+        Me.StatusStrip.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents GroupBox_Connection As System.Windows.Forms.GroupBox
@@ -271,7 +382,6 @@ Partial Class Form_ORRM
     Friend WithEvents TextBox_Console_Log As System.Windows.Forms.TextBox
     Friend WithEvents Button_ConsoleSend As System.Windows.Forms.Button
     Friend WithEvents TextBox_ConsoleSend As System.Windows.Forms.TextBox
-    Friend WithEvents Label_LastLine As System.Windows.Forms.Label
     Friend WithEvents GroupBox_GameStatus As System.Windows.Forms.GroupBox
     Friend WithEvents ComboPort As System.Windows.Forms.ComboBox
     Friend WithEvents Label_Connection_Status As System.Windows.Forms.Label
@@ -285,5 +395,18 @@ Partial Class Form_ORRM
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents PictureBox_Trejection As System.Windows.Forms.PictureBox
+    Friend WithEvents Button_BK As System.Windows.Forms.Button
+    Friend WithEvents Button_RT As System.Windows.Forms.Button
+    Friend WithEvents Button_LT As System.Windows.Forms.Button
+    Friend WithEvents Button_FD As System.Windows.Forms.Button
+    Friend WithEvents Button_RR As System.Windows.Forms.Button
+    Friend WithEvents Button_LR As System.Windows.Forms.Button
+    Friend WithEvents StatusStrip As System.Windows.Forms.StatusStrip
+    Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel_GamePad_Status As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel4 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel_Com_status As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel5 As System.Windows.Forms.ToolStripStatusLabel
 
 End Class
