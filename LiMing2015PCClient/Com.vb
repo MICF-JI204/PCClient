@@ -4,7 +4,8 @@
     Private Sub Com_Connection()
         While Not Me.IsHandleCreated
         End While
-        ChangeLabel(Label_Connection_Status, "Serching For Ports...", Drawing.Color.Green)
+        ChangeLabel(Label_Connection_Status, "Serching For Ports...", Drawing.Color.Blue)
 
     End Sub
+
 End Class
