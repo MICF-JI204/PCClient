@@ -15,13 +15,16 @@
     Public Shared Robot_LTurn_Override As Boolean = False
     Public Shared Robot_Rturn_Override As Boolean = False
 
+    Public Shared Com_Ready2Connect As Boolean = False
+
     Public Shared SpeedCoeffientL As Single = 0
     Public Shared SpeedcoeffientR As Single = 0
 
-    Public Shared spd As Single = 0
-    Public Shared ratio As Single = 0
+    'Public Shared spd As Single = 0
+    'Public Shared ratio As Single = 0
 
     Public Shared TimeLastFame_Trej As Integer = 0
+
 
     Public Enum Graph_Trejection_Dir As Integer
         Dir_Null = 0
