@@ -12,6 +12,16 @@
     Public Shared Graph_Wheel_Width As Single = 10
     Public Shared Graph_Wheel_Height As Single = 15
 
+    Public Shared Robot_LTurn_Override As Boolean = False
+    Public Shared Robot_Rturn_Override As Boolean = False
+
+    Public Shared SpeedCoeffientL As Single = 0
+    Public Shared SpeedcoeffientR As Single = 0
+
+    Public Shared spd As Single = 0
+    Public Shared ratio As Single = 0
+
+    Public Shared TimeLastFame_Trej As Integer = 0
 
     Public Enum Graph_Trejection_Dir As Integer
         Dir_Null = 0
@@ -19,5 +29,7 @@
         Forward_Right = 2
         BackWard_Left = 3
         BackWard_Right = 4
+        Forward = 5
+        Backward = 6
     End Enum
 End Class
