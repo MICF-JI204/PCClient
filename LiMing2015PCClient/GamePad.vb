@@ -13,6 +13,7 @@ Partial Public Class Form_ORRM
         Loop
         GamePadState = Input.GamePad.GetState(PlayerIndex.One)
         ChangeUIText(Label_XBox_Connection, "Connected", Drawing.Color.Green)
+        Log("Xbox Connected")
         ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established", Drawing.Color.Green)
         While True
             If GamePadState.IsConnected Then
@@ -21,10 +22,12 @@ Partial Public Class Form_ORRM
                 Update_Trejectory_Graph(GamePadState)
             Else
                 ChangeUIText(Label_XBox_Connection, "Disconnected!Waiting...", Drawing.Color.Red)
+                Log("Xbox Gamepad Connection Lost")
                 ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Disconnected!", Drawing.Color.Red)
                 Do While Input.GamePad.GetState(PlayerIndex.One).IsConnected = False
                 Loop
                 ChangeUIText(Label_XBox_Connection, "Re-Connected", Drawing.Color.Green)
+                Log("Xbox Gamepad Connection Re-established")
                 ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established!", Drawing.Color.Green)
             End If
             GamePadState = Input.GamePad.GetState(PlayerIndex.One)

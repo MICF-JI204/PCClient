@@ -106,7 +106,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Global_Var.vb" />
-    <Compile Include="Out_Msg.vb" />
+    <Compile Include="Msg.vb" />
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>

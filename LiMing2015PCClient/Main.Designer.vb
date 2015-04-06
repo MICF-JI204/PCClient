@@ -24,6 +24,8 @@ Partial Class Form_ORRM
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form_ORRM))
         Me.GroupBox_Connection = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button_Com_Close = New System.Windows.Forms.Button()
         Me.Button_Connect = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -54,6 +56,7 @@ Partial Class Form_ORRM
         Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_Com_status = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_LastInfo = New System.Windows.Forms.ToolStripStatusLabel()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,6 +67,8 @@ Partial Class Form_ORRM
         '
         Me.GroupBox_Connection.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox_Connection.Controls.Add(Me.Button1)
+        Me.GroupBox_Connection.Controls.Add(Me.Button_Com_Close)
         Me.GroupBox_Connection.Controls.Add(Me.Button_Connect)
         Me.GroupBox_Connection.Controls.Add(Me.Label3)
         Me.GroupBox_Connection.Controls.Add(Me.Label1)
@@ -85,6 +90,25 @@ Partial Class Form_ORRM
         Me.GroupBox_Connection.TabStop = False
         Me.GroupBox_Connection.Text = "Connection Status"
         '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Button1.Location = New System.Drawing.Point(118, 77)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(69, 21)
+        Me.Button1.TabIndex = 14
+        Me.Button1.Text = "Text Mode"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
+        'Button_Com_Close
+        '
+        Me.Button_Com_Close.Location = New System.Drawing.Point(11, 77)
+        Me.Button_Com_Close.Name = "Button_Com_Close"
+        Me.Button_Com_Close.Size = New System.Drawing.Size(72, 21)
+        Me.Button_Com_Close.TabIndex = 13
+        Me.Button_Com_Close.Text = "Close"
+        Me.Button_Com_Close.UseVisualStyleBackColor = True
+        '
         'Button_Connect
         '
         Me.Button_Connect.Location = New System.Drawing.Point(170, 51)
@@ -98,7 +122,7 @@ Partial Class Form_ORRM
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("宋体", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label3.Location = New System.Drawing.Point(114, 133)
+        Me.Label3.Location = New System.Drawing.Point(114, 150)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(34, 21)
         Me.Label3.TabIndex = 11
@@ -108,7 +132,7 @@ Partial Class Form_ORRM
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("宋体", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label1.Location = New System.Drawing.Point(4, 133)
+        Me.Label1.Location = New System.Drawing.Point(4, 150)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(34, 21)
         Me.Label1.TabIndex = 10
@@ -118,7 +142,7 @@ Partial Class Form_ORRM
         '
         Me.RY.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.RY.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.RY.Location = New System.Drawing.Point(151, 147)
+        Me.RY.Location = New System.Drawing.Point(151, 164)
         Me.RY.Name = "RY"
         Me.RY.Size = New System.Drawing.Size(66, 20)
         Me.RY.TabIndex = 9
@@ -128,7 +152,7 @@ Partial Class Form_ORRM
         '
         Me.RX.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.RX.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.RX.Location = New System.Drawing.Point(151, 124)
+        Me.RX.Location = New System.Drawing.Point(151, 141)
         Me.RX.Name = "RX"
         Me.RX.Size = New System.Drawing.Size(66, 20)
         Me.RX.TabIndex = 8
@@ -138,7 +162,7 @@ Partial Class Form_ORRM
         '
         Me.LY.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.LY.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LY.Location = New System.Drawing.Point(39, 147)
+        Me.LY.Location = New System.Drawing.Point(39, 164)
         Me.LY.Name = "LY"
         Me.LY.Size = New System.Drawing.Size(66, 20)
         Me.LY.TabIndex = 7
@@ -148,7 +172,7 @@ Partial Class Form_ORRM
         '
         Me.LX.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.LX.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LX.Location = New System.Drawing.Point(39, 124)
+        Me.LX.Location = New System.Drawing.Point(39, 141)
         Me.LX.Name = "LX"
         Me.LX.Size = New System.Drawing.Size(66, 20)
         Me.LX.TabIndex = 6
@@ -157,7 +181,7 @@ Partial Class Form_ORRM
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 84)
+        Me.Label2.Location = New System.Drawing.Point(6, 101)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(77, 12)
         Me.Label2.TabIndex = 5
@@ -167,7 +191,7 @@ Partial Class Form_ORRM
         '
         Me.Label_XBox_Connection.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Label_XBox_Connection.Font = New System.Drawing.Font("宋体", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label_XBox_Connection.Location = New System.Drawing.Point(6, 101)
+        Me.Label_XBox_Connection.Location = New System.Drawing.Point(6, 118)
         Me.Label_XBox_Connection.Name = "Label_XBox_Connection"
         Me.Label_XBox_Connection.Size = New System.Drawing.Size(211, 20)
         Me.Label_XBox_Connection.TabIndex = 4
@@ -213,11 +237,13 @@ Partial Class Form_ORRM
         'TextBox_Console_Log
         '
         Me.TextBox_Console_Log.BackColor = System.Drawing.SystemColors.Window
+        Me.TextBox_Console_Log.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.TextBox_Console_Log.Location = New System.Drawing.Point(6, 191)
+        Me.TextBox_Console_Log.MaxLength = 2147483647
         Me.TextBox_Console_Log.Multiline = True
         Me.TextBox_Console_Log.Name = "TextBox_Console_Log"
         Me.TextBox_Console_Log.ReadOnly = True
-        Me.TextBox_Console_Log.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TextBox_Console_Log.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
         Me.TextBox_Console_Log.Size = New System.Drawing.Size(211, 170)
         Me.TextBox_Console_Log.TabIndex = 0
         '
@@ -310,7 +336,7 @@ Partial Class Form_ORRM
         '
         'StatusStrip
         '
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel_GamePad_Status, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel_Com_status, Me.ToolStripStatusLabel5})
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel_GamePad_Status, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel_Com_status, Me.ToolStripStatusLabel5, Me.ToolStripStatusLabel_LastInfo})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 422)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(788, 22)
@@ -351,6 +377,12 @@ Partial Class Form_ORRM
         Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
         Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(68, 17)
         Me.ToolStripStatusLabel5.Text = "最后信息："
+        '
+        'ToolStripStatusLabel_LastInfo
+        '
+        Me.ToolStripStatusLabel_LastInfo.Name = "ToolStripStatusLabel_LastInfo"
+        Me.ToolStripStatusLabel_LastInfo.Size = New System.Drawing.Size(119, 17)
+        Me.ToolStripStatusLabel_LastInfo.Text = "System_Starting UP"
         '
         'Form_ORRM
         '
@@ -408,5 +440,8 @@ Partial Class Form_ORRM
     Friend WithEvents ToolStripStatusLabel4 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel_Com_status As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel5 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel_LastInfo As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents Button_Com_Close As System.Windows.Forms.Button
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 
 End Class
