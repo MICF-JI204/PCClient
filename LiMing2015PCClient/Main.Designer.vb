@@ -39,21 +39,21 @@ Partial Class Form_ORRM
         Me.TextBox_ConsoleSend = New System.Windows.Forms.TextBox()
         Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.GroupBox_Operation = New System.Windows.Forms.GroupBox()
+        Me.Button_BK = New System.Windows.Forms.Button()
+        Me.Button_RT = New System.Windows.Forms.Button()
+        Me.Button_LT = New System.Windows.Forms.Button()
+        Me.Button_FD = New System.Windows.Forms.Button()
+        Me.Button_RR = New System.Windows.Forms.Button()
+        Me.Button_LR = New System.Windows.Forms.Button()
         Me.PictureBox_Trejection = New System.Windows.Forms.PictureBox()
         Me.GroupBox_GameStatus = New System.Windows.Forms.GroupBox()
-        Me.Button_LR = New System.Windows.Forms.Button()
-        Me.Button_RR = New System.Windows.Forms.Button()
-        Me.Button_FD = New System.Windows.Forms.Button()
-        Me.Button_LT = New System.Windows.Forms.Button()
-        Me.Button_RT = New System.Windows.Forms.Button()
-        Me.Button_BK = New System.Windows.Forms.Button()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_GamePad_Status = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_Com_status = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -237,6 +237,60 @@ Partial Class Form_ORRM
         Me.GroupBox_Operation.TabStop = False
         Me.GroupBox_Operation.Text = "Motions && Functions"
         '
+        'Button_BK
+        '
+        Me.Button_BK.Location = New System.Drawing.Point(50, 355)
+        Me.Button_BK.Name = "Button_BK"
+        Me.Button_BK.Size = New System.Drawing.Size(56, 26)
+        Me.Button_BK.TabIndex = 6
+        Me.Button_BK.Text = "Back"
+        Me.Button_BK.UseVisualStyleBackColor = True
+        '
+        'Button_RT
+        '
+        Me.Button_RT.Location = New System.Drawing.Point(85, 321)
+        Me.Button_RT.Name = "Button_RT"
+        Me.Button_RT.Size = New System.Drawing.Size(56, 26)
+        Me.Button_RT.TabIndex = 5
+        Me.Button_RT.Text = "Right"
+        Me.Button_RT.UseVisualStyleBackColor = True
+        '
+        'Button_LT
+        '
+        Me.Button_LT.Location = New System.Drawing.Point(11, 321)
+        Me.Button_LT.Name = "Button_LT"
+        Me.Button_LT.Size = New System.Drawing.Size(56, 26)
+        Me.Button_LT.TabIndex = 4
+        Me.Button_LT.Text = "Left"
+        Me.Button_LT.UseVisualStyleBackColor = True
+        '
+        'Button_FD
+        '
+        Me.Button_FD.Location = New System.Drawing.Point(50, 289)
+        Me.Button_FD.Name = "Button_FD"
+        Me.Button_FD.Size = New System.Drawing.Size(56, 26)
+        Me.Button_FD.TabIndex = 3
+        Me.Button_FD.Text = "Foward"
+        Me.Button_FD.UseVisualStyleBackColor = True
+        '
+        'Button_RR
+        '
+        Me.Button_RR.Location = New System.Drawing.Point(148, 253)
+        Me.Button_RR.Name = "Button_RR"
+        Me.Button_RR.Size = New System.Drawing.Size(130, 30)
+        Me.Button_RR.TabIndex = 2
+        Me.Button_RR.Text = "Right-Rotate"
+        Me.Button_RR.UseVisualStyleBackColor = True
+        '
+        'Button_LR
+        '
+        Me.Button_LR.Location = New System.Drawing.Point(11, 253)
+        Me.Button_LR.Name = "Button_LR"
+        Me.Button_LR.Size = New System.Drawing.Size(130, 30)
+        Me.Button_LR.TabIndex = 1
+        Me.Button_LR.Text = "LEFT Rotate"
+        Me.Button_LR.UseVisualStyleBackColor = True
+        '
         'PictureBox_Trejection
         '
         Me.PictureBox_Trejection.Location = New System.Drawing.Point(11, 22)
@@ -253,60 +307,6 @@ Partial Class Form_ORRM
         Me.GroupBox_GameStatus.TabIndex = 4
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
-        '
-        'Button_LR
-        '
-        Me.Button_LR.Location = New System.Drawing.Point(11, 253)
-        Me.Button_LR.Name = "Button_LR"
-        Me.Button_LR.Size = New System.Drawing.Size(130, 30)
-        Me.Button_LR.TabIndex = 1
-        Me.Button_LR.Text = "LEFT Rotate"
-        Me.Button_LR.UseVisualStyleBackColor = True
-        '
-        'Button_RR
-        '
-        Me.Button_RR.Location = New System.Drawing.Point(148, 253)
-        Me.Button_RR.Name = "Button_RR"
-        Me.Button_RR.Size = New System.Drawing.Size(130, 30)
-        Me.Button_RR.TabIndex = 2
-        Me.Button_RR.Text = "Right-Rotate"
-        Me.Button_RR.UseVisualStyleBackColor = True
-        '
-        'Button_FD
-        '
-        Me.Button_FD.Location = New System.Drawing.Point(50, 289)
-        Me.Button_FD.Name = "Button_FD"
-        Me.Button_FD.Size = New System.Drawing.Size(56, 26)
-        Me.Button_FD.TabIndex = 3
-        Me.Button_FD.Text = "Foward"
-        Me.Button_FD.UseVisualStyleBackColor = True
-        '
-        'Button_LT
-        '
-        Me.Button_LT.Location = New System.Drawing.Point(11, 321)
-        Me.Button_LT.Name = "Button_LT"
-        Me.Button_LT.Size = New System.Drawing.Size(56, 26)
-        Me.Button_LT.TabIndex = 4
-        Me.Button_LT.Text = "Left"
-        Me.Button_LT.UseVisualStyleBackColor = True
-        '
-        'Button_RT
-        '
-        Me.Button_RT.Location = New System.Drawing.Point(85, 321)
-        Me.Button_RT.Name = "Button_RT"
-        Me.Button_RT.Size = New System.Drawing.Size(56, 26)
-        Me.Button_RT.TabIndex = 5
-        Me.Button_RT.Text = "Right"
-        Me.Button_RT.UseVisualStyleBackColor = True
-        '
-        'Button_BK
-        '
-        Me.Button_BK.Location = New System.Drawing.Point(50, 355)
-        Me.Button_BK.Name = "Button_BK"
-        Me.Button_BK.Size = New System.Drawing.Size(56, 26)
-        Me.Button_BK.TabIndex = 6
-        Me.Button_BK.Text = "Back"
-        Me.Button_BK.UseVisualStyleBackColor = True
         '
         'StatusStrip
         '
@@ -340,17 +340,17 @@ Partial Class Form_ORRM
         Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(68, 17)
         Me.ToolStripStatusLabel4.Text = "网络链接："
         '
-        'ToolStripStatusLabel5
-        '
-        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
-        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(68, 17)
-        Me.ToolStripStatusLabel5.Text = "最后信息："
-        '
         'ToolStripStatusLabel_Com_status
         '
         Me.ToolStripStatusLabel_Com_status.Name = "ToolStripStatusLabel_Com_status"
         Me.ToolStripStatusLabel_Com_status.Size = New System.Drawing.Size(77, 17)
         Me.ToolStripStatusLabel_Com_status.Text = "UNKNOWN"
+        '
+        'ToolStripStatusLabel5
+        '
+        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
+        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(68, 17)
+        Me.ToolStripStatusLabel5.Text = "最后信息："
         '
         'Form_ORRM
         '
