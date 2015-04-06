@@ -229,6 +229,7 @@ Partial Class Form_ORRM
         'TextBox_ConsoleSend
         '
         Me.TextBox_ConsoleSend.AcceptsTab = True
+        Me.TextBox_ConsoleSend.ImeMode = System.Windows.Forms.ImeMode.Disable
         Me.TextBox_ConsoleSend.Location = New System.Drawing.Point(6, 367)
         Me.TextBox_ConsoleSend.Name = "TextBox_ConsoleSend"
         Me.TextBox_ConsoleSend.Size = New System.Drawing.Size(181, 21)

@@ -18,28 +18,32 @@
                 If Global_Var.Com_IsClosing Then
                     Log("User:Closing Serial Port on " & SerialPortArduino.PortName)
                     SerialPortArduino.Close()
+                    Global_Var.Com_IsClosing = False
+                    Continue While
+                    'Wait Until Fully Closed
                 End If
-                If Global_Var.Com_TextMode Then
+                If Not Global_Var.Com_TextMode Then
                     If Out_Buffer.QueCount() > 0 Then '非文字模式
                         Dim msg2send As Out_Msg
                         msg2send = Out_Buffer.Deque()
                         msg2send.Generate_CheckSum()
-                        SerialPortArduino.Write(msg2send.Buffer, 0, OUT_MSG_LENGTH)
+                        myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
                     End If
-                    Do While SerialPortArduino.BytesToRead() > 0
-                        In_Buffer.InBuff(SerialPortArduino.ReadByte)
+                    Do While myBytesToRead(SerialPortArduino) > 0
+                        In_Buffer.InBuff(myReadByte(SerialPortArduino))
                     Loop
                 Else '文字模式
-                    If SerialPortArduino.ReadBufferSize() > 0 Then
-                        Log("Arduino/Incoming:" & SerialPortArduino.ReadExisting)
+                    If myBytesToRead(SerialPortArduino) > 0 Then
+                        Log("Arduino/Incoming:" & myReadExsisting(SerialPortArduino))
                     End If
                     If Out_Buffer.Text_Mode_Buffer_Count > 0 Then
                         Dim str As String = Out_Buffer.De_Text_Mode_Buffer
                         Out_Buffer.Clear_Text_Buffer()
                         Log("User/Send:" & str)
                         str = str.Replace("\n", vbCrLf) '生成回车
-                        SerialPortArduino.Write(str)
+                        myWrite(SerialPortArduino, str)
                     End If
+
                 End If
             End If
         End While
@@ -54,6 +58,8 @@
             Enable_Control(Button_Com_Close, False)
             Enable_Control(Button_ConsoleSend, False)
             Enable_Control(TextBox_ConsoleSend, False)
+            ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Waiting For Ports", Color.Blue)
+            ChangeUIText(Label_Connection_Status, "Waiting For Ports...", Color.Blue)
             Global_Var.Com_Ready2Connect = False
             While Not Global_Var.Com_Ready2Connect
                 Try
@@ -85,5 +91,53 @@
             End Try
         Loop Until SerialPort.IsOpen = True
         Log(SerialPort.PortName & " Established")
+        ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Established," & SerialPort.PortName, Color.Green)
+        ChangeUIText(Label_Connection_Status, "Established," & SerialPort.PortName, Color.Green)
     End Sub
+
+    Private Overloads Sub myWrite(ByRef SerialPort As IO.Ports.SerialPort, ByRef Buffer As Byte(), ByVal OffSet As Integer, ByVal Count As Integer)
+        Try
+            SerialPort.Write(Buffer, OffSet, Count)
+        Catch ex As UnauthorizedAccessException
+            Global_Var.Com_IsClosing = True
+        End Try
+    End Sub
+
+    Private Overloads Sub myWrite(ByRef SerialPort As IO.Ports.SerialPort, ByRef info As String)
+        Try
+            SerialPort.Write(info)
+        Catch ex As UnauthorizedAccessException
+            Global_Var.Com_IsClosing = True
+        End Try
+    End Sub
+
+    Private Function myBytesToRead(ByRef SerialPort As IO.Ports.SerialPort) As Integer
+        Try
+            Dim t As Integer = SerialPort.BytesToRead
+            Return t
+        Catch ex As UnauthorizedAccessException
+            Global_Var.Com_IsClosing = True
+        End Try
+        Return 0
+    End Function
+
+    Private Function myReadByte(ByRef SerialPort As IO.Ports.SerialPort) As Integer
+        Try
+            Dim t As Integer = SerialPort.ReadByte
+            Return t
+        Catch ex As UnauthorizedAccessException
+            Global_Var.Com_IsClosing = True
+        End Try
+        Return 0
+    End Function
+
+    Private Function myReadExsisting(ByRef SerialPort As IO.Ports.SerialPort) As String
+        Try
+            Dim t As Integer = SerialPort.ReadExisting
+            Return t
+        Catch ex As UnauthorizedAccessException
+            Global_Var.Com_IsClosing = True
+        End Try
+        Return 0
+    End Function
 End Class

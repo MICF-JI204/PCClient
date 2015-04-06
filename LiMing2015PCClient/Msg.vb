@@ -58,8 +58,8 @@ Public Class In_Buffer
 End Class
 
 Public Class Out_Buffer
-    Private Shared Out_Buffer As System.Collections.Generic.Queue(Of Out_Msg)
-    Private Shared OutBufferString As String
+    Private Shared CMD_Buffer As New System.Collections.Generic.Queue(Of Out_Msg)
+    Private Shared OutBufferString As String = ""
 
     Public Shared Sub Send_Text(info As String)
         SyncLock AccLock
@@ -87,21 +87,21 @@ Public Class Out_Buffer
 
     Public Shared Sub Enque(msg As Out_Msg)
         SyncLock AccLock
-            Out_Buffer.Enqueue(msg)
+            CMD_Buffer.Enqueue(msg)
         End SyncLock
     End Sub
 
     Public Shared Function Deque() As Out_Msg
         SyncLock AccLock
-            Return Out_Buffer.Dequeue
+            Return CMD_Buffer.Dequeue
         End SyncLock
     End Function
 
     Public Shared Function QueCount() As Integer
         SyncLock AccLock
-            Return Out_Buffer.Count
+            Return CMD_Buffer.Count
         End SyncLock
     End Function
 
-    Private Shared AccLock As Object
+    Private Shared AccLock As String = ""
 End Class
