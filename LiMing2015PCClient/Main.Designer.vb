@@ -320,7 +320,7 @@ Partial Class Form_ORRM
         '
         'PictureBox_Trejection
         '
-        Me.PictureBox_Trejection.Location = New System.Drawing.Point(-245, 469)
+        Me.PictureBox_Trejection.Location = New System.Drawing.Point(11, 22)
         Me.PictureBox_Trejection.Name = "PictureBox_Trejection"
         Me.PictureBox_Trejection.Size = New System.Drawing.Size(267, 225)
         Me.PictureBox_Trejection.TabIndex = 0
