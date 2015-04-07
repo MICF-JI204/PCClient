@@ -74,8 +74,8 @@ Public Class Form_ORRM
                     Next
                     Dim t As New Out_Msg
                     Try
-                        t.Set_OP(data(0))
-                        t.Set_Priority(data(1))
+                        t.Set_OP(data(1))
+                        t.Set_Priority(data(0))
                         t.Set_Data(data(2), data(3), data(4), data(5))
                     Catch ex As Exception
                         Log("User/CMD_Mode_Send:Not Enough Arguments")

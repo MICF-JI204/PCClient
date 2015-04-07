@@ -10,6 +10,9 @@
         Dim SerialPortArduino As New System.IO.Ports.SerialPort()
         SerialPortArduino.BaudRate = 9600
         Com_Wait_Connection(SerialPortArduino)
+        Log("User:Closing Serial Port on " & SerialPortArduino.PortName)
+        ChangeStatusLabel(ToolStripStatusLabel_Com_status, SerialPortArduino.PortName & " Established", Color.Green)
+        ChangeUIText(Label_Connection_Status, SerialPortArduino.PortName & " Established", Color.Green)
         While True
             If SerialPortArduino.IsOpen = False Then
                 Log(SerialPortArduino.PortName & " Connection Lost")
@@ -85,20 +88,21 @@
                         AddItemCombo(ComboPort, SerialPortNameStr)
                 Next
             End While
-            Enable_Control(Button_Connect, False)
-            Enable_Control(ComboPort, False)
-            Enable_Control(Button_Com_Close, True)
-            Enable_Control(Button_ConsoleSend, True)
-            Enable_Control(TextBox_ConsoleSend, True)
             Try
                 SerialPort.PortName = GetSelectedItemCombo(ComboPort)
             Catch
             End Try
             Try
+                ChangeUIText(Label_Connection_Status, "Trying to open a port", Color.Blue)
                 SerialPort.Open()
             Catch
             End Try
         Loop Until SerialPort.IsOpen = True
+        Enable_Control(Button_Connect, False)
+        Enable_Control(ComboPort, False)
+        Enable_Control(Button_Com_Close, True)
+        Enable_Control(Button_ConsoleSend, True)
+        Enable_Control(TextBox_ConsoleSend, True)
         Out_Buffer.QueEmpty()
         Log(SerialPort.PortName & " Established")
     End Sub
