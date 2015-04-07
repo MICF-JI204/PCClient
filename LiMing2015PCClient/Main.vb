@@ -14,12 +14,6 @@ Public Class Form_ORRM
         TextBox_Console_Log.Text = My.Settings.Last_Cmd_Line
     End Sub
 
-    Private Sub Form_ORRM_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            Button_ConsoleSend_Click(Nothing, Nothing)
-        End If
-    End Sub
-
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Thread_Connection.Start()
         Thread_GamePad.Start()
@@ -96,5 +90,4 @@ WrongInput:
         Return
 
     End Sub
-
 End Class
