@@ -382,6 +382,7 @@ Partial Class Form_ORRM
         'ToolStripStatusLabel_LastInfo
         '
         Me.ToolStripStatusLabel_LastInfo.Name = "ToolStripStatusLabel_LastInfo"
+        Me.ToolStripStatusLabel_LastInfo.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never
         Me.ToolStripStatusLabel_LastInfo.Size = New System.Drawing.Size(119, 17)
         Me.ToolStripStatusLabel_LastInfo.Text = "System_Starting UP"
         '

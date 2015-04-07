@@ -11,7 +11,6 @@ Public Class Form_ORRM
         logfile.Close()
         Thread_Connection.Abort()
         Thread_GamePad.Abort()
-
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -19,6 +18,9 @@ Public Class Form_ORRM
         Thread_GamePad.Start()
         PictureBox_Trejection.Refresh()
         Log("Application Running Under" & vbCrLf & Application.StartupPath)
+
+        Log(Global_Var.Get_ComCMD_Code("GamePad_U_Down"))
+        Log(Global_Var.Get_ComCMD_Name(Global_Var.Com_CMD.GamePad_B_Down))
     End Sub
 
     Private Sub Button_Connect_Click(sender As Object, e As EventArgs) Handles Button_Connect.Click
