@@ -11,7 +11,6 @@ Public Class Form_ORRM
         logfile.Close()
         Thread_Connection.Abort()
         Thread_GamePad.Abort()
-
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load

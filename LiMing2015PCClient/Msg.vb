@@ -54,6 +54,7 @@ Public Class In_Buffer
     End Sub
 
     Public Shared Sub DispatchInMsg(ByVal op As Byte, ByVal arg As Byte)
+        Form_ORRM.Log("Arduino/Incoming_Hex: OP=" & Hex(op) & ",ARG=" & Hex(arg))
     End Sub
 End Class
 
