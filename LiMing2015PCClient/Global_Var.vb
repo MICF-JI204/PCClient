@@ -78,10 +78,13 @@
     End Function
 
     Public Shared Function Get_ComCMD_Name(ByVal code As Com_CMD) As String
+        Dim t As String
         Try
-            Return [Enum].GetName(GetType(Com_CMD), code)
+            t = [Enum].GetName(GetType(Com_CMD), code)
         Catch ex As Exception
             Return "UK_Msg" & "(" & Hex(code) & ")"
         End Try
+        If t <> Nothing Then Return t
+        Return "UK_Msg" & "(" & Hex(code) & ")"
     End Function
 End Class

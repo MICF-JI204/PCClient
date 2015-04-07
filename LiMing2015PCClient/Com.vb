@@ -32,8 +32,8 @@
                         msg2send = Out_Buffer.Deque()
                         msg2send.Generate_CheckSum()
                         Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
-                                                     & Global_Var.Get_ComCMD_Name(msg2send.Buffer(1)) & " " _
-                                                     & Hex(msg2send.Buffer(2)) & " " _
+                                                     & Hex(msg2send.Buffer(1)) & " " _
+                                                     & Global_Var.Get_ComCMD_Name(msg2send.Buffer(2)) & " " _
                                                      & Hex(msg2send.Buffer(3)) & " " _
                                                      & Hex(msg2send.Buffer(4)) & " " _
                                                      & Hex(msg2send.Buffer(5)) & " " _
