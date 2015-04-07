@@ -27,12 +27,12 @@
                     'Wait Until Fully Closed
                 End If
                 If Not Global_Var.Com_TextMode Then
-                    If Out_Buffer.QueCount() > 0 Then '非文字模式
+                    If Out_Buffer.QueCount() > 0 Then '指令模式
                         Dim msg2send As Out_Msg
                         msg2send = Out_Buffer.Deque()
                         msg2send.Generate_CheckSum()
                         Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
-                                                     & Hex(msg2send.Buffer(1)) & " " _
+                                                     & Global_Var.Get_ComCMD_Name(msg2send.Buffer(1)) & " " _
                                                      & Hex(msg2send.Buffer(2)) & " " _
                                                      & Hex(msg2send.Buffer(3)) & " " _
                                                      & Hex(msg2send.Buffer(4)) & " " _

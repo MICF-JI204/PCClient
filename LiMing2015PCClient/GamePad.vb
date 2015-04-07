@@ -19,6 +19,7 @@ Partial Public Class Form_ORRM
             If GamePadState.IsConnected Then
                 Update_Controls(GamePadState)
                 Update_Motion_Motor(GamePadState)
+                Update_Buffer(GamePadState)
                 Update_Trejectory_Graph(GamePadState)
             Else
                 ChangeUIText(Label_XBox_Connection, "Disconnected!Waiting...", Drawing.Color.Red)
@@ -154,7 +155,7 @@ Partial Public Class Form_ORRM
             Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_B_Up, 30, 0, 0, 0, 0))
         End If
         If GamePadState.IsButtonDown(Input.Buttons.X) Then
-            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_A_Down, 30, 0, 0, 0, 0))
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_X_Down, 30, 0, 0, 0, 0))
         End If
         If GamePadState.IsButtonUp(Input.Buttons.X) Then
             Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_X_Up, 30, 0, 0, 0, 0))
