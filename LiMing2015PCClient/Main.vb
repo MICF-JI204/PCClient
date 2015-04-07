@@ -11,6 +11,7 @@ Public Class Form_ORRM
         logfile.Close()
         Thread_Connection.Abort()
         Thread_GamePad.Abort()
+        TextBox_Console_Log.Text = My.Settings.Last_Cmd_Line
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -37,6 +38,8 @@ Public Class Form_ORRM
 
     Private Sub Button_ConsoleSend_Click(sender As Object, e As EventArgs) Handles Button_ConsoleSend.Click
         If TextBox_ConsoleSend.Text <> "" Then
+            My.Settings.Last_Cmd_Line = TextBox_ConsoleSend.Text
+            My.Settings.Save()
             If Global_Var.Com_TextMode Then
                 Out_Buffer.Send_Text(TextBox_ConsoleSend.Text)
                 TextBox_ConsoleSend.Text = ""
