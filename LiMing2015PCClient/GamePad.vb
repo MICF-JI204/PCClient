@@ -31,7 +31,7 @@ Partial Public Class Form_ORRM
                 ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established!", Drawing.Color.Green)
             End If
             GamePadState = Input.GamePad.GetState(PlayerIndex.One)
-            System.Threading.Thread.Sleep(10)
+            System.Threading.Thread.Sleep(20)
         End While
     End Sub
 

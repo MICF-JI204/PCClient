@@ -27,6 +27,14 @@
                         Dim msg2send As Out_Msg
                         msg2send = Out_Buffer.Deque()
                         msg2send.Generate_CheckSum()
+                        Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
+                                                     & Hex(msg2send.Buffer(1)) & " " _
+                                                     & Hex(msg2send.Buffer(2)) & " " _
+                                                     & Hex(msg2send.Buffer(3)) & " " _
+                                                     & Hex(msg2send.Buffer(4)) & " " _
+                                                     & Hex(msg2send.Buffer(5)) & " " _
+                                                     & Hex(msg2send.Buffer(6)) & " " _
+                                                     & Hex(msg2send.Buffer(7)))
                         myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
                     End If
                     Do While myBytesToRead(SerialPortArduino) > 0
@@ -43,9 +51,9 @@
                         str = str.Replace("\n", vbCrLf) '生成回车
                         myWrite(SerialPortArduino, str)
                     End If
-
                 End If
             End If
+            Threading.Thread.Sleep(10)
         End While
 
 
@@ -71,9 +79,7 @@
                 Catch
                 End Try
                 For Each SerialPortNameStr In My.Computer.Ports.SerialPortNames
-                    If Not ComboPort.Items.Contains(SerialPortNameStr) Then
                         AddItemCombo(ComboPort, SerialPortNameStr)
-                    End If
                 Next
             End While
             Enable_Control(Button_Connect, False)
@@ -89,6 +95,7 @@
                 SerialPort.Open()
             Catch
             End Try
+            Threading.Thread.Sleep(500)
         Loop Until SerialPort.IsOpen = True
         Log(SerialPort.PortName & " Established")
         ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Established," & SerialPort.PortName, Color.Green)

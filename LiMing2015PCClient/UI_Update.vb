@@ -9,7 +9,7 @@
         StatusStrip.BeginInvoke(New ChangeStatusLabelDelegate(AddressOf ChangeStatusLabelInvoke), New Object() {lb, Content, Color})
     End Sub
 
-    Public Sub AddItemCombo(ByRef dest As ComboBox, ByVal item As Object)
+    Public Sub AddItemCombo(ByRef dest As ComboBox, ByVal item As String)
         dest.BeginInvoke(New AddItemComboDelegate(AddressOf AddItemComboInvoke), New Object() {dest, item})
     End Sub
 
@@ -58,7 +58,7 @@
     Private Delegate Sub Update_PictureBoxDelegate()
     Private Delegate Sub RemoveItemComboDelegate(ByRef dest As ComboBox, ByVal item As Object)
     Private Delegate Function GetSelectedItemComboDelegate(ByRef source As ComboBox) As String
-    Private Delegate Sub AddItemComboDelegate(ByRef source As ComboBox, ByVal item As Object)
+    Private Delegate Sub AddItemComboDelegate(ByRef source As ComboBox, ByVal item As String)
     Private Delegate Sub EnableControlDelegate(ByRef dest As Control, ByVal IsEnabled As Boolean)
 
     Private Sub Update_Trejectory_UI()
@@ -75,18 +75,20 @@
         tb.ForeColor = Color
     End Sub
 
-    Private Sub AddItemComboInvoke(ByRef dest As ComboBox, ByVal item As Object)
-        dest.Items.Add(item)
-        If dest.SelectedText = "" Then
-            dest.SelectedItem = item
+    Private Sub AddItemComboInvoke(ByRef dest As ComboBox, ByVal item As String)
+        If Not dest.Items.Contains(item) Then
+            dest.Items.Add(item)
+            If dest.SelectedText = "" Then
+                dest.SelectedItem = item
+            End If
+            dest.Refresh()
         End If
-        dest.Refresh()
     End Sub
 
     Private Sub RemoveItemComboInvoke(ByRef source As ComboBox, ByVal item As Object)
         source.Items.Remove(item)
         source.Refresh()
-
+        'source.Items.Clear()
     End Sub
 
     Private Sub EnableControlInvoke(ByRef button As Control, ByVal IsEnabled As Boolean)

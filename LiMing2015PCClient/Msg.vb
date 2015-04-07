@@ -23,7 +23,7 @@
     Public Sub Generate_CheckSum()
         Dim i As Integer = 0
         For i = 0 To 6
-            Buffer(7) = (Buffer(7) + Buffer(i)) Mod &HFF
+            Buffer(7) = (Int(Buffer(7)) + Int(Buffer(i))) Mod &HFF
         Next
     End Sub
 End Class
