@@ -3,7 +3,7 @@
         Buffer(0) = &HCC  '包头
     End Sub
 
-    Public Sub New(ByVal op As Byte, ByVal pr As Byte, a1 As Byte, a2 As Byte, a3 As Byte, a4 As Byte)
+    Public Sub New(ByVal pr As Byte, ByVal op As Byte, a1 As Byte, a2 As Byte, a3 As Byte, a4 As Byte)
         Set_OP(op)
         Set_Priority(pr)
         Set_Data(a1, a2, a3, a4)
@@ -12,11 +12,11 @@
     Public Buffer(8) As Byte
 
     Public Sub Set_OP(ByVal op As Byte)
-        Buffer(1) = op
+        Buffer(2) = op
     End Sub
 
     Public Sub Set_Priority(ByVal p As Byte)
-        Buffer(2) = p
+        Buffer(1) = p
     End Sub
 
     Public Sub Set_Data(ByVal arg0 As Byte, ByVal arg1 As Byte, ByVal arg2 As Byte, ByVal arg3 As Byte)
