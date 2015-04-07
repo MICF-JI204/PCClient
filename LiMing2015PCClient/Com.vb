@@ -140,7 +140,7 @@
 
     Private Function myReadExsisting(ByRef SerialPort As IO.Ports.SerialPort) As String
         Try
-            Dim t As Integer = SerialPort.ReadExisting
+            Dim t As String = SerialPort.ReadExisting
             Return t
         Catch ex As UnauthorizedAccessException
             Global_Var.Com_IsClosing = True
