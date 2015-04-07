@@ -46,10 +46,12 @@
         Err_Exit_With_Msg = -3
     End Enum
 
-    Public Enum Com_CMD As Integer
+    Public Enum Com_CMD As Byte
         Abort = &HFF  'No Argument
         ConfirmCMD = &HF0 'Arg1:int,instruction No. Arg2. Empty
         Set_DMotor = &HA0 ' Arg1:int,spdL;Arg2:int,spdR
+        HandShake = &HF1 'No Arg.
+        HandConfirm = &HF2 'No Arg.
         GamePad_X_Down = &HB0 'No Argument
         GamePad_Y_Down = &HB1
         GamePad_A_Down = &HB2
@@ -68,6 +70,7 @@
         GamePad_D_Up = &HC7
         GamePad_RB_DOWN = &HD0
         GamePad_RB_Up = &HD1
+
     End Enum
 
     Public Shared Function Get_ComCMD_Code(ByVal name As String) As Com_CMD

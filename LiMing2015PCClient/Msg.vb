@@ -54,6 +54,8 @@ Public Class In_Buffer
     End Sub
 
     Public Shared Sub DispatchInMsg(ByVal op As Byte, ByVal arg As Byte)
+        Form_ORRM.Log("Arduino/Incomming_CMD:" & Global_Var.Get_ComCMD_Name(op) & Hex(arg))
+        Form_ORRM.ChangeUIText(Form_ORRM.Label_Connection_Status, "Get:" & Global_Var.Get_ComCMD_Name(op), Color.Blue)
     End Sub
 End Class
 

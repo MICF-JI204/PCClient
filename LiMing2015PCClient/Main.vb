@@ -18,9 +18,7 @@ Public Class Form_ORRM
         Thread_GamePad.Start()
         PictureBox_Trejection.Refresh()
         Log("Application Running Under" & vbCrLf & Application.StartupPath)
-
-        Log(Global_Var.Get_ComCMD_Code("GamePad_U_Down"))
-        Log(Global_Var.Get_ComCMD_Name(Global_Var.Com_CMD.GamePad_B_Down))
+        Log("System Begins to function!")
     End Sub
 
     Private Sub Button_Connect_Click(sender As Object, e As EventArgs) Handles Button_Connect.Click
@@ -53,6 +51,8 @@ Public Class Form_ORRM
                     Dim data(datastr.GetUpperBound(0)) As Byte
                     For i As Integer = 0 To datastr.GetUpperBound(0)
                         If datastr(i).StartsWith("$") Then '内部变量（常量）
+                            datastr(i).Replace("$", "")
+                            data(i) = Global_Var.Get_ComCMD_Code(datastr(i))
                         End If
                         datastr(i) = datastr(i).ToUpper
                         datastr(i) = datastr(i).Replace("&H", "")

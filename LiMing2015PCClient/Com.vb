@@ -13,7 +13,11 @@
         While True
             If SerialPortArduino.IsOpen = False Then
                 Log(SerialPortArduino.PortName & " Connection Lost")
+                ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Connection Lost", Color.Red)
+                ChangeUIText(Label_Connection_Status, "Disconnected", Color.Red)
                 Com_Wait_Connection(SerialPortArduino)
+                ChangeStatusLabel(ToolStripStatusLabel_Com_status, SerialPortArduino.PortName & " Established", Color.Green)
+                ChangeUIText(Label_Connection_Status, SerialPortArduino.PortName & " Established", Color.Green)
             Else
                 If Global_Var.Com_IsClosing Then
                     Log("User:Closing Serial Port on " & SerialPortArduino.PortName)
@@ -66,9 +70,8 @@
             Enable_Control(Button_Com_Close, False)
             Enable_Control(Button_ConsoleSend, False)
             Enable_Control(TextBox_ConsoleSend, False)
-            ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Waiting For Ports", Color.Blue)
-            ChangeUIText(Label_Connection_Status, "Waiting For Ports...", Color.Blue)
             Global_Var.Com_Ready2Connect = False
+            Threading.Thread.Sleep(500)
             While Not Global_Var.Com_Ready2Connect
                 Try
                     For Each SerialPortNameStr In ComboPort.Items
@@ -95,11 +98,9 @@
                 SerialPort.Open()
             Catch
             End Try
-            Threading.Thread.Sleep(500)
+
         Loop Until SerialPort.IsOpen = True
         Log(SerialPort.PortName & " Established")
-        ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Established," & SerialPort.PortName, Color.Green)
-        ChangeUIText(Label_Connection_Status, "Established," & SerialPort.PortName, Color.Green)
     End Sub
 
     Private Overloads Sub myWrite(ByRef SerialPort As IO.Ports.SerialPort, ByRef Buffer As Byte(), ByVal OffSet As Integer, ByVal Count As Integer)
