@@ -37,9 +37,9 @@ Partial Class Form_ORRM
         Me.Label_XBox_Connection = New System.Windows.Forms.Label()
         Me.Label_Connection_Status = New System.Windows.Forms.Label()
         Me.ComboPort = New System.Windows.Forms.ComboBox()
+        Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.Button_ConsoleSend = New System.Windows.Forms.Button()
         Me.TextBox_ConsoleSend = New System.Windows.Forms.TextBox()
-        Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.GroupBox_Operation = New System.Windows.Forms.GroupBox()
         Me.Button_BK = New System.Windows.Forms.Button()
         Me.Button_RT = New System.Windows.Forms.Button()
@@ -80,12 +80,10 @@ Partial Class Form_ORRM
         Me.GroupBox_Connection.Controls.Add(Me.Label_XBox_Connection)
         Me.GroupBox_Connection.Controls.Add(Me.Label_Connection_Status)
         Me.GroupBox_Connection.Controls.Add(Me.ComboPort)
-        Me.GroupBox_Connection.Controls.Add(Me.Button_ConsoleSend)
-        Me.GroupBox_Connection.Controls.Add(Me.TextBox_ConsoleSend)
         Me.GroupBox_Connection.Controls.Add(Me.TextBox_Console_Log)
         Me.GroupBox_Connection.Location = New System.Drawing.Point(11, 14)
         Me.GroupBox_Connection.Name = "GroupBox_Connection"
-        Me.GroupBox_Connection.Size = New System.Drawing.Size(223, 394)
+        Me.GroupBox_Connection.Size = New System.Drawing.Size(223, 372)
         Me.GroupBox_Connection.TabIndex = 0
         Me.GroupBox_Connection.TabStop = False
         Me.GroupBox_Connection.Text = "Connection Status"
@@ -217,24 +215,6 @@ Partial Class Form_ORRM
         Me.ComboPort.Size = New System.Drawing.Size(158, 20)
         Me.ComboPort.TabIndex = 1
         '
-        'Button_ConsoleSend
-        '
-        Me.Button_ConsoleSend.Location = New System.Drawing.Point(189, 366)
-        Me.Button_ConsoleSend.Name = "Button_ConsoleSend"
-        Me.Button_ConsoleSend.Size = New System.Drawing.Size(28, 22)
-        Me.Button_ConsoleSend.TabIndex = 2
-        Me.Button_ConsoleSend.Text = "TX"
-        Me.Button_ConsoleSend.UseVisualStyleBackColor = True
-        '
-        'TextBox_ConsoleSend
-        '
-        Me.TextBox_ConsoleSend.AcceptsTab = True
-        Me.TextBox_ConsoleSend.ImeMode = System.Windows.Forms.ImeMode.Disable
-        Me.TextBox_ConsoleSend.Location = New System.Drawing.Point(6, 367)
-        Me.TextBox_ConsoleSend.Name = "TextBox_ConsoleSend"
-        Me.TextBox_ConsoleSend.Size = New System.Drawing.Size(181, 21)
-        Me.TextBox_ConsoleSend.TabIndex = 1
-        '
         'TextBox_Console_Log
         '
         Me.TextBox_Console_Log.BackColor = System.Drawing.SystemColors.Window
@@ -245,8 +225,26 @@ Partial Class Form_ORRM
         Me.TextBox_Console_Log.Name = "TextBox_Console_Log"
         Me.TextBox_Console_Log.ReadOnly = True
         Me.TextBox_Console_Log.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
-        Me.TextBox_Console_Log.Size = New System.Drawing.Size(211, 170)
+        Me.TextBox_Console_Log.Size = New System.Drawing.Size(211, 175)
         Me.TextBox_Console_Log.TabIndex = 0
+        '
+        'Button_ConsoleSend
+        '
+        Me.Button_ConsoleSend.Location = New System.Drawing.Point(700, 397)
+        Me.Button_ConsoleSend.Name = "Button_ConsoleSend"
+        Me.Button_ConsoleSend.Size = New System.Drawing.Size(73, 22)
+        Me.Button_ConsoleSend.TabIndex = 2
+        Me.Button_ConsoleSend.Text = "Transmitt"
+        Me.Button_ConsoleSend.UseVisualStyleBackColor = True
+        '
+        'TextBox_ConsoleSend
+        '
+        Me.TextBox_ConsoleSend.AcceptsTab = True
+        Me.TextBox_ConsoleSend.ImeMode = System.Windows.Forms.ImeMode.Disable
+        Me.TextBox_ConsoleSend.Location = New System.Drawing.Point(11, 399)
+        Me.TextBox_ConsoleSend.Name = "TextBox_ConsoleSend"
+        Me.TextBox_ConsoleSend.Size = New System.Drawing.Size(683, 21)
+        Me.TextBox_ConsoleSend.TabIndex = 1
         '
         'GroupBox_Operation
         '
@@ -259,23 +257,23 @@ Partial Class Form_ORRM
         Me.GroupBox_Operation.Controls.Add(Me.PictureBox_Trejection)
         Me.GroupBox_Operation.Location = New System.Drawing.Point(245, 14)
         Me.GroupBox_Operation.Name = "GroupBox_Operation"
-        Me.GroupBox_Operation.Size = New System.Drawing.Size(288, 387)
+        Me.GroupBox_Operation.Size = New System.Drawing.Size(288, 372)
         Me.GroupBox_Operation.TabIndex = 1
         Me.GroupBox_Operation.TabStop = False
         Me.GroupBox_Operation.Text = "Motions && Functions"
         '
         'Button_BK
         '
-        Me.Button_BK.Location = New System.Drawing.Point(50, 355)
+        Me.Button_BK.Location = New System.Drawing.Point(57, 348)
         Me.Button_BK.Name = "Button_BK"
-        Me.Button_BK.Size = New System.Drawing.Size(56, 26)
+        Me.Button_BK.Size = New System.Drawing.Size(56, 24)
         Me.Button_BK.TabIndex = 6
         Me.Button_BK.Text = "Back"
         Me.Button_BK.UseVisualStyleBackColor = True
         '
         'Button_RT
         '
-        Me.Button_RT.Location = New System.Drawing.Point(85, 321)
+        Me.Button_RT.Location = New System.Drawing.Point(114, 319)
         Me.Button_RT.Name = "Button_RT"
         Me.Button_RT.Size = New System.Drawing.Size(56, 26)
         Me.Button_RT.TabIndex = 5
@@ -284,18 +282,18 @@ Partial Class Form_ORRM
         '
         'Button_LT
         '
-        Me.Button_LT.Location = New System.Drawing.Point(11, 321)
+        Me.Button_LT.Location = New System.Drawing.Point(8, 321)
         Me.Button_LT.Name = "Button_LT"
-        Me.Button_LT.Size = New System.Drawing.Size(56, 26)
+        Me.Button_LT.Size = New System.Drawing.Size(53, 22)
         Me.Button_LT.TabIndex = 4
         Me.Button_LT.Text = "Left"
         Me.Button_LT.UseVisualStyleBackColor = True
         '
         'Button_FD
         '
-        Me.Button_FD.Location = New System.Drawing.Point(50, 289)
+        Me.Button_FD.Location = New System.Drawing.Point(57, 289)
         Me.Button_FD.Name = "Button_FD"
-        Me.Button_FD.Size = New System.Drawing.Size(56, 26)
+        Me.Button_FD.Size = New System.Drawing.Size(56, 22)
         Me.Button_FD.TabIndex = 3
         Me.Button_FD.Text = "Foward"
         Me.Button_FD.UseVisualStyleBackColor = True
@@ -330,7 +328,7 @@ Partial Class Form_ORRM
         '
         Me.GroupBox_GameStatus.Location = New System.Drawing.Point(545, 14)
         Me.GroupBox_GameStatus.Name = "GroupBox_GameStatus"
-        Me.GroupBox_GameStatus.Size = New System.Drawing.Size(228, 387)
+        Me.GroupBox_GameStatus.Size = New System.Drawing.Size(228, 372)
         Me.GroupBox_GameStatus.TabIndex = 4
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
@@ -394,8 +392,11 @@ Partial Class Form_ORRM
         Me.Controls.Add(Me.GroupBox_GameStatus)
         Me.Controls.Add(Me.GroupBox_Operation)
         Me.Controls.Add(Me.GroupBox_Connection)
+        Me.Controls.Add(Me.Button_ConsoleSend)
+        Me.Controls.Add(Me.TextBox_ConsoleSend)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "Form_ORRM"
