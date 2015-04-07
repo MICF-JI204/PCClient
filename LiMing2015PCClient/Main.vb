@@ -5,7 +5,7 @@ Public Class Form_ORRM
 
     Private Sub Form_ORRM_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Dim logfile As New System.IO.StreamWriter("LastLog.log")
-        Button1.BackColor = IIf(Global_Var.Com_TextMode, "Text Mode", "CMD Mode")
+        Button1.Text = IIf(Global_Var.Com_TextMode, "Text Mode", "CMD Mode")
         Button1.BackColor = IIf(Global_Var.Com_TextMode, Drawing.Color.LightGreen, Drawing.Color.Red)
         logfile.Write(TextBox_Console_Log.Text)
         logfile.Close()

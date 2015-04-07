@@ -71,6 +71,7 @@
     End Sub
 
     Private Sub ChangeStatusLabelInvoke(ByVal tb As ToolStripStatusLabel, ByVal Content As String, ByVal Color As System.Drawing.Color)
+        Content = Content.Replace(vbCrLf, "\n")
         tb.Text = Content
         tb.ForeColor = Color
     End Sub
