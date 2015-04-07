@@ -3,6 +3,12 @@
         Buffer(0) = &HCC  '包头
     End Sub
 
+    Public Sub New(ByVal op As Byte, ByVal pr As Byte, a1 As Byte, a2 As Byte, a3 As Byte, a4 As Byte)
+        Set_OP(op)
+        Set_Priority(pr)
+        Set_Data(a1, a2, a3, a4)
+    End Sub
+
     Public Buffer(8) As Byte
 
     Public Sub Set_OP(ByVal op As Byte)
@@ -104,6 +110,14 @@ Public Class Out_Buffer
             Return CMD_Buffer.Count
         End SyncLock
     End Function
+
+    Public Shared Sub QueEmpty()
+        SyncLock AccLock
+            OutBufferString = ""
+            CMD_Buffer.Clear()
+            Return
+        End SyncLock
+    End Sub
 
     Private Shared AccLock As String = ""
 End Class

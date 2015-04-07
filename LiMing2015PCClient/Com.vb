@@ -98,8 +98,8 @@
                 SerialPort.Open()
             Catch
             End Try
-
         Loop Until SerialPort.IsOpen = True
+        Out_Buffer.QueEmpty()
         Log(SerialPort.PortName & " Established")
     End Sub
 

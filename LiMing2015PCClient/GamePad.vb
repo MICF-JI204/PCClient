@@ -139,5 +139,32 @@ Partial Public Class Form_ORRM
             End If
         End If
     End Sub
+
+    Public Sub Update_Buffer(ByRef GamePadState As Input.GamePadState)
+        If GamePadState.IsButtonDown(Input.Buttons.A) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_A_Down, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonUp(Input.Buttons.A) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_A_Up, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonDown(Input.Buttons.B) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_B_Down, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonUp(Input.Buttons.B) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_B_Up, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonDown(Input.Buttons.X) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_A_Down, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonUp(Input.Buttons.X) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_X_Up, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonDown(Input.Buttons.Y) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_Y_Down, 30, 0, 0, 0, 0))
+        End If
+        If GamePadState.IsButtonUp(Input.Buttons.Y) Then
+            Out_Buffer.Enque(New Out_Msg(Global_Var.Com_CMD.GamePad_Y_Up, 30, 0, 0, 0, 0))
+        End If
+    End Sub
 End Class
 
