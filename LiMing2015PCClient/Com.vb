@@ -97,9 +97,10 @@
                 SerialPort.Open()
             Catch
             End Try
+            Enable_Control(Button_Connect, False)
+            Enable_Control(ComboPort, False)
         Loop Until SerialPort.IsOpen = True
-        Enable_Control(Button_Connect, False)
-        Enable_Control(ComboPort, False)
+
         Enable_Control(Button_Com_Close, True)
         Enable_Control(Button_ConsoleSend, True)
         Enable_Control(TextBox_ConsoleSend, True)
