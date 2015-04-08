@@ -16,7 +16,7 @@
     Public Shared Robot_Rturn_Override As Boolean = False
 
     Public Shared Com_Ready2Connect As Boolean = False
-    Public Shared Com_TextMode As Boolean = True
+    Public Shared Com_TextMode As Boolean = False
     Public Shared Com_IsClosing As Boolean = False
 
     Public Shared SpeedCoeffientL As Single = 0
