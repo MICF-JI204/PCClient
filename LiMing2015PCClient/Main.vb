@@ -5,8 +5,6 @@ Public Class Form_ORRM
 
     Private Sub Form_ORRM_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Dim logfile As New System.IO.StreamWriter("LastLog.log")
-        Button1.Text = IIf(Global_Var.Com_TextMode, "Text Mode", "CMD Mode")
-        Button1.BackColor = IIf(Global_Var.Com_TextMode, Drawing.Color.LightGreen, Drawing.Color.Red)
         logfile.Write(TextBox_Console_Log.Text)
         logfile.Close()
         Thread_Connection.Abort()
@@ -19,6 +17,8 @@ Public Class Form_ORRM
         PictureBox_Trejection.Refresh()
         Log("Application Running Under" & vbCrLf & Application.StartupPath)
         Log("System Begins to function!")
+        Button1.Text = IIf(Global_Var.Com_TextMode, "Text Mode", "CMD Mode")
+        Button1.BackColor = IIf(Global_Var.Com_TextMode, Drawing.Color.LightGreen, Drawing.Color.Red)
     End Sub
 
     Private Sub Button_Connect_Click(sender As Object, e As EventArgs) Handles Button_Connect.Click
@@ -72,16 +72,14 @@ Public Class Form_ORRM
                             data(i) = Val(datastr(i)) And &HFF
                         End Try
                     Next
-                    Dim t As New Out_Msg
+
                     Try
-                        t.Set_OP(data(1))
-                        t.Set_Priority(data(0))
-                        t.Set_Data(data(2), data(3), data(4), data(5))
+                        Dim t As New Out_Msg(data(0), data(1), data(2), data(3), data(4), data(5), True)
+                        Out_Buffer.Enque(t)
                     Catch ex As Exception
                         Log("User/CMD_Mode_Send:Not Enough Arguments")
                         GoTo WrongInput
                     End Try
-                    Out_Buffer.Enque(t)
                 End If
             End If
         End If

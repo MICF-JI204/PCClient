@@ -1,4 +1,6 @@
 ﻿Public Class Out_Msg
+
+    Public IsUserCMD As Boolean = False
     Public Sub New()
         Buffer(0) = &HCC  '包头
     End Sub
@@ -7,6 +9,14 @@
         Set_OP(op)
         Set_Priority(pr)
         Set_Data(a1, a2, a3, a4)
+    End Sub
+
+
+    Public Sub New(ByVal pr As Byte, ByVal op As Byte, a1 As Byte, a2 As Byte, a3 As Byte, a4 As Byte, isuser As Boolean)
+        Set_OP(op)
+        Set_Priority(pr)
+        Set_Data(a1, a2, a3, a4)
+        IsUserCMD = isuser
     End Sub
 
     Public Buffer(8) As Byte
