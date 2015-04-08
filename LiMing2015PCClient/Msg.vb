@@ -50,7 +50,7 @@ Public Class In_Buffer
             bufferpointer += 1
             If bufferpointer = 4 Then
                 bufferpointer = 0
-                If (buffer(0) + buffer(1) + buffer(2)) Mod &HFF = buffer(3) Then
+                If (Int(buffer(0)) + Int(buffer(1)) + Int(buffer(2))) Mod &HFF = buffer(3) Then
                     Return DispatchInMsg(buffer(1), buffer(2))
                 Else
                     Return "Arduino/Incoming:Err Invalid CheckSum"
