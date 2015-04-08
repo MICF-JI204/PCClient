@@ -28,6 +28,8 @@
     Public Shared TimeLastFame_Trej As Integer = 0
     Public Shared StartUpTime As Long = My.Computer.Clock.TickCount
 
+    Public Shared GamePadPreState As Microsoft.Xna.Framework.Input.GamePadState
+
 
     Public Enum Graph_Trejection_Dir As Integer
         Dir_Null = 0
