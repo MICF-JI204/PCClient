@@ -37,11 +37,10 @@ End Class
 Public Class In_Buffer
     Public Shared buffer(4) As Byte
     Private Shared bufferpointer As Byte
-    Public Shared Sub InBuff(data As Byte)
+    Public Shared Function InBuff(data As Byte) As String
         If bufferpointer = 0 Then
             If data <> &HCC Then
-                Form_ORRM.Log("Arduino/Incoming:Err Invalid Header")
-                Return
+                Return "Arduino/Incoming:Err Invalid Header"
             Else
                 buffer(bufferpointer) = data
                 bufferpointer += 1
@@ -52,20 +51,19 @@ Public Class In_Buffer
             If bufferpointer = 4 Then
                 bufferpointer = 0
                 If (buffer(0) + buffer(1) + buffer(2)) Mod &HFF = buffer(3) Then
-                    DispatchInMsg(buffer(1), buffer(2))
+                    Return DispatchInMsg(buffer(1), buffer(2))
                 Else
-                    Form_ORRM.Log("Arduino/Incoming:Err Invalid CheckSum")
-                    Return
+                    Return "Arduino/Incoming:Err Invalid CheckSum"
                 End If
             End If
         End If
-        Return
-    End Sub
+        Return Nothing
+    End Function
 
-    Public Shared Sub DispatchInMsg(ByVal op As Byte, ByVal arg As Byte)
-        Form_ORRM.Log("Arduino/Incomming_CMD:" & Global_Var.Get_ComCMD_Name(op) & Hex(arg))
+    Public Shared Function DispatchInMsg(ByVal op As Byte, ByVal arg As Byte) As String
         Form_ORRM.ChangeUIText(Form_ORRM.Label_Connection_Status, "Get:" & Global_Var.Get_ComCMD_Name(op), Color.Blue)
-    End Sub
+        Return "Arduino/Incomming_CMD:" & Global_Var.Get_ComCMD_Name(op) & Hex(arg)
+    End Function
 End Class
 
 Public Class Out_Buffer
