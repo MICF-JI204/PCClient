@@ -45,7 +45,8 @@
                         myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
                     End If
                     Do While myBytesToRead(SerialPortArduino) > 0
-                        In_Buffer.InBuff(myReadByte(SerialPortArduino))
+                        Dim tlog As String = In_Buffer.InBuff(myReadByte(SerialPortArduino))
+                        If tlog <> Nothing Then Log(tlog)
                     Loop
                 Else '文字模式
                     If myBytesToRead(SerialPortArduino) > 0 Then
