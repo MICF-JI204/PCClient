@@ -34,16 +34,16 @@
                 Dim msg2send As Out_Msg = Out_Buffer.Deque()
                 msg2send.Generate_CheckSum()
                 myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
-                If msg2send.IsUserCMD Then
-                    Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
-                             & Hex(msg2send.Buffer(1)) & " " _
-                             & Global_Var.Get_ComCMD_Name(msg2send.Buffer(2)) & " " _
-                             & Hex(msg2send.Buffer(3)) & " " _
-                             & Hex(msg2send.Buffer(4)) & " " _
-                             & Hex(msg2send.Buffer(5)) & " " _
-                             & Hex(msg2send.Buffer(6)) & " " _
-                             & Hex(msg2send.Buffer(7)))
-                End If
+                'If msg2send.IsUserCMD Then
+                Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
+                         & Hex(msg2send.Buffer(1)) & " " _
+                         & Global_Var.Get_ComCMD_Name(msg2send.Buffer(2)) & " " _
+                         & Hex(msg2send.Buffer(3)) & " " _
+                         & Hex(msg2send.Buffer(4)) & " " _
+                         & Hex(msg2send.Buffer(5)) & " " _
+                         & Hex(msg2send.Buffer(6)) & " " _
+                         & Hex(msg2send.Buffer(7)))
+                '  End If
             End If
             If Not Global_Var.Com_TextMode Then '指令模式读取
                 Do While myBytesToRead(SerialPortArduino) > 0

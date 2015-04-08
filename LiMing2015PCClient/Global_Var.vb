@@ -56,8 +56,10 @@
         HandConfirm = &HF2 'No Arg.
         GamePad_X_Down = &HB0 'No Argument
         GamePad_Y_Down = &HB1
-        GamePad_A_Down = &HB2
-        GamePad_B_Down = &HB3
+        'GamePad_A_Down = &HB2
+        'GamePad_B_Down = &HB3
+        GamePad_A_Down = &H1
+        GamePad_B_Down = &H2
         GamePad_X_Up = &HB4 'No Argument
         GamePad_Y_Up = &HB5
         GamePad_A_Up = &HB6

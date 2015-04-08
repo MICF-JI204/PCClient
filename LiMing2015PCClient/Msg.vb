@@ -6,6 +6,7 @@
     End Sub
 
     Public Sub New(ByVal pr As Byte, ByVal op As Byte, a1 As Byte, a2 As Byte, a3 As Byte, a4 As Byte)
+        Buffer(0) = &HCC
         Set_OP(op)
         Set_Priority(pr)
         Set_Data(a1, a2, a3, a4)
@@ -13,6 +14,7 @@
 
 
     Public Sub New(ByVal pr As Byte, ByVal op As Byte, a1 As Byte, a2 As Byte, a3 As Byte, a4 As Byte, isuser As Boolean)
+        Buffer(0) = &HCC
         Set_OP(op)
         Set_Priority(pr)
         Set_Data(a1, a2, a3, a4)
@@ -60,7 +62,7 @@ Public Class In_Buffer
             bufferpointer += 1
             If bufferpointer = 4 Then
                 bufferpointer = 0
-                If (Int(buffer(0)) + Int(buffer(1)) + Int(buffer(2))) And &HFF = buffer(3) Then
+                If ((Int(buffer(0)) + Int(buffer(1)) + Int(buffer(2))) And &HFF - buffer(3)) = 0 Then
                     Return DispatchInMsg(buffer(1), buffer(2))
                 Else
                     Return "Arduino/Incoming:Err Invalid CheckSum: " & Hex(buffer(0)) & " " _

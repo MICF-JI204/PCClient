@@ -177,13 +177,16 @@ Partial Public Class Form_ORRM
 
         If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
             If GamePadState.Buttons.A = Input.ButtonState.Pressed Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_A_Up, 0, 0, 0, 0))
-            Else
                 Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_A_Down, 0, 0, 0, 0))
+            Else
+                '   Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_A_Up, 0, 0, 0, 0))
             End If
         End If
         If Global_Var.GamePadPreState.Buttons.B <> GamePadState.Buttons.B Then
-
+            If GamePadState.Buttons.B = Input.ButtonState.Pressed Then
+                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_B_Down, 0, 0, 0, 0))
+            Else
+            End If
         End If
         If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
 

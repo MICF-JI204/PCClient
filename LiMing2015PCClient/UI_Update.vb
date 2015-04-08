@@ -1,7 +1,10 @@
 ﻿Partial Public Class Form_ORRM
 
     Public Sub ChangeUIText(ByVal tb As Control, ByVal Content As String, ByVal Color As System.Drawing.Color)
-        tb.BeginInvoke(New ChangeUITextDelegate(AddressOf ChangeUITextInvoke), New Object() {tb, Content, Color})
+        Try
+            tb.BeginInvoke(New ChangeUITextDelegate(AddressOf ChangeUITextInvoke), New Object() {tb, Content, Color})
+        Catch
+        End Try
     End Sub
 
 
