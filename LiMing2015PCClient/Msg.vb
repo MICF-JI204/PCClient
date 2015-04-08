@@ -40,7 +40,7 @@ Public Class In_Buffer
     Public Shared Function InBuff(data As Byte) As String
         If bufferpointer = 0 Then
             If data <> &HCC Then
-                Return "Arduino/Incoming:Err Invalid Header"
+                Return "Arduino/Incoming:Err Invalid Header:" & Hex(data)
             Else
                 buffer(bufferpointer) = data
                 bufferpointer += 1
@@ -50,10 +50,13 @@ Public Class In_Buffer
             bufferpointer += 1
             If bufferpointer = 4 Then
                 bufferpointer = 0
-                If (Int(buffer(0)) + Int(buffer(1)) + Int(buffer(2))) Mod &HFF = buffer(3) Then
+                If (Int(buffer(0)) + Int(buffer(1)) + Int(buffer(2))) And &HFF = buffer(3) Then
                     Return DispatchInMsg(buffer(1), buffer(2))
                 Else
-                    Return "Arduino/Incoming:Err Invalid CheckSum"
+                    Return "Arduino/Incoming:Err Invalid CheckSum: " & Hex(buffer(0)) & " " _
+                                                                     & Hex(buffer(1)) & " " _
+                                                                     & Hex(buffer(2)) & " " _
+                                                                     & Hex(buffer(3))
                 End If
             End If
         End If
