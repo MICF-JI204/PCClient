@@ -42,6 +42,9 @@ Public Class In_Buffer
             If data <> &HCC Then
                 Form_ORRM.Log("Arduino/Incoming:Err Invalid Header")
                 Return
+            Else
+                buffer(bufferpointer) = data
+                bufferpointer += 1
             End If
         Else
             buffer(bufferpointer) = data
