@@ -244,7 +244,7 @@ Partial Class Form_ORRM
         Me.TextBox_Console_Log.Multiline = True
         Me.TextBox_Console_Log.Name = "TextBox_Console_Log"
         Me.TextBox_Console_Log.ReadOnly = True
-        Me.TextBox_Console_Log.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
+        Me.TextBox_Console_Log.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.TextBox_Console_Log.Size = New System.Drawing.Size(211, 170)
         Me.TextBox_Console_Log.TabIndex = 0
         '
