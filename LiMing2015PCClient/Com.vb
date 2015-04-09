@@ -8,7 +8,7 @@
         ChangeUIText(Label_Connection_Status, "Waiting For Ports...", Drawing.Color.Blue)
         ChangeStatusLabel(ToolStripStatusLabel_Com_status, "Waiting For Ports", Drawing.Color.Blue)
         Dim SerialPortArduino As New System.IO.Ports.SerialPort()
-        SerialPortArduino.BaudRate = 9600
+        SerialPortArduino.BaudRate = 115200
         Com_Wait_Connection(SerialPortArduino)
         Log("User:Closing Serial Port on " & SerialPortArduino.PortName)
         ChangeStatusLabel(ToolStripStatusLabel_Com_status, SerialPortArduino.PortName & " Established", Color.Green)
