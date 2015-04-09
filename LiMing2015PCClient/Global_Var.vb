@@ -18,6 +18,7 @@
     Public Shared Com_Ready2Connect As Boolean = False
     Public Shared Com_TextMode As Boolean = False
     Public Shared Com_IsClosing As Boolean = False
+    Public Shared Com_LastCMDSent As Integer = 0
 
     Public Shared SpeedCoeffientL As Single = 0
     Public Shared SpeedcoeffientR As Single = 0

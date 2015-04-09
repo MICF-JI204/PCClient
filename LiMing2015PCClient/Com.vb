@@ -113,6 +113,7 @@
     Private Overloads Sub myWrite(ByRef SerialPort As IO.Ports.SerialPort, ByRef Buffer As Byte(), ByVal OffSet As Integer, ByVal Count As Integer)
         Try
             SerialPort.Write(Buffer, OffSet, Count)
+            Global_Var.Com_LastCMDSent = My.Computer.Clock.TickCount
         Catch ex As UnauthorizedAccessException
             Global_Var.Com_IsClosing = True
         End Try

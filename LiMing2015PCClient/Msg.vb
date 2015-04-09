@@ -76,8 +76,9 @@ Public Class In_Buffer
     End Function
 
     Public Shared Function DispatchInMsg(ByVal op As Byte, ByVal arg As Byte) As String
+        Dim tstamp As String = vbCrLf & "Lag:" & My.Computer.Clock.TickCount - Global_Var.Com_LastCMDSent & "ms"
         Form_ORRM.ChangeUIText(Form_ORRM.Label_Connection_Status, "Get:" & Global_Var.Get_ComCMD_Name(op), Color.Blue)
-        Return "Arduino/Incomming_CMD:" & Global_Var.Get_ComCMD_Name(op) & Hex(arg)
+        Return "Arduino/Incomming_CMD:" & Global_Var.Get_ComCMD_Name(op) & Hex(arg) & tstamp
     End Function
 End Class
 
