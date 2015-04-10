@@ -87,20 +87,21 @@
                 Catch
                 End Try
                 For Each SerialPortNameStr In My.Computer.Ports.SerialPortNames
-                        AddItemCombo(ComboPort, SerialPortNameStr)
+                    AddItemCombo(ComboPort, SerialPortNameStr)
                 Next
             End While
+            Enable_Control(Button_Connect, False)
+            Enable_Control(ComboPort, False) 'Disable The Buttons
             Try
                 SerialPort.PortName = GetSelectedItemCombo(ComboPort)
             Catch
             End Try
+
             Try
                 ChangeUIText(Label_Connection_Status, "Trying to open a port", Color.Blue)
                 SerialPort.Open()
             Catch
             End Try
-            Enable_Control(Button_Connect, False)
-            Enable_Control(ComboPort, False)
         Loop Until SerialPort.IsOpen = True
 
         Enable_Control(Button_Com_Close, True)
