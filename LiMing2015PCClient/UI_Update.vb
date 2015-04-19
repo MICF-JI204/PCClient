@@ -33,6 +33,10 @@
         PictureBox_Trejection.BeginInvoke(New Update_PictureBoxDelegate(AddressOf Update_Trejectory_UI))
     End Sub
 
+    Public Sub Update_Crane()
+        PictureBox_Crane.BeginInvoke(New Update_PictureBoxDelegate(AddressOf Update_Crane_Graph_UI))
+    End Sub
+
     Public Sub Enable_Control(ByRef button As Control, ByVal IsEnabled As Boolean)
         button.BeginInvoke(New EnableControlDelegate(AddressOf EnableControlInvoke), New Object() {button, IsEnabled})
     End Sub
@@ -66,6 +70,10 @@
 
     Private Sub Update_Trejectory_UI()
         PictureBox_Trejection.Refresh()
+    End Sub
+
+    Private Sub Update_Crane_Graph_UI()
+        PictureBox_Crane.Refresh()
     End Sub
 
     Private Sub ChangeUITextInvoke(ByVal tb As Control, ByVal Content As String, ByVal Color As System.Drawing.Color)

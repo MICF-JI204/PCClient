@@ -41,6 +41,9 @@ Partial Class Form_ORRM
         Me.TextBox_ConsoleSend = New System.Windows.Forms.TextBox()
         Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.GroupBox_Operation = New System.Windows.Forms.GroupBox()
+        Me.Button_Loader_Release = New System.Windows.Forms.Button()
+        Me.Button_Loader_Down = New System.Windows.Forms.Button()
+        Me.Button_Loader_Up = New System.Windows.Forms.Button()
         Me.Button_BK = New System.Windows.Forms.Button()
         Me.Button_RT = New System.Windows.Forms.Button()
         Me.Button_LT = New System.Windows.Forms.Button()
@@ -57,10 +60,17 @@ Partial Class Form_ORRM
         Me.ToolStripStatusLabel_Com_status = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_LastInfo = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.PictureBox_Crane = New System.Windows.Forms.PictureBox()
+        Me.GroupBox_Crane = New System.Windows.Forms.GroupBox()
+        Me.Button_Crane_UP = New System.Windows.Forms.Button()
+        Me.Button_Crane_Down = New System.Windows.Forms.Button()
+        Me.Button_Crane_Pump = New System.Windows.Forms.Button()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip.SuspendLayout()
+        CType(Me.PictureBox_Crane, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox_Crane.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox_Connection
@@ -250,6 +260,9 @@ Partial Class Form_ORRM
         '
         'GroupBox_Operation
         '
+        Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Release)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Down)
+        Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Up)
         Me.GroupBox_Operation.Controls.Add(Me.Button_BK)
         Me.GroupBox_Operation.Controls.Add(Me.Button_RT)
         Me.GroupBox_Operation.Controls.Add(Me.Button_LT)
@@ -262,7 +275,36 @@ Partial Class Form_ORRM
         Me.GroupBox_Operation.Size = New System.Drawing.Size(288, 387)
         Me.GroupBox_Operation.TabIndex = 1
         Me.GroupBox_Operation.TabStop = False
-        Me.GroupBox_Operation.Text = "Motions && Functions"
+        Me.GroupBox_Operation.Text = "Motions && Loader"
+        '
+        'Button_Loader_Release
+        '
+        Me.Button_Loader_Release.BackColor = System.Drawing.Color.Red
+        Me.Button_Loader_Release.ForeColor = System.Drawing.Color.Yellow
+        Me.Button_Loader_Release.Location = New System.Drawing.Point(155, 359)
+        Me.Button_Loader_Release.Name = "Button_Loader_Release"
+        Me.Button_Loader_Release.Size = New System.Drawing.Size(122, 28)
+        Me.Button_Loader_Release.TabIndex = 9
+        Me.Button_Loader_Release.Text = "Big Red Button"
+        Me.Button_Loader_Release.UseVisualStyleBackColor = False
+        '
+        'Button_Loader_Down
+        '
+        Me.Button_Loader_Down.Location = New System.Drawing.Point(155, 327)
+        Me.Button_Loader_Down.Name = "Button_Loader_Down"
+        Me.Button_Loader_Down.Size = New System.Drawing.Size(122, 28)
+        Me.Button_Loader_Down.TabIndex = 8
+        Me.Button_Loader_Down.Text = "Loader Down"
+        Me.Button_Loader_Down.UseVisualStyleBackColor = True
+        '
+        'Button_Loader_Up
+        '
+        Me.Button_Loader_Up.Location = New System.Drawing.Point(155, 293)
+        Me.Button_Loader_Up.Name = "Button_Loader_Up"
+        Me.Button_Loader_Up.Size = New System.Drawing.Size(122, 28)
+        Me.Button_Loader_Up.TabIndex = 7
+        Me.Button_Loader_Up.Text = "Loader Up"
+        Me.Button_Loader_Up.UseVisualStyleBackColor = True
         '
         'Button_BK
         '
@@ -328,19 +370,21 @@ Partial Class Form_ORRM
         '
         'GroupBox_GameStatus
         '
-        Me.GroupBox_GameStatus.Location = New System.Drawing.Point(545, 14)
+        Me.GroupBox_GameStatus.Location = New System.Drawing.Point(548, 267)
         Me.GroupBox_GameStatus.Name = "GroupBox_GameStatus"
-        Me.GroupBox_GameStatus.Size = New System.Drawing.Size(228, 387)
+        Me.GroupBox_GameStatus.Size = New System.Drawing.Size(228, 134)
         Me.GroupBox_GameStatus.TabIndex = 4
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
         '
         'StatusStrip
         '
+        Me.StatusStrip.AllowMerge = False
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel_GamePad_Status, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel_Com_status, Me.ToolStripStatusLabel5, Me.ToolStripStatusLabel_LastInfo})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 422)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(788, 22)
+        Me.StatusStrip.SizingGrip = False
         Me.StatusStrip.TabIndex = 5
         Me.StatusStrip.Text = "System_Status"
         '
@@ -386,11 +430,61 @@ Partial Class Form_ORRM
         Me.ToolStripStatusLabel_LastInfo.Size = New System.Drawing.Size(119, 17)
         Me.ToolStripStatusLabel_LastInfo.Text = "System_Starting UP"
         '
+        'PictureBox_Crane
+        '
+        Me.PictureBox_Crane.Location = New System.Drawing.Point(6, 20)
+        Me.PictureBox_Crane.Name = "PictureBox_Crane"
+        Me.PictureBox_Crane.Size = New System.Drawing.Size(216, 147)
+        Me.PictureBox_Crane.TabIndex = 7
+        Me.PictureBox_Crane.TabStop = False
+        '
+        'GroupBox_Crane
+        '
+        Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_Pump)
+        Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_Down)
+        Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_UP)
+        Me.GroupBox_Crane.Controls.Add(Me.PictureBox_Crane)
+        Me.GroupBox_Crane.Location = New System.Drawing.Point(548, 18)
+        Me.GroupBox_Crane.Name = "GroupBox_Crane"
+        Me.GroupBox_Crane.Size = New System.Drawing.Size(228, 243)
+        Me.GroupBox_Crane.TabIndex = 5
+        Me.GroupBox_Crane.TabStop = False
+        Me.GroupBox_Crane.Text = "Crane"
+        '
+        'Button_Crane_UP
+        '
+        Me.Button_Crane_UP.Location = New System.Drawing.Point(6, 173)
+        Me.Button_Crane_UP.Name = "Button_Crane_UP"
+        Me.Button_Crane_UP.Size = New System.Drawing.Size(95, 28)
+        Me.Button_Crane_UP.TabIndex = 8
+        Me.Button_Crane_UP.Text = "Crane Up"
+        Me.Button_Crane_UP.UseVisualStyleBackColor = True
+        '
+        'Button_Crane_Down
+        '
+        Me.Button_Crane_Down.Location = New System.Drawing.Point(6, 207)
+        Me.Button_Crane_Down.Name = "Button_Crane_Down"
+        Me.Button_Crane_Down.Size = New System.Drawing.Size(95, 28)
+        Me.Button_Crane_Down.TabIndex = 9
+        Me.Button_Crane_Down.Text = "Crane Down"
+        Me.Button_Crane_Down.UseVisualStyleBackColor = True
+        '
+        'Button_Crane_Pump
+        '
+        Me.Button_Crane_Pump.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Button_Crane_Pump.Location = New System.Drawing.Point(118, 187)
+        Me.Button_Crane_Pump.Name = "Button_Crane_Pump"
+        Me.Button_Crane_Pump.Size = New System.Drawing.Size(95, 36)
+        Me.Button_Crane_Pump.TabIndex = 10
+        Me.Button_Crane_Pump.Text = "Object Released"
+        Me.Button_Crane_Pump.UseVisualStyleBackColor = False
+        '
         'Form_ORRM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(788, 444)
+        Me.Controls.Add(Me.GroupBox_Crane)
         Me.Controls.Add(Me.StatusStrip)
         Me.Controls.Add(Me.GroupBox_GameStatus)
         Me.Controls.Add(Me.GroupBox_Operation)
@@ -407,6 +501,8 @@ Partial Class Form_ORRM
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip.ResumeLayout(False)
         Me.StatusStrip.PerformLayout()
+        CType(Me.PictureBox_Crane, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox_Crane.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -445,5 +541,13 @@ Partial Class Form_ORRM
     Friend WithEvents ToolStripStatusLabel_LastInfo As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Button_Com_Close As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents PictureBox_Crane As System.Windows.Forms.PictureBox
+    Friend WithEvents GroupBox_Crane As System.Windows.Forms.GroupBox
+    Friend WithEvents Button_Loader_Release As System.Windows.Forms.Button
+    Friend WithEvents Button_Loader_Down As System.Windows.Forms.Button
+    Friend WithEvents Button_Loader_Up As System.Windows.Forms.Button
+    Friend WithEvents Button_Crane_Pump As System.Windows.Forms.Button
+    Friend WithEvents Button_Crane_Down As System.Windows.Forms.Button
+    Friend WithEvents Button_Crane_UP As System.Windows.Forms.Button
 
 End Class

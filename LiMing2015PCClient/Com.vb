@@ -30,10 +30,23 @@
                     'Wait Until Fully Closed
                 End If
             End If
+
             If Out_Buffer.QueCount() > 0 Then '指令模式写入
                 Dim msg2send As Out_Msg = Out_Buffer.Deque()
                 msg2send.Generate_CheckSum()
-                myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
+                If msg2send.Buffer(2) = Global_Var.Com_CMD.Set_DMotor Then '特殊处理Driving Motor
+                    If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_DMotor_Last_Time > Global_Var.Com_SetDMotor_Delay Then
+                        Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
+                        myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
+                    End If
+                ElseIf msg2send.Buffer(2) = Global_Var.Com_CMD.Set_Crane_Dir Then '特殊处理吊臂方向
+                    If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_CraneDir_Last_Time > Global_Var.Com_SetCraneDir_Delay Then
+                        Out_Buffer.CMD_Set_CraneDir_Last_Time = My.Computer.Clock.TickCount
+                        myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
+                    End If
+                Else
+                    myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
+                End If
                 'If msg2send.IsUserCMD Then
                 Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
                          & Hex(msg2send.Buffer(1)) & " " _
@@ -43,8 +56,10 @@
                          & Hex(msg2send.Buffer(5)) & " " _
                          & Hex(msg2send.Buffer(6)) & " " _
                          & Hex(msg2send.Buffer(7)))
-                '  End If
+                'End If
             End If
+
+
             If Not Global_Var.Com_TextMode Then '指令模式读取
                 Do While myBytesToRead(SerialPortArduino) > 0
                     Dim tlog As String = In_Buffer.InBuff(myReadByte(SerialPortArduino))
@@ -52,7 +67,11 @@
                 Loop
             Else '文字模式（读取,写入）
                 If myBytesToRead(SerialPortArduino) > 0 Then
-                    Log("Arduino/Incoming:" & myReadExsisting(SerialPortArduino))
+                    Dim str As String = myReadExsisting(SerialPortArduino)
+                    str = str.Replace(vbCrLf, "\n")
+                    str = str.Replace(vbCr, "\r")
+                    str = str.Replace(vbLf, "\f")
+                    Log("Arduino/Incoming:" & str)
                 End If
                 If Out_Buffer.Text_Mode_Buffer_Count > 0 Then
                     Dim str As String = Out_Buffer.De_Text_Mode_Buffer
@@ -62,7 +81,7 @@
                     myWrite(SerialPortArduino, str)
                 End If
             End If
-            Threading.Thread.Sleep(10)
+            Threading.Thread.Sleep(Global_Var.Thread_Com_Delay)
         End While
 
 

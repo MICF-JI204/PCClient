@@ -22,6 +22,7 @@ Partial Public Class Form_ORRM
                     Update_Controls(GamePadState)
                     Update_Motion_Motor(GamePadState)
                     Update_Data(GamePadState)
+                    Update_Crane_Graph(GamePadState)
                     Update_Trejectory_Graph(GamePadState)
                 End If
             Else
@@ -36,27 +37,46 @@ Partial Public Class Form_ORRM
             End If
             Global_Var.GamePadPreState = GamePadState
             GamePadState = Input.GamePad.GetState(PlayerIndex.One)
-            System.Threading.Thread.Sleep(15)
+            System.Threading.Thread.Sleep(Global_Var.Thread_GamePad_Delay)
         End While
     End Sub
 
     Public Sub Update_Controls(ByRef GamePadState As Input.GamePadState)
+
         If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
+            If GamePadState.Buttons.A = Input.ButtonState.Pressed Then
+                Global_Var.Robot_Crane_Dir = Global_Var.Crane_State.Crane_Down
+            End If
             Dim Text As String = IIf(GamePadState.Buttons.A = 1, "Button A Down", "Button A Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
+
         If Global_Var.GamePadPreState.Buttons.B <> GamePadState.Buttons.B Then
+            If GamePadState.Buttons.B = Input.ButtonState.Pressed Then
+                Global_Var.Robot_IsGrabbing = Not Global_Var.Robot_IsGrabbing
+            Else
+
+            End If
             Dim Text As String = IIf(GamePadState.Buttons.B = 1, "Button B Down", "Button B Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
+
         If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
+            If GamePadState.Buttons.X = Input.ButtonState.Pressed Then
+                Global_Var.Robot_Crane_Dir = Global_Var.Crane_State.Crane_Still
+            End If
             Dim Text As String = IIf(GamePadState.Buttons.X = 1, "Button X Down", "Button X Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
+
         If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
+            If GamePadState.Buttons.Y = Input.ButtonState.Pressed Then
+                Global_Var.Robot_Crane_Dir = Global_Var.Crane_State.Crane_Up
+            End If
             Dim Text As String = IIf(GamePadState.Buttons.Y = 1, "Button Y Down", "Button Y Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
+
         If Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder Then
             Dim Text As String = IIf(GamePadState.Buttons.LeftShoulder = 1, "Button LS Down", "Button LS Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
@@ -131,6 +151,30 @@ Partial Public Class Form_ORRM
 
 
         Update_Trejectory()
+    End Sub
+
+    Public Sub Update_Crane_Graph(ByRef GamePadState As Input.GamePadState)
+        Dim x As Single = GamePadState.ThumbSticks.Right.X
+        Dim y As Single = GamePadState.ThumbSticks.Right.Y
+        Dim dis As Single = Math.Sqrt(x ^ 2 + y ^ 2)
+        If dis > 0.9 Then
+            Dim ang As Single = Math.Asin(Math.Abs(y / dis)) / Math.PI * 180
+            If x >= 0 Then
+                If y >= 0 Then
+                    Global_Var.Robot_Crane_Angle = ang
+                Else
+                    Global_Var.Robot_Crane_Angle = -ang
+                End If
+            Else
+                If y >= 0 Then
+                    Global_Var.Robot_Crane_Angle = 180 - ang
+                Else
+                    Global_Var.Robot_Crane_Angle = ang - 180
+                End If
+            End If
+            If ang < 0 Then ang += 360
+        End If
+        Update_Crane()
     End Sub
 
     Public Sub Update_Motion_Motor(ByRef GamePadState As Input.GamePadState)
