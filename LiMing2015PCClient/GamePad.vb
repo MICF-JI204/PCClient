@@ -177,7 +177,7 @@ Partial Public Class Form_ORRM
         End If
         Update_Crane()
     End Sub
-
+    '==========================云台====================================
     Public Sub Update_Yuntai(ByRef GamePadState As Input.GamePadState)
         Dim tstate As Integer
         If Math.Abs(GamePadState.ThumbSticks.Left.X) < 0.15 Then
@@ -192,9 +192,17 @@ Partial Public Class Form_ORRM
             If tstate = 0 Then
                 Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Stop, 0, 0, 0, 0))
             ElseIf tstate = 1 Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Left, 0, 0, 0, 0))
+                If Global_Var.Robot_Shift Then
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 1, 0, 0))
+                Else
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 1, 0, 0))
+                End If
             ElseIf tstate = 2 Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Right, 0, 0, 0, 0))
+                If Global_Var.Robot_Shift Then
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 0))
+                Else
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 0))
+                End If
             End If
         End If
     End Sub
@@ -248,12 +256,15 @@ Partial Public Class Form_ORRM
                 '   Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_A_Up, 0, 0, 0, 0))
             End If
         End If
+        '=====================换挡==========================
         If Global_Var.GamePadPreState.Buttons.B <> GamePadState.Buttons.B Then
             If GamePadState.Buttons.B = Input.ButtonState.Pressed Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_B_Down, 0, 0, 0, 0))
+                Global_Var.Robot_Shift = True
             Else
+                Global_Var.Robot_Shift = False
             End If
         End If
+        '===================================================
         If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
 
         End If

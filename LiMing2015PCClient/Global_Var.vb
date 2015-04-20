@@ -24,6 +24,8 @@
     Public Shared Robot_Rturn_Override As Boolean = False
     Public Shared Robot_Crane_Dir As Crane_State = Crane_State.Crane_Still
     Public Shared Robot_IsGrabbing As Boolean = False
+    Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 forward ,2 back
+    Public Shared Robot_Shift As Boolean = False
 
     Public Shared Com_Ready2Connect As Boolean = False
     Public Shared Com_TextMode As Boolean = False
@@ -95,8 +97,8 @@
         GamePad_RB_DOWN = &HD0
         GamePad_RB_Up = &HD1
 
-        Yuntai_Left = &HE1
-        Yuntai_Right = &HE2
+        Yuntai_Slow = &HE1
+        Yuntai_Fast = &HE2
         Yuntai_Stop = &HE3
 
     End Enum
