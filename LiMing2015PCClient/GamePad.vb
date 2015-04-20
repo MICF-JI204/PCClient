@@ -21,6 +21,7 @@ Partial Public Class Form_ORRM
                 If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
                     Update_Controls(GamePadState)
                     Update_Motion_Motor(GamePadState)
+                    Update_Yuntai(GamePadState)
                     Update_Data(GamePadState)
                     Update_Crane_Graph(GamePadState)
                     Update_Trejectory_Graph(GamePadState)
@@ -175,6 +176,27 @@ Partial Public Class Form_ORRM
             If ang < 0 Then ang += 360
         End If
         Update_Crane()
+    End Sub
+
+    Public Sub Update_Yuntai(ByRef GamePadState As Input.GamePadState)
+        Dim tstate As Integer
+        If Math.Abs(GamePadState.ThumbSticks.Left.X) < 0.15 Then
+            tstate = 0
+        ElseIf GamePadState.ThumbSticks.Right.X < 0 Then
+            tstate = 1
+        Else
+            tstate = 2
+        End If
+        If tstate <> Global_Var.Robot_Yuntai_Dir Then
+            Global_Var.Robot_Yuntai_Dir = tstate
+            If tstate = 0 Then
+                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Stop, 0, 0, 0, 0))
+            ElseIf tstate = 1 Then
+                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Left, 0, 0, 0, 0))
+            ElseIf tstate = 2 Then
+                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Right, 0, 0, 0, 0))
+            End If
+        End If
     End Sub
 
     Public Sub Update_Motion_Motor(ByRef GamePadState As Input.GamePadState)

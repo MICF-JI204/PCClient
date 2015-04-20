@@ -95,6 +95,10 @@
         GamePad_RB_DOWN = &HD0
         GamePad_RB_Up = &HD1
 
+        Yuntai_Left = &HE1
+        Yuntai_Right = &HE2
+        Yuntai_Stop = &HE3
+
     End Enum
 
     Public Shared Function Get_ComCMD_Code(ByVal name As String) As Com_CMD
