@@ -20,9 +20,9 @@ Partial Public Class Form_ORRM
             If GamePadState.IsConnected Then
                 If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
                     Update_Controls(GamePadState)
+                    Update_Data(GamePadState)
                     Update_Motion_Motor(GamePadState)
                     Update_Yuntai(GamePadState)
-                    Update_Data(GamePadState)
                     Update_Crane_Graph(GamePadState)
                     Update_Trejectory_Graph(GamePadState)
                 End If
@@ -180,28 +180,28 @@ Partial Public Class Form_ORRM
     '==========================云台====================================
     Public Sub Update_Yuntai(ByRef GamePadState As Input.GamePadState)
         Dim tstate As Integer
-        If Math.Abs(GamePadState.ThumbSticks.Left.X) < 0.15 Then
+        If Math.Abs(GamePadState.ThumbSticks.Right.X) < 0.15 Then
             tstate = 0
         ElseIf GamePadState.ThumbSticks.Right.X < 0 Then
             tstate = 1
         Else
             tstate = 2
         End If
-        If tstate <> Global_Var.Robot_Yuntai_Dir Then
+        If (tstate <> Global_Var.Robot_Yuntai_Dir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
             Global_Var.Robot_Yuntai_Dir = tstate
             If tstate = 0 Then
                 Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Stop, 0, 0, 0, 0))
             ElseIf tstate = 1 Then
                 If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 1, 0, 0))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 1, 0, 200))
                 Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 1, 0, 0))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 1, 0, 200))
                 End If
             ElseIf tstate = 2 Then
                 If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 0))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 200))
                 Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 0))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 200))
                 End If
             End If
         End If

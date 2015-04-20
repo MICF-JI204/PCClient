@@ -24,7 +24,10 @@
             Else
                 If Global_Var.Com_IsClosing Then
                     Log("User:Closing Serial Port on " & SerialPortArduino.PortName)
-                    SerialPortArduino.Close()
+                    Try
+                        SerialPortArduino.Close()
+                    Catch
+                    End Try
                     Global_Var.Com_IsClosing = False
                     Continue While
                     'Wait Until Fully Closed
@@ -134,7 +137,7 @@
         Try
             SerialPort.Write(Buffer, OffSet, Count)
             Global_Var.Com_LastCMDSent = My.Computer.Clock.TickCount
-        Catch ex As UnauthorizedAccessException
+        Catch
             Global_Var.Com_IsClosing = True
         End Try
     End Sub
