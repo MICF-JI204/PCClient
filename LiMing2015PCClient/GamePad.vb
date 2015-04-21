@@ -342,17 +342,17 @@ Partial Public Class Form_ORRM
         '==================================================================
 
         '============================吊臂上下==============================
-        Dim CraneV_tstate As Integer
+        Dim CraneV_tstate As Global_Var.Crane_State
         Dim LT_State As Boolean = GamePadState.Triggers.Left > Global_Var.GamePad_Trigger_Critical
         Dim RT_State As Boolean = GamePadState.Triggers.Right > Global_Var.GamePad_Trigger_Critical
         '  If (Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder) _
         '     Or (Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder) Then
         If (LT_State And RT_State) Then
-            CraneV_tstate = 0 'Stop
+            CraneV_tstate = Global_Var.Crane_State.Crane_Still 'Stop
         ElseIf (LT_State) And (Not RT_State) Then
-            CraneV_tstate = 1 'Back
+            CraneV_tstate = Global_Var.Crane_State.Crane_Down 'Down
         ElseIf (Not LT_State) And (RT_State) Then
-            CraneV_tstate = 2 'Forward
+            CraneV_tstate = Global_Var.Crane_State.Crane_Up 'Up
         Else
             CraneV_tstate = 0
         End If
@@ -360,11 +360,11 @@ Partial Public Class Form_ORRM
         If CraneV_tstate <> Global_Var.Robot_Crane_VDir Then
             Global_Var.Robot_Crane_VDir = CraneV_tstate
             Select Case CraneV_tstate
-                Case 0
+                Case Global_Var.Crane_State.Crane_Still
                     Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_VStop, 0, 0, 0, 0))
-                Case 1
+                Case Global_Var.Crane_State.Crane_Down
                     Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_VSetSpeed, 0, 180, 0, 1))
-                Case 2
+                Case Global_Var.Crane_State.Crane_Up
                     Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_VSetSpeed, 0, 180, 0, 2))
             End Select
         End If
