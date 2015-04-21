@@ -313,8 +313,8 @@ Partial Public Class Form_ORRM
 
         '============================吊臂前后==============================
         Dim CraneH_tstate As Integer
-        If (Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder) _
-            Or (Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder) Then
+        If (Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A) _
+            Or (Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y) Then
             If (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
                (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
                 CraneH_tstate = 0 'Stop
