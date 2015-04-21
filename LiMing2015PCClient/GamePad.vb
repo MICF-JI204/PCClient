@@ -5,6 +5,8 @@ Partial Public Class Form_ORRM
     Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
 
     Public Thread_GamePad As New System.Threading.Thread(AddressOf GamePadIO)
+    Public Thread_Loader_Unload As New System.Threading.Thread(AddressOf Loader_Unload)
+
     Public Sub GamePadIO()
         Dim GamePadState As Input.GamePadState
         ChangeUIText(Label_XBox_Connection, "Waiting For GamePad...", Drawing.Color.Blue)
@@ -46,7 +48,7 @@ Partial Public Class Form_ORRM
 
         If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
             If GamePadState.Buttons.A = Input.ButtonState.Pressed Then
-                Global_Var.Robot_Crane_Dir = Global_Var.Crane_State.Crane_Down
+                Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Down
             End If
             Dim Text As String = IIf(GamePadState.Buttons.A = 1, "Button A Down", "Button A Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
@@ -367,8 +369,14 @@ Partial Public Class Form_ORRM
             End Select
         End If
         '==================================================================
+    End Sub
 
-    
+    Public Sub Loader_Unload()
+            Update_ProgressBar(0)
+            For i As Integer = 1 To 100
+                Threading.Thread.Sleep(3000 / 100)
+                Update_ProgressBar(i)
+            Next
 
     End Sub
 End Class

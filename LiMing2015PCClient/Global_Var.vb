@@ -29,6 +29,7 @@
     Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 forward ,2 back
     Public Shared Robot_Shift As Boolean = False
     Public Shared Robot_Loader_Dir As Integer = 0 '0 stop, 1 down, 2 up
+    Public Shared Robot_Loader_State As Integer = 0 '0 Loading, 1 Unloading, 2 Unloaded
 
     Public Shared Com_Ready2Connect As Boolean = False
     Public Shared Com_TextMode As Boolean = False

@@ -7,7 +7,6 @@
         End Try
     End Sub
 
-
     Public Sub ChangeStatusLabel(ByRef lb As ToolStripStatusLabel, ByVal Content As String, ByVal Color As System.Drawing.Color)
         StatusStrip.BeginInvoke(New ChangeStatusLabelDelegate(AddressOf ChangeStatusLabelInvoke), New Object() {lb, Content, Color})
     End Sub
@@ -19,6 +18,10 @@
     Public Sub RemoveItemCombo(ByRef source As ComboBox, ByVal item As Object)
         source.BeginInvoke(New RemoveItemComboDelegate(AddressOf RemoveItemComboInvoke), New Object() {source, item})
 
+    End Sub
+
+    Public Sub Update_ProgressBar(ByVal value As Integer)
+        ProgressBar_Unload.BeginInvoke(New Update_ProgressDelegate(AddressOf ProgressBarInvoke), New Object() {value})
     End Sub
 
     Public Function GetSelectedItemCombo(ByRef source As ComboBox) As String
@@ -67,6 +70,7 @@
     Private Delegate Function GetSelectedItemComboDelegate(ByRef source As ComboBox) As String
     Private Delegate Sub AddItemComboDelegate(ByRef source As ComboBox, ByVal item As String)
     Private Delegate Sub EnableControlDelegate(ByRef dest As Control, ByVal IsEnabled As Boolean)
+    Private Delegate Sub Update_ProgressDelegate(ByVal value As Integer)
 
     Private Sub Update_Trejectory_UI()
         PictureBox_Trejection.Refresh()
@@ -114,4 +118,9 @@
     Private Sub LogInvoke(ByRef str As String)
         TextBox_Console_Log.AppendText(str)
     End Sub
+
+    Private Sub ProgressBarInvoke(ByVal value As Integer)
+        ProgressBar_Unload.Value = value
+    End Sub
+
 End Class

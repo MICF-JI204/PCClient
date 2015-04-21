@@ -41,6 +41,7 @@ Partial Class Form_ORRM
         Me.TextBox_ConsoleSend = New System.Windows.Forms.TextBox()
         Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.GroupBox_Operation = New System.Windows.Forms.GroupBox()
+        Me.ProgressBar_Unload = New System.Windows.Forms.ProgressBar()
         Me.Button_Loader_Release = New System.Windows.Forms.Button()
         Me.Button_Loader_Down = New System.Windows.Forms.Button()
         Me.Button_Loader_Up = New System.Windows.Forms.Button()
@@ -62,9 +63,9 @@ Partial Class Form_ORRM
         Me.ToolStripStatusLabel_LastInfo = New System.Windows.Forms.ToolStripStatusLabel()
         Me.PictureBox_Crane = New System.Windows.Forms.PictureBox()
         Me.GroupBox_Crane = New System.Windows.Forms.GroupBox()
-        Me.Button_Crane_UP = New System.Windows.Forms.Button()
-        Me.Button_Crane_Down = New System.Windows.Forms.Button()
         Me.Button_Crane_Pump = New System.Windows.Forms.Button()
+        Me.Button_Crane_Down = New System.Windows.Forms.Button()
+        Me.Button_Crane_UP = New System.Windows.Forms.Button()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -260,6 +261,7 @@ Partial Class Form_ORRM
         '
         'GroupBox_Operation
         '
+        Me.GroupBox_Operation.Controls.Add(Me.ProgressBar_Unload)
         Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Release)
         Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Down)
         Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Up)
@@ -277,38 +279,45 @@ Partial Class Form_ORRM
         Me.GroupBox_Operation.TabStop = False
         Me.GroupBox_Operation.Text = "Motions && Loader"
         '
+        'ProgressBar_Unload
+        '
+        Me.ProgressBar_Unload.Location = New System.Drawing.Point(112, 357)
+        Me.ProgressBar_Unload.Name = "ProgressBar_Unload"
+        Me.ProgressBar_Unload.Size = New System.Drawing.Size(166, 23)
+        Me.ProgressBar_Unload.TabIndex = 10
+        '
         'Button_Loader_Release
         '
         Me.Button_Loader_Release.BackColor = System.Drawing.Color.Red
         Me.Button_Loader_Release.ForeColor = System.Drawing.Color.Yellow
-        Me.Button_Loader_Release.Location = New System.Drawing.Point(155, 359)
+        Me.Button_Loader_Release.Location = New System.Drawing.Point(148, 323)
         Me.Button_Loader_Release.Name = "Button_Loader_Release"
-        Me.Button_Loader_Release.Size = New System.Drawing.Size(122, 28)
+        Me.Button_Loader_Release.Size = New System.Drawing.Size(109, 28)
         Me.Button_Loader_Release.TabIndex = 9
         Me.Button_Loader_Release.Text = "Big Red Button"
         Me.Button_Loader_Release.UseVisualStyleBackColor = False
         '
         'Button_Loader_Down
         '
-        Me.Button_Loader_Down.Location = New System.Drawing.Point(155, 327)
+        Me.Button_Loader_Down.Location = New System.Drawing.Point(197, 289)
         Me.Button_Loader_Down.Name = "Button_Loader_Down"
-        Me.Button_Loader_Down.Size = New System.Drawing.Size(122, 28)
+        Me.Button_Loader_Down.Size = New System.Drawing.Size(81, 28)
         Me.Button_Loader_Down.TabIndex = 8
         Me.Button_Loader_Down.Text = "Loader Down"
         Me.Button_Loader_Down.UseVisualStyleBackColor = True
         '
         'Button_Loader_Up
         '
-        Me.Button_Loader_Up.Location = New System.Drawing.Point(155, 293)
+        Me.Button_Loader_Up.Location = New System.Drawing.Point(112, 289)
         Me.Button_Loader_Up.Name = "Button_Loader_Up"
-        Me.Button_Loader_Up.Size = New System.Drawing.Size(122, 28)
+        Me.Button_Loader_Up.Size = New System.Drawing.Size(83, 28)
         Me.Button_Loader_Up.TabIndex = 7
         Me.Button_Loader_Up.Text = "Loader Up"
         Me.Button_Loader_Up.UseVisualStyleBackColor = True
         '
         'Button_BK
         '
-        Me.Button_BK.Location = New System.Drawing.Point(50, 355)
+        Me.Button_BK.Location = New System.Drawing.Point(36, 353)
         Me.Button_BK.Name = "Button_BK"
         Me.Button_BK.Size = New System.Drawing.Size(56, 26)
         Me.Button_BK.TabIndex = 6
@@ -317,7 +326,7 @@ Partial Class Form_ORRM
         '
         'Button_RT
         '
-        Me.Button_RT.Location = New System.Drawing.Point(85, 321)
+        Me.Button_RT.Location = New System.Drawing.Point(73, 321)
         Me.Button_RT.Name = "Button_RT"
         Me.Button_RT.Size = New System.Drawing.Size(56, 26)
         Me.Button_RT.TabIndex = 5
@@ -335,7 +344,7 @@ Partial Class Form_ORRM
         '
         'Button_FD
         '
-        Me.Button_FD.Location = New System.Drawing.Point(50, 289)
+        Me.Button_FD.Location = New System.Drawing.Point(36, 289)
         Me.Button_FD.Name = "Button_FD"
         Me.Button_FD.Size = New System.Drawing.Size(56, 26)
         Me.Button_FD.TabIndex = 3
@@ -451,14 +460,15 @@ Partial Class Form_ORRM
         Me.GroupBox_Crane.TabStop = False
         Me.GroupBox_Crane.Text = "Crane"
         '
-        'Button_Crane_UP
+        'Button_Crane_Pump
         '
-        Me.Button_Crane_UP.Location = New System.Drawing.Point(6, 173)
-        Me.Button_Crane_UP.Name = "Button_Crane_UP"
-        Me.Button_Crane_UP.Size = New System.Drawing.Size(95, 28)
-        Me.Button_Crane_UP.TabIndex = 8
-        Me.Button_Crane_UP.Text = "Crane Up"
-        Me.Button_Crane_UP.UseVisualStyleBackColor = True
+        Me.Button_Crane_Pump.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Button_Crane_Pump.Location = New System.Drawing.Point(118, 187)
+        Me.Button_Crane_Pump.Name = "Button_Crane_Pump"
+        Me.Button_Crane_Pump.Size = New System.Drawing.Size(95, 36)
+        Me.Button_Crane_Pump.TabIndex = 10
+        Me.Button_Crane_Pump.Text = "Object Released"
+        Me.Button_Crane_Pump.UseVisualStyleBackColor = False
         '
         'Button_Crane_Down
         '
@@ -469,15 +479,14 @@ Partial Class Form_ORRM
         Me.Button_Crane_Down.Text = "Crane Down"
         Me.Button_Crane_Down.UseVisualStyleBackColor = True
         '
-        'Button_Crane_Pump
+        'Button_Crane_UP
         '
-        Me.Button_Crane_Pump.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.Button_Crane_Pump.Location = New System.Drawing.Point(118, 187)
-        Me.Button_Crane_Pump.Name = "Button_Crane_Pump"
-        Me.Button_Crane_Pump.Size = New System.Drawing.Size(95, 36)
-        Me.Button_Crane_Pump.TabIndex = 10
-        Me.Button_Crane_Pump.Text = "Object Released"
-        Me.Button_Crane_Pump.UseVisualStyleBackColor = False
+        Me.Button_Crane_UP.Location = New System.Drawing.Point(6, 173)
+        Me.Button_Crane_UP.Name = "Button_Crane_UP"
+        Me.Button_Crane_UP.Size = New System.Drawing.Size(95, 28)
+        Me.Button_Crane_UP.TabIndex = 8
+        Me.Button_Crane_UP.Text = "Crane Up"
+        Me.Button_Crane_UP.UseVisualStyleBackColor = True
         '
         'Form_ORRM
         '
@@ -549,5 +558,6 @@ Partial Class Form_ORRM
     Friend WithEvents Button_Crane_Pump As System.Windows.Forms.Button
     Friend WithEvents Button_Crane_Down As System.Windows.Forms.Button
     Friend WithEvents Button_Crane_UP As System.Windows.Forms.Button
+    Friend WithEvents ProgressBar_Unload As System.Windows.Forms.ProgressBar
 
 End Class
