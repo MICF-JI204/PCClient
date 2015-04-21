@@ -95,8 +95,6 @@
             Enable_Control(Button_Connect, True)
             Enable_Control(ComboPort, True)
             Enable_Control(Button_Com_Close, False)
-            Enable_Control(Button_ConsoleSend, False)
-            Enable_Control(TextBox_ConsoleSend, False)
             Global_Var.Com_Ready2Connect = False
             Threading.Thread.Sleep(500)
             While Not Global_Var.Com_Ready2Connect

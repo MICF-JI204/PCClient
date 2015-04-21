@@ -19,10 +19,10 @@ Partial Public Class Form_ORRM
         While True
             If GamePadState.IsConnected Then
                 If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
-                    Update_Controls(GamePadState)
                     Update_Data(GamePadState)
                     Update_Motion_Motor(GamePadState)
                     Update_Yuntai(GamePadState)
+                    Update_Controls(GamePadState)
                     Update_Crane_Graph(GamePadState)
                     Update_Trejectory_Graph(GamePadState)
                 End If
@@ -177,6 +177,8 @@ Partial Public Class Form_ORRM
         End If
         Update_Crane()
     End Sub
+
+
     '==========================云台====================================
     Public Sub Update_Yuntai(ByRef GamePadState As Input.GamePadState)
         Dim tstate As Integer
@@ -271,12 +273,37 @@ Partial Public Class Form_ORRM
         If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
 
         End If
-        If Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder Then
 
+        '=======================丝杆部分=====================================
+        Dim loader_tstate As Integer
+        If (Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder) _
+            Or (Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder) Then
+            If (GamePadState.Buttons.LeftShoulder = Input.ButtonState.Pressed) And _
+               (GamePadState.Buttons.RightShoulder = Input.ButtonState.Pressed) Then
+                loader_tstate = 0
+            ElseIf (GamePadState.Buttons.LeftShoulder = Input.ButtonState.Pressed) And _
+                   (Not GamePadState.Buttons.RightShoulder = Input.ButtonState.Pressed) Then
+                loader_tstate = 1
+            ElseIf (Not GamePadState.Buttons.LeftShoulder = Input.ButtonState.Pressed) And _
+                   (GamePadState.Buttons.RightShoulder = Input.ButtonState.Pressed) Then
+                loader_tstate = 2
+            Else
+                loader_tstate = 0
+            End If
         End If
-        If Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder Then
+        If loader_tstate <> Global_Var.Robot_Loader_Dir Then
+            Global_Var.Robot_Loader_Dir = loader_tstate
+            Select Case Global_Var.Robot_Loader_Dir
+                Case 0
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Stop, 0, 0, 0, 0))
+                Case 1
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Down, 0, 0, 0, 0))
+                Case 2
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Up, 0, 0, 0, 0))
+            End Select
+        End If
+        '===================================================================
 
-        End If
         If Global_Var.GamePadPreState.DPad.Down <> GamePadState.DPad.Down Then
 
         End If

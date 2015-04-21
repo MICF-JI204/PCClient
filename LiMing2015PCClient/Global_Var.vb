@@ -26,6 +26,7 @@
     Public Shared Robot_IsGrabbing As Boolean = False
     Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 forward ,2 back
     Public Shared Robot_Shift As Boolean = False
+    Public Shared Robot_Loader_Dir As Integer = 0 '0 stop, 1 down, 2 up
 
     Public Shared Com_Ready2Connect As Boolean = False
     Public Shared Com_TextMode As Boolean = False
@@ -100,6 +101,16 @@
         Yuntai_Slow = &HE1
         Yuntai_Fast = &HE2
         Yuntai_Stop = &HE3
+
+        Crane_SetSpeed = &HE4
+        Crane_Stop = &HE5
+
+        Loader_Up = &HB1
+        Loader_Down = &HB2
+        Loader_Stop = &HB3
+        Loader_StartRelease = &HB4
+        Loader_StopRelease = &HB5
+
 
     End Enum
 
