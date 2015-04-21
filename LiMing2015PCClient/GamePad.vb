@@ -64,7 +64,7 @@ Partial Public Class Form_ORRM
 
         If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
             If GamePadState.Buttons.X = Input.ButtonState.Pressed Then
-                Global_Var.Robot_Crane_Dir = Global_Var.Crane_State.Crane_Still
+                Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Still
             End If
             Dim Text As String = IIf(GamePadState.Buttons.X = 1, "Button X Down", "Button X Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
@@ -72,7 +72,7 @@ Partial Public Class Form_ORRM
 
         If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
             If GamePadState.Buttons.Y = Input.ButtonState.Pressed Then
-                Global_Var.Robot_Crane_Dir = Global_Var.Crane_State.Crane_Up
+                Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Up
             End If
             Dim Text As String = IIf(GamePadState.Buttons.Y = 1, "Button Y Down", "Button Y Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
@@ -244,9 +244,27 @@ Partial Public Class Form_ORRM
                 Global_Var.SpeedCoeffientL = spd
             End If
         End If
-        '===============================
 
-        '==============================
+        '=========================左右自转=================================
+        If Global_Var.GamePadPreState.DPad.Left <> GamePadState.DPad.Left Then
+            If GamePadState.IsButtonDown(Input.Buttons.DPadLeft) Then
+                Global_Var.Robot_LTurn_Override = True
+                Global_Var.Robot_Rturn_Override = False
+            End If
+            If GamePadState.IsButtonUp(Input.Buttons.DPadLeft) Then
+                Global_Var.Robot_LTurn_Override = False
+            End If
+        End If
+        If Global_Var.GamePadPreState.DPad.Right <> GamePadState.DPad.Right Then
+            If GamePadState.IsButtonDown(Input.Buttons.DPadRight) Then
+                Global_Var.Robot_LTurn_Override = False
+                Global_Var.Robot_Rturn_Override = True
+            End If
+            If GamePadState.IsButtonUp(Input.Buttons.DPadRight) Then
+                Global_Var.Robot_Rturn_Override = False
+            End If
+        End If
+        '===================================================================
     End Sub
 
     Public Sub Update_Data(ByRef GamePadState As Input.GamePadState)
@@ -349,30 +367,8 @@ Partial Public Class Form_ORRM
             End Select
         End If
         '==================================================================
-        If Global_Var.GamePadPreState.DPad.Down <> GamePadState.DPad.Down Then
 
-        End If
-        If Global_Var.GamePadPreState.DPad.Up <> GamePadState.DPad.Up Then
-
-        End If
-        If Global_Var.GamePadPreState.DPad.Left <> GamePadState.DPad.Left Then
-            If GamePadState.IsButtonDown(Input.Buttons.DPadLeft) Then
-                Global_Var.Robot_LTurn_Override = True
-                Global_Var.Robot_Rturn_Override = False
-            End If
-            If GamePadState.IsButtonUp(Input.Buttons.DPadLeft) Then
-                Global_Var.Robot_LTurn_Override = False
-            End If
-        End If
-        If Global_Var.GamePadPreState.DPad.Right <> GamePadState.DPad.Right Then
-            If GamePadState.IsButtonDown(Input.Buttons.DPadRight) Then
-                Global_Var.Robot_LTurn_Override = False
-                Global_Var.Robot_Rturn_Override = True
-            End If
-            If GamePadState.IsButtonUp(Input.Buttons.DPadRight) Then
-                Global_Var.Robot_Rturn_Override = False
-            End If
-        End If
+    
 
     End Sub
 End Class

@@ -39,7 +39,7 @@
 
 
     Public Shared SpeedCoeffientL As Single = 0
-    Public Shared SpeedcoeffientR As Single = 0
+    Public Shared SpeedCoeffientR As Single = 0
 
     'Public Shared spd As Single = 0
     'Public Shared ratio As Single = 0

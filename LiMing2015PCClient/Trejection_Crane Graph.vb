@@ -172,7 +172,7 @@
         Dim FontInfo As New Font(Me.Font.FontFamily.Name, 9, FontStyle.Regular)
         e.Graphics.DrawString("LMotor Output:" & Str(Global_Var.SpeedCoeffientL * Global_Var.Robot_Wheel_MaxSpeed), _
                               FontInfo, Brushes.Black, New PointF(0, 0))
-        e.Graphics.DrawString("RMotor Output:" & Str(Global_Var.SpeedcoeffientR * Global_Var.Robot_Wheel_MaxSpeed), _
+        e.Graphics.DrawString("RMotor Output:" & Str(Global_Var.SpeedCoeffientR * Global_Var.Robot_Wheel_MaxSpeed), _
                       FontInfo, Brushes.Black, New PointF(0, 15))
         Dim t As Integer = My.Computer.Clock.TickCount()
         e.Graphics.DrawString("delay(ms):" & (t - Global_Var.TimeLastFame_Trej), _
