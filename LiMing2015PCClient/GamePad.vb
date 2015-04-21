@@ -274,15 +274,17 @@ Partial Public Class Form_ORRM
         If Global_Var.Robot_Shift Then
             c = 0.5
         End If
+        Dim leftspd As Byte = 128
+        Dim rightspd As Byte = 128
         If Global_Var.Robot_LTurn_Override Then
-            Dim leftspd As Byte = CByte(128 - 128 * c)
-            Dim rightspd As Byte = CByte(128 + 128 * c)
+            leftspd = CByte(128 - 128 * c)
+            rightspd = CByte(128 + 128 * c)
         ElseIf Global_Var.Robot_Rturn_Override Then
-            Dim leftspd As Byte = CByte(128 + 128 * c)
-            Dim rightspd As Byte = CByte(128 - 128 * c)
+            leftspd = CByte(128 + 128 * c)
+            rightspd = CByte(128 - 128 * c)
         Else
-            Dim leftspd As Byte = CByte(128 + c * Global_Var.SpeedCoeffientL * 127)
-            Dim rightspd As Byte = CByte(128 + c * Global_Var.SpeedCoeffientR * 127)
+            leftspd = CByte(128 + c * Global_Var.SpeedCoeffientL * 127)
+            rightspd = CByte(128 + c * Global_Var.SpeedCoeffientR * 127)
         End If
         Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
     End Sub
