@@ -21,7 +21,14 @@
     End Sub
 
     Public Sub Update_ProgressBar(ByVal value As Integer)
-        ProgressBar_Unload.BeginInvoke(New Update_ProgressDelegate(AddressOf ProgressBarInvoke), New Object() {value})
+        Try
+            ProgressBar_Unload.Invoke(New Update_ProgressDelegate(AddressOf ProgressBarInvoke), New Object() {value})
+
+        Catch
+        End Try
+        While (ProgressBar_Unload.Value <> value)
+
+        End While
     End Sub
 
     Public Function GetSelectedItemCombo(ByRef source As ComboBox) As String
@@ -121,6 +128,7 @@
 
     Private Sub ProgressBarInvoke(ByVal value As Integer)
         ProgressBar_Unload.Value = value
+
     End Sub
 
 End Class
