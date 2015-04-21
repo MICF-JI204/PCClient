@@ -90,8 +90,6 @@
         'GamePad_Y_Up = &HB5
         'GamePad_A_Up = &HB6
         'GamePad_B_Up = &HB7
-        'GamePad_L_Down = &HC0 'No Argument
-        'GamePad_R_Down = &HC1
         'GamePad_U_Down = &HC2
         'GamePad_D_Down = &HC3
         'GamePad_L_Up = &HC4 'No Argument
@@ -109,6 +107,8 @@
         Crane_HStop = &HE5
         Crane_VSetSpeed = &HE6
         Crane_VStop = &HE7
+        Crane_Hold = &HE8
+        Crane_Release = &HE9
 
         Loader_Up = &HB1
         Loader_Down = &HB2

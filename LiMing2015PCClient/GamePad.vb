@@ -239,10 +239,12 @@ Partial Public Class Form_ORRM
                 Global_Var.SpeedCoeffientL = spd
                 Global_Var.SpeedcoeffientR = spd * ratio
             ElseIf GamePadState.ThumbSticks.Left.Y < 0 And GamePadState.ThumbSticks.Left.X < 0 Then
-                Global_Var.SpeedcoeffientR = spd
+                spd = -spd
+                Global_Var.SpeedCoeffientR = spd
                 Global_Var.SpeedCoeffientL = spd * ratio
             ElseIf GamePadState.ThumbSticks.Left.Y < 0 And GamePadState.ThumbSticks.Left.X > 0 Then
-                Global_Var.SpeedcoeffientR = spd * ratio
+                spd = -spd
+                Global_Var.SpeedCoeffientR = spd * ratio
                 Global_Var.SpeedCoeffientL = spd
             End If
         End If
@@ -267,6 +269,22 @@ Partial Public Class Form_ORRM
             End If
         End If
         '===================================================================
+
+        Dim c As Single = 1
+        If Global_Var.Robot_Shift Then
+            c = 0.5
+        End If
+        If Global_Var.Robot_LTurn_Override Then
+            Dim leftspd As Byte = CByte(128 - 128 * c)
+            Dim rightspd As Byte = CByte(128 + 128 * c)
+        ElseIf Global_Var.Robot_Rturn_Override Then
+            Dim leftspd As Byte = CByte(128 + 128 * c)
+            Dim rightspd As Byte = CByte(128 - 128 * c)
+        Else
+            Dim leftspd As Byte = CByte(128 + c * Global_Var.SpeedCoeffientL * 127)
+            Dim rightspd As Byte = CByte(128 + c * Global_Var.SpeedCoeffientR * 127)
+        End If
+        Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
     End Sub
 
     Public Sub Update_Data(ByRef GamePadState As Input.GamePadState)
@@ -354,7 +372,7 @@ Partial Public Class Form_ORRM
         ElseIf (Not LT_State) And (RT_State) Then
             CraneV_tstate = Global_Var.Crane_State.Crane_Up 'Up
         Else
-            CraneV_tstate = 0
+            CraneV_tstate = Global_Var.Crane_State.Crane_Still
         End If
         'End If
         If CraneV_tstate <> Global_Var.Robot_Crane_VDir Then
@@ -386,6 +404,12 @@ Partial Public Class Form_ORRM
             End If
         End If
         '=================================================================
+
+        '=========================吸盘===================================
+        If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
+
+        End If
+        '================================================================
     End Sub
 
     Public Sub Loader_Unload()
