@@ -319,9 +319,9 @@ Partial Public Class Form_ORRM
                (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
                 CraneH_tstate = 0 'Stop
             ElseIf (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
-                   (Not GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
+                   (GamePadState.Buttons.Y = Input.ButtonState.Released) Then
                 CraneH_tstate = 1 'Back
-            ElseIf (Not GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
+            ElseIf (GamePadState.Buttons.A = Input.ButtonState.Released) And _
                    (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
                 CraneH_tstate = 2 'Forward
             Else
@@ -330,7 +330,7 @@ Partial Public Class Form_ORRM
         End If
         If CraneH_tstate <> Global_Var.Robot_Crane_HDir Then
             Global_Var.Robot_Crane_HDir = CraneH_tstate
-            Select Case Global_Var.Robot_Loader_Dir
+            Select Case Global_Var.Robot_Crane_HDir
                 Case 0
                     Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HStop, 0, 0, 0, 0))
                 Case 1
