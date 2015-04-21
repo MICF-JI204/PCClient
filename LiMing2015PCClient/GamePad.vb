@@ -345,21 +345,21 @@ Partial Public Class Form_ORRM
         Dim CraneV_tstate As Integer
         Dim LT_State As Boolean = GamePadState.Triggers.Left > Global_Var.GamePad_Trigger_Critical
         Dim RT_State As Boolean = GamePadState.Triggers.Right > Global_Var.GamePad_Trigger_Critical
-        If (Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder) _
-            Or (Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder) Then
-            If (LT_State And RT_State) Then
-                CraneV_tstate = 0 'Stop
-            ElseIf (LT_State) And (Not RT_State) Then
-                CraneV_tstate = 1 'Back
-            ElseIf (Not LT_State) And (RT_State) Then
-                CraneV_tstate = 2 'Forward
-            Else
-                CraneV_tstate = 0
-            End If
+        '  If (Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder) _
+        '     Or (Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder) Then
+        If (LT_State And RT_State) Then
+            CraneV_tstate = 0 'Stop
+        ElseIf (LT_State) And (Not RT_State) Then
+            CraneV_tstate = 1 'Back
+        ElseIf (Not LT_State) And (RT_State) Then
+            CraneV_tstate = 2 'Forward
+        Else
+            CraneV_tstate = 0
         End If
+        'End If
         If CraneV_tstate <> Global_Var.Robot_Crane_VDir Then
             Global_Var.Robot_Crane_VDir = CraneV_tstate
-            Select Case Global_Var.Robot_Loader_Dir
+            Select Case CraneV_tstate
                 Case 0
                     Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_VStop, 0, 0, 0, 0))
                 Case 1
@@ -369,15 +369,57 @@ Partial Public Class Form_ORRM
             End Select
         End If
         '==================================================================
+
+        '============================抽板==================================
+        If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
+            If Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State) < 2 Then
+                If GamePadState.Buttons.X = Input.ButtonState.Pressed Then
+                    Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 1)
+                Else
+                    Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 0)
+                End If
+            End If
+            If Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State) = 2 Then
+                If GamePadState.Buttons.X = Input.ButtonState.Released Then
+                    Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 3)
+                End If
+            End If
+        End If
+        '=================================================================
     End Sub
 
     Public Sub Loader_Unload()
-            Update_ProgressBar(0)
-            For i As Integer = 1 To 100
-                Threading.Thread.Sleep(3000 / 100)
+        Dim last_known_state As Integer = 0
+        Dim i As Integer = 1
+        Dim starttime As Integer = 0
+        While True
+            Dim t As Integer = Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State)
+            If (last_known_state = 0) And (t = 1) Then
+                Update_ProgressBar(0)
+                starttime = My.Computer.Clock.TickCount
+                Input.GamePad.SetVibration(PlayerIndex.One, 1, 1)
+            ElseIf (last_known_state = 1) And (t = 1) Then
+                i = Int(My.Computer.Clock.TickCount - starttime) / 15
+                If i >= 100 Then
+                    Global_Var.Robot_Loader_State = 2
+                    i = 100
+                End If
                 Update_ProgressBar(i)
-            Next
-
+                'Threading.Thread.Sleep(30)
+            ElseIf (last_known_state = 1) And (t = 2) Then
+                Input.GamePad.SetVibration(PlayerIndex.One, 0, 0)
+                Log("Starting to UNLOAD")
+                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StartUnload, 0, 0, 0, 0))
+            ElseIf (last_known_state = 1) And (t = 0) Then
+                i = 1
+                Update_ProgressBar(0)
+                Input.GamePad.SetVibration(PlayerIndex.One, 0, 0)
+            ElseIf (last_known_state = 2) And (t = 3) Then
+                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StopUnload, 0, 0, 0, 0))
+                Log("UNLOADING COMPLETE")
+            End If
+            last_known_state = t
+        End While
     End Sub
 End Class
 
