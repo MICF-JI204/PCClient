@@ -3,6 +3,7 @@
     Public Const Thread_GamePad_Delay As Integer = 3
     Public Const Thread_Com_Delay As Integer = 15
 
+    Public Const GamePad_Trigger_Critical = 0.8
 
     Public Shared Graph_Trejection_Radius As Single = 0
     Public Shared Graph_Trejection_Direction As Graph_Trejection_Dir = Graph_Trejection_Dir.Dir_Null
@@ -105,6 +106,8 @@
 
         Crane_HSetSpeed = &HE4
         Crane_HStop = &HE5
+        Crane_VSetSpeed = &HE6
+        Crane_VStop = &HE7
 
         Loader_Up = &HB1
         Loader_Down = &HB2
