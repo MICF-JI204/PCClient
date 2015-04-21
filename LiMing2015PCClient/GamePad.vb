@@ -251,13 +251,6 @@ Partial Public Class Form_ORRM
 
     Public Sub Update_Data(ByRef GamePadState As Input.GamePadState)
 
-        If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
-            If GamePadState.Buttons.A = Input.ButtonState.Pressed Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_A_Down, 0, 0, 0, 0))
-            Else
-                '   Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.GamePad_A_Up, 0, 0, 0, 0))
-            End If
-        End If
         '=====================换挡==========================
         If Global_Var.GamePadPreState.Buttons.B <> GamePadState.Buttons.B Then
             If GamePadState.Buttons.B = Input.ButtonState.Pressed Then
@@ -267,12 +260,6 @@ Partial Public Class Form_ORRM
             End If
         End If
         '===================================================
-        If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
-
-        End If
-        If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
-
-        End If
 
         '=======================丝杆部分=====================================
         Dim loader_tstate As Integer
@@ -304,6 +291,35 @@ Partial Public Class Form_ORRM
         End If
         '===================================================================
 
+        '============================吊臂前后==============================
+        Dim CraneFB_tstate As Integer
+        If (Global_Var.GamePadPreState.Buttons.LeftShoulder <> GamePadState.Buttons.LeftShoulder) _
+            Or (Global_Var.GamePadPreState.Buttons.RightShoulder <> GamePadState.Buttons.RightShoulder) Then
+            If (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
+               (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
+                CraneFB_tstate = 0 'Stop
+            ElseIf (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
+                   (Not GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
+                CraneFB_tstate = 1 'Back
+            ElseIf (Not GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
+                   (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
+                CraneFB_tstate = 2 'Forward
+            Else
+                CraneFB_tstate = 0
+            End If
+        End If
+        If CraneFB_tstate <> Global_Var.Robot_Loader_Dir Then
+            Global_Var.Robot_Loader_Dir = CraneFB_tstate
+            Select Case Global_Var.Robot_Loader_Dir
+                Case 0
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HStop, 0, 0, 0, 0))
+                Case 1
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 180, 0, 1))
+                Case 2
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 180, 0, 2))
+            End Select
+        End If
+        '==================================================================
         If Global_Var.GamePadPreState.DPad.Down <> GamePadState.DPad.Down Then
 
         End If

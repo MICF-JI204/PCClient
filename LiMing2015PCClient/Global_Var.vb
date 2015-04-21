@@ -22,7 +22,8 @@
     Public Shared Robot_Wheel_MinSpeed As Integer = 0
     Public Shared Robot_LTurn_Override As Boolean = False
     Public Shared Robot_Rturn_Override As Boolean = False
-    Public Shared Robot_Crane_Dir As Crane_State = Crane_State.Crane_Still
+    Public Shared Robot_Crane_VDir As Crane_State = Crane_State.Crane_Still
+    Public Shared Robot_Crane_HDir As Integer = 0
     Public Shared Robot_IsGrabbing As Boolean = False
     Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 forward ,2 back
     Public Shared Robot_Shift As Boolean = False
@@ -102,8 +103,8 @@
         Yuntai_Fast = &HE2
         Yuntai_Stop = &HE3
 
-        Crane_SetSpeed = &HE4
-        Crane_Stop = &HE5
+        Crane_HSetSpeed = &HE4
+        Crane_HStop = &HE5
 
         Loader_Up = &HB1
         Loader_Down = &HB2
