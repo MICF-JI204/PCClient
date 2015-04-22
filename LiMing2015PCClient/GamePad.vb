@@ -47,21 +47,35 @@ Partial Public Class Form_ORRM
     Public Sub Update_Controls(ByRef GamePadState As Input.GamePadState)
 
         If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
-            Dim str1 As String = IIf(GamePadState.Buttons.A = 1, "Button A Down", "Button A Up")
-            ChangeUIText(Label_XBox_Connection, str1, Drawing.Color.Blue)
+            If GamePadState.Buttons.A = Input.ButtonState.Pressed Then
+                Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Down
+            End If
+            Dim Text As String = IIf(GamePadState.Buttons.A = 1, "Button A Down", "Button A Up")
+            ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
 
         If Global_Var.GamePadPreState.Buttons.B <> GamePadState.Buttons.B Then
-            Dim str2 As String = IIf(GamePadState.Buttons.B = 1, "Button B Down", "Button B Up")
-            ChangeUIText(Label_XBox_Connection, str2, Drawing.Color.Blue)
+            If GamePadState.Buttons.B = Input.ButtonState.Pressed Then
+                Global_Var.Robot_IsGrabbing = Not Global_Var.Robot_IsGrabbing
+            Else
+
+            End If
+            Dim Text As String = IIf(GamePadState.Buttons.B = 1, "Button B Down", "Button B Up")
+            ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
 
         If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
+            If GamePadState.Buttons.X = Input.ButtonState.Pressed Then
+                Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Still
+            End If
             Dim Text As String = IIf(GamePadState.Buttons.X = 1, "Button X Down", "Button X Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
 
         If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
+            If GamePadState.Buttons.Y = Input.ButtonState.Pressed Then
+                Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Up
+            End If
             Dim Text As String = IIf(GamePadState.Buttons.Y = 1, "Button Y Down", "Button Y Up")
             ChangeUIText(Label_XBox_Connection, Text, Drawing.Color.Blue)
         End If
@@ -102,47 +116,6 @@ Partial Public Class Form_ORRM
         If Global_Var.GamePadPreState.ThumbSticks.Right.Y <> GamePadState.ThumbSticks.Right.Y Then
             ChangeUIText(RY, GamePadState.ThumbSticks.Right.Y, Drawing.Color.Black)
         End If
-
-        Static tloaderstate As Integer
-        If tloaderstate <> Global_Var.Robot_Loader_Dir Then
-            If Global_Var.Robot_Loader_Dir = 0 Then
-                ChangeUIBackColor(Button_Loader_Down, Drawing.Color.Gainsboro)
-                ChangeUIBackColor(Button_Loader_Up, Drawing.Color.Gainsboro)
-            ElseIf Global_Var.Robot_Loader_Dir = 1 Then
-                ChangeUIBackColor(Button_Loader_Down, Drawing.Color.Red)
-                ChangeUIBackColor(Button_Loader_Up, Drawing.Color.Gainsboro)
-            ElseIf Global_Var.Robot_Loader_Dir = 2 Then
-                ChangeUIBackColor(Button_Loader_Down, Drawing.Color.Gainsboro)
-                ChangeUIBackColor(Button_Loader_Up, Drawing.Color.Red)
-            End If
-            tloaderstate = Global_Var.Robot_Loader_Dir
-        End If
-
-        Dim t As Integer = Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State)
-
-        If t = 2 Then
-            ChangeUIBackColor(Button_Loader_Unload, Drawing.Color.Red)
-        Else
-            'ChangeUIBackColor(Button_Loader_Unload, Drawing.Color.Gainsboro)
-        End If
-
-        If Global_Var.Robot_IsHolding Then
-            ChangeUIBackColor(Button_Crane_Holder, Drawing.Color.Red)
-        Else
-            ChangeUIBackColor(Button_Crane_Holder, Drawing.Color.PaleGreen)
-        End If
-
-        If Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Still Then
-            ChangeUIBackColor(Button_Crane_Down, Drawing.Color.Gainsboro)
-            ChangeUIBackColor(Button_Crane_UP, Drawing.Color.Gainsboro)
-        ElseIf Global_Var.Robot_Crane_VDir = Global_Var.Crane_State.Crane_Down Then
-            ChangeUIBackColor(Button_Crane_Down, Drawing.Color.Red)
-            ChangeUIBackColor(Button_Crane_UP, Drawing.Color.Gainsboro)
-        Else
-            ChangeUIBackColor(Button_Crane_Down, Drawing.Color.Gainsboro)
-            ChangeUIBackColor(Button_Crane_UP, Drawing.Color.Red)
-        End If
-
     End Sub
 
     Public Sub Update_Trejectory_Graph(ByRef GamePadState As Input.GamePadState)
@@ -212,11 +185,11 @@ Partial Public Class Form_ORRM
     Public Sub Update_Yuntai(ByRef GamePadState As Input.GamePadState)
         Dim tstate As Integer
         If Math.Abs(GamePadState.ThumbSticks.Right.X) < 0.15 Then
-            tstate = 0 'stop
+            tstate = 0
         ElseIf GamePadState.ThumbSticks.Right.X < 0 Then
-            tstate = 1 'left
+            tstate = 1
         Else
-            tstate = 2 'right
+            tstate = 2
         End If
         If (tstate <> Global_Var.Robot_Yuntai_Dir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
             Global_Var.Robot_Yuntai_Dir = tstate
@@ -313,11 +286,7 @@ Partial Public Class Form_ORRM
             leftspd = CByte(128 + c * Global_Var.SpeedCoeffientL * 127)
             rightspd = CByte(128 + c * Global_Var.SpeedCoeffientR * 127)
         End If
-        If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
-            Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
-            Global_Var.Robot_WheelL_Speed = leftspd
-            Global_Var.Robot_WheelR_Speed = rightspd
-        End If
+        Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
     End Sub
 
     Public Sub Update_Data(ByRef GamePadState As Input.GamePadState)
@@ -362,34 +331,34 @@ Partial Public Class Form_ORRM
         End If
         '===================================================================
 
-        ''============================吊臂前后==============================
-        'Dim CraneH_tstate As Integer
-        'If (Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A) _
-        '    Or (Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y) Then
-        '    If (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
-        '       (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
-        '        CraneH_tstate = 0 'Stop
-        '    ElseIf (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
-        '           (GamePadState.Buttons.Y = Input.ButtonState.Released) Then
-        '        CraneH_tstate = 1 'Back
-        '    ElseIf (GamePadState.Buttons.A = Input.ButtonState.Released) And _
-        '           (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
-        '        CraneH_tstate = 2 'Forward
-        '    Else
-        '        CraneH_tstate = 0
-        '    End If
-        'End If
-        'If CraneH_tstate <> Global_Var.Robot_Crane_HDir Then
-        '    Global_Var.Robot_Crane_HDir = CraneH_tstate
-        '    Select Case Global_Var.Robot_Crane_HDir
-        '        Case 0
-        '            Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HStop, 0, 0, 0, 0))
-        '        Case 1
-        '            Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 180, 0, 1))
-        '        Case 2
-        '            Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 180, 0, 2))
-        '    End Select
-        'End If
+        '============================吊臂前后==============================
+        Dim CraneH_tstate As Integer
+        If (Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A) _
+            Or (Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y) Then
+            If (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
+               (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
+                CraneH_tstate = 0 'Stop
+            ElseIf (GamePadState.Buttons.A = Input.ButtonState.Pressed) And _
+                   (GamePadState.Buttons.Y = Input.ButtonState.Released) Then
+                CraneH_tstate = 1 'Back
+            ElseIf (GamePadState.Buttons.A = Input.ButtonState.Released) And _
+                   (GamePadState.Buttons.Y = Input.ButtonState.Pressed) Then
+                CraneH_tstate = 2 'Forward
+            Else
+                CraneH_tstate = 0
+            End If
+        End If
+        If CraneH_tstate <> Global_Var.Robot_Crane_HDir Then
+            Global_Var.Robot_Crane_HDir = CraneH_tstate
+            Select Case Global_Var.Robot_Crane_HDir
+                Case 0
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HStop, 0, 0, 0, 0))
+                Case 1
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 180, 0, 1))
+                Case 2
+                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 180, 0, 2))
+            End Select
+        End If
         '==================================================================
 
         '============================吊臂上下==============================
@@ -439,15 +408,8 @@ Partial Public Class Form_ORRM
         '=================================================================
 
         '=========================吸盘===================================
-        If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
-            If GamePadState.Buttons.Y = Input.ButtonState.Pressed Then
-                Global_Var.Robot_IsHolding = Not Global_Var.Robot_IsHolding
-                If Global_Var.Robot_IsHolding Then
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_Hold, 0, 0, 0, 0))
-                Else
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Crane_Release, 0, 0, 0, 0))
-                End If
-            End If
+        If Global_Var.GamePadPreState.Buttons.X <> GamePadState.Buttons.X Then
+
         End If
         '================================================================
     End Sub
