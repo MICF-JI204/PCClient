@@ -41,6 +41,14 @@
                     If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_DMotor_Last_Time > Global_Var.Com_SetDMotor_Delay Then
                         Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
                         myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
+                        Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
+                                        & Hex(msg2send.Buffer(1)) & " " _
+                                        & Global_Var.Get_ComCMD_Name(msg2send.Buffer(2)) & " " _
+                                        & Hex(msg2send.Buffer(3)) & " " _
+                                        & Hex(msg2send.Buffer(4)) & " " _
+                                        & Hex(msg2send.Buffer(5)) & " " _
+                                        & Hex(msg2send.Buffer(6)) & " " _
+                                        & Hex(msg2send.Buffer(7)))
                     End If
                 ElseIf msg2send.Buffer(2) = Global_Var.Com_CMD.Set_Crane_Dir Then '特殊处理吊臂方向
                     If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_CraneDir_Last_Time > Global_Var.Com_SetCraneDir_Delay Then
@@ -51,15 +59,17 @@
                     myWrite(SerialPortArduino, msg2send.Buffer, 0, OUT_MSG_LENGTH)
                 End If
                 'If msg2send.IsUserCMD Then
-                Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
-                         & Hex(msg2send.Buffer(1)) & " " _
-                         & Global_Var.Get_ComCMD_Name(msg2send.Buffer(2)) & " " _
-                         & Hex(msg2send.Buffer(3)) & " " _
-                         & Hex(msg2send.Buffer(4)) & " " _
-                         & Hex(msg2send.Buffer(5)) & " " _
-                         & Hex(msg2send.Buffer(6)) & " " _
-                         & Hex(msg2send.Buffer(7)))
-                'End If
+                If msg2send.Buffer(2) <> Global_Var.Com_CMD.Set_DMotor Then
+                    Log("User/Sending:" & vbCrLf & Hex(msg2send.Buffer(0)) & " " _
+                             & Hex(msg2send.Buffer(1)) & " " _
+                             & Global_Var.Get_ComCMD_Name(msg2send.Buffer(2)) & " " _
+                             & Hex(msg2send.Buffer(3)) & " " _
+                             & Hex(msg2send.Buffer(4)) & " " _
+                             & Hex(msg2send.Buffer(5)) & " " _
+                             & Hex(msg2send.Buffer(6)) & " " _
+                             & Hex(msg2send.Buffer(7)))
+                    'End If
+                End If
             End If
 
 

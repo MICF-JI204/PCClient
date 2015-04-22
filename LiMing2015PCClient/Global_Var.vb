@@ -1,7 +1,7 @@
 ﻿Public Class Global_Var
 
-    Public Const Thread_GamePad_Delay As Integer = 3
-    Public Const Thread_Com_Delay As Integer = 15
+    Public Const Thread_GamePad_Delay As Integer = 20
+    Public Const Thread_Com_Delay As Integer = 10
 
     Public Const GamePad_Trigger_Critical = 0.8
 
