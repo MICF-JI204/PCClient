@@ -27,7 +27,7 @@
     Public Shared Robot_Crane_VDir As Crane_State = Crane_State.Crane_Still
     Public Shared Robot_Crane_HDir As Integer = 0
     Public Shared Robot_IsHolding As Boolean = False
-    Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 forward ,2 back
+    Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 Left ,2 Right
     Public Shared Robot_Shift As Boolean = False
     Public Shared Robot_Loader_Dir As Integer = 0 '0 stop, 1 down, 2 up
     Public Shared Robot_Loader_State As Integer = 0 '0 Loading, 1 Preparing,2 Unloading, 3 Unloaded

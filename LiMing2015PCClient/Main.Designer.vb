@@ -66,6 +66,8 @@ Partial Class Form_ORRM
         Me.Button_Crane_Holder = New System.Windows.Forms.Button()
         Me.Button_Crane_Down = New System.Windows.Forms.Button()
         Me.Button_Crane_UP = New System.Windows.Forms.Button()
+        Me.Button_Crane_Forward = New System.Windows.Forms.Button()
+        Me.Button_Crane_Back = New System.Windows.Forms.Button()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -381,9 +383,9 @@ Partial Class Form_ORRM
         '
         'GroupBox_GameStatus
         '
-        Me.GroupBox_GameStatus.Location = New System.Drawing.Point(548, 267)
+        Me.GroupBox_GameStatus.Location = New System.Drawing.Point(548, 303)
         Me.GroupBox_GameStatus.Name = "GroupBox_GameStatus"
-        Me.GroupBox_GameStatus.Size = New System.Drawing.Size(228, 134)
+        Me.GroupBox_GameStatus.Size = New System.Drawing.Size(228, 98)
         Me.GroupBox_GameStatus.TabIndex = 4
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
@@ -451,13 +453,15 @@ Partial Class Form_ORRM
         '
         'GroupBox_Crane
         '
+        Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_Back)
+        Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_Forward)
         Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_Holder)
         Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_Down)
         Me.GroupBox_Crane.Controls.Add(Me.Button_Crane_UP)
         Me.GroupBox_Crane.Controls.Add(Me.PictureBox_Crane)
         Me.GroupBox_Crane.Location = New System.Drawing.Point(548, 18)
         Me.GroupBox_Crane.Name = "GroupBox_Crane"
-        Me.GroupBox_Crane.Size = New System.Drawing.Size(228, 243)
+        Me.GroupBox_Crane.Size = New System.Drawing.Size(228, 279)
         Me.GroupBox_Crane.TabIndex = 5
         Me.GroupBox_Crane.TabStop = False
         Me.GroupBox_Crane.Text = "Crane"
@@ -474,7 +478,7 @@ Partial Class Form_ORRM
         '
         'Button_Crane_Down
         '
-        Me.Button_Crane_Down.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.Button_Crane_Down.BackColor = System.Drawing.Color.Gainsboro
         Me.Button_Crane_Down.Location = New System.Drawing.Point(6, 207)
         Me.Button_Crane_Down.Name = "Button_Crane_Down"
         Me.Button_Crane_Down.Size = New System.Drawing.Size(95, 28)
@@ -491,6 +495,26 @@ Partial Class Form_ORRM
         Me.Button_Crane_UP.TabIndex = 8
         Me.Button_Crane_UP.Text = "Crane Up"
         Me.Button_Crane_UP.UseVisualStyleBackColor = False
+        '
+        'Button_Crane_Forward
+        '
+        Me.Button_Crane_Forward.BackColor = System.Drawing.Color.Gainsboro
+        Me.Button_Crane_Forward.Location = New System.Drawing.Point(6, 241)
+        Me.Button_Crane_Forward.Name = "Button_Crane_Forward"
+        Me.Button_Crane_Forward.Size = New System.Drawing.Size(95, 28)
+        Me.Button_Crane_Forward.TabIndex = 11
+        Me.Button_Crane_Forward.Text = "Crane Foward"
+        Me.Button_Crane_Forward.UseVisualStyleBackColor = False
+        '
+        'Button_Crane_Back
+        '
+        Me.Button_Crane_Back.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.Button_Crane_Back.Location = New System.Drawing.Point(118, 241)
+        Me.Button_Crane_Back.Name = "Button_Crane_Back"
+        Me.Button_Crane_Back.Size = New System.Drawing.Size(95, 28)
+        Me.Button_Crane_Back.TabIndex = 12
+        Me.Button_Crane_Back.Text = "Crane Back"
+        Me.Button_Crane_Back.UseVisualStyleBackColor = False
         '
         'Form_ORRM
         '
@@ -563,5 +587,7 @@ Partial Class Form_ORRM
     Friend WithEvents Button_Crane_Down As System.Windows.Forms.Button
     Friend WithEvents Button_Crane_UP As System.Windows.Forms.Button
     Friend WithEvents ProgressBar_Unload As System.Windows.Forms.ProgressBar
+    Friend WithEvents Button_Crane_Back As System.Windows.Forms.Button
+    Friend WithEvents Button_Crane_Forward As System.Windows.Forms.Button
 
 End Class

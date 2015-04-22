@@ -45,7 +45,6 @@ Partial Public Class Form_ORRM
     End Sub
 
     Public Sub Update_Controls(ByRef GamePadState As Input.GamePadState)
-
         If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
             Dim str1 As String = IIf(GamePadState.Buttons.A = 1, "Button A Down", "Button A Up")
             ChangeUIText(Label_XBox_Connection, str1, Drawing.Color.Blue)
@@ -118,13 +117,12 @@ Partial Public Class Form_ORRM
             tloaderstate = Global_Var.Robot_Loader_Dir
         End If
 
-        Dim t As Integer = Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State)
-
-        If t = 2 Then
-            ChangeUIBackColor(Button_Loader_Unload, Drawing.Color.Red)
-        Else
-            'ChangeUIBackColor(Button_Loader_Unload, Drawing.Color.Gainsboro)
-        End If
+        'Dim t As Integer = Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State)
+        'If t = 2 Then
+        '    ChangeUIBackColor(Button_Loader_Unload, Drawing.Color.Red)
+        'Else
+        '    'ChangeUIBackColor(Button_Loader_Unload, Drawing.Color.Gainsboro)
+        'End If
 
         If Global_Var.Robot_IsHolding Then
             ChangeUIBackColor(Button_Crane_Holder, Drawing.Color.Red)
@@ -141,6 +139,17 @@ Partial Public Class Form_ORRM
         Else
             ChangeUIBackColor(Button_Crane_Down, Drawing.Color.Gainsboro)
             ChangeUIBackColor(Button_Crane_UP, Drawing.Color.Red)
+        End If
+
+        If Global_Var.Robot_Crane_HDir = 0 Then
+            ChangeUIBackColor(Button_Crane_Back, Drawing.Color.Gainsboro)
+            ChangeUIBackColor(Button_Crane_Forward, Drawing.Color.Gainsboro)
+        ElseIf Global_Var.Robot_Crane_HDir = 1 Then
+            ChangeUIBackColor(Button_Crane_Back, Drawing.Color.Red)
+            ChangeUIBackColor(Button_Crane_Forward, Drawing.Color.Gainsboro)
+        Else
+            ChangeUIBackColor(Button_Crane_Back, Drawing.Color.Gainsboro)
+            ChangeUIBackColor(Button_Crane_Forward, Drawing.Color.Red)
         End If
 
     End Sub
@@ -233,6 +242,32 @@ Partial Public Class Form_ORRM
                     Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 200))
                 Else
                     Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 200))
+                End If
+            End If
+        End If
+        If Math.Abs(GamePadState.ThumbSticks.Right.Y) < 0.15 Then
+            tstate = 0 'stop
+        ElseIf GamePadState.ThumbSticks.Right.Y < 0 Then
+            tstate = 1 'Back
+        Else
+            tstate = 2 'Foward
+        End If
+
+        If (tstate <> Global_Var.Robot_Crane_HDir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
+            Global_Var.Robot_Crane_HDir = tstate
+            If tstate = 0 Then
+                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HStop, 0, 0, 0, 0))
+            ElseIf tstate = 1 Then
+                If Global_Var.Robot_Shift Then
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 255, 0, 2))
+                Else
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 255, 0, 2))
+                End If
+            ElseIf tstate = 2 Then
+                If Global_Var.Robot_Shift Then
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 150, 0, 1))
+                Else
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 150, 0, 1))
                 End If
             End If
         End If

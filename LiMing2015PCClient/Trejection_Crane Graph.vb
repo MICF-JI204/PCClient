@@ -218,11 +218,11 @@
                             New Point(2 * Global_Var.Graph_Crane_Graph_CentreX, Global_Var.Graph_Crane_Graph_CentreY))
         e.Graphics.DrawLine(PenDir, Point_Centre, New Point(Point_Centre.X + 2 * Global_Var.Graph_RoboHeight * Math.Cos(-Global_Var.Robot_Crane_Angle / 180 * Math.PI), _
                                                              Point_Centre.Y + 2 * Global_Var.Graph_RoboHeight * Math.Sin(-Global_Var.Robot_Crane_Angle / 180 * Math.PI)))
-        Select Case Global_Var.Robot_Crane_VDir
-            Case Global_Var.Crane_State.Crane_Up
-                e.Graphics.DrawString("Crane Up!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 40))
-            Case Global_Var.Crane_State.Crane_Down
-                e.Graphics.DrawString("Crane Down!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 55))
+        Select Case Global_Var.Robot_Yuntai_Dir
+            Case 1
+                e.Graphics.DrawString("Crane Left!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 40))
+            Case 2
+                e.Graphics.DrawString("Crane Right!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 55))
             Case Else
 
         End Select
