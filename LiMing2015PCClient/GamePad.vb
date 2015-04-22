@@ -277,11 +277,11 @@ Partial Public Class Form_ORRM
         Dim leftspd As Byte = 128
         Dim rightspd As Byte = 128
         If Global_Var.Robot_LTurn_Override Then
-            leftspd = CByte(128 - 128 * c)
-            rightspd = CByte(128 + 128 * c)
+            leftspd = CByte(128 - 127 * c)
+            rightspd = CByte(128 + 127 * c)
         ElseIf Global_Var.Robot_Rturn_Override Then
-            leftspd = CByte(128 + 128 * c)
-            rightspd = CByte(128 - 128 * c)
+            leftspd = CByte(128 + 127 * c)
+            rightspd = CByte(128 - 127 * c)
         Else
             leftspd = CByte(128 + c * Global_Var.SpeedCoeffientL * 127)
             rightspd = CByte(128 + c * Global_Var.SpeedCoeffientR * 127)

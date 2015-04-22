@@ -35,7 +35,7 @@
     Public Shared Com_TextMode As Boolean = False
     Public Shared Com_IsClosing As Boolean = False
     Public Shared Com_LastCMDSent As Integer = 0
-    Public Shared Com_SetDMotor_Delay As Integer = 20
+    Public Shared Com_SetDMotor_Delay As Integer = 50
     Public Shared Com_SetCraneDir_Delay As Integer = 20
 
 
