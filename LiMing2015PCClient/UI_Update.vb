@@ -7,6 +7,13 @@
         End Try
     End Sub
 
+    Public Sub ChangeUIBackColor(ByVal tb As Control, ByVal Color As System.Drawing.Color)
+        Try
+            tb.BeginInvoke(New ChangeUIBackColorDelegate(AddressOf ChangeUIBackColorInvoke), New Object() {tb, Color})
+        Catch
+        End Try
+    End Sub
+
     Public Sub ChangeStatusLabel(ByRef lb As ToolStripStatusLabel, ByVal Content As String, ByVal Color As System.Drawing.Color)
         StatusStrip.BeginInvoke(New ChangeStatusLabelDelegate(AddressOf ChangeStatusLabelInvoke), New Object() {lb, Content, Color})
     End Sub
@@ -66,6 +73,7 @@
     '========================================下方委托等等定义===============================================
 
     Private Delegate Sub ChangeUITextDelegate(ByVal tb As Control, ByVal Conetnt As String, ByVal Color As System.Drawing.Color)
+    Private Delegate Sub ChangeUIBackColorDelegate(ByVal tb As Control, ByVal Color As System.Drawing.Color)
     Private Delegate Sub LogDelegate(ByRef Conetnt As String)
     Private Delegate Sub ChangeStatusLabelDelegate(ByVal lb As ToolStripStatusLabel, ByVal Conetnt As String, ByVal Color As System.Drawing.Color)
     Private Delegate Sub Update_PictureBoxDelegate()
@@ -86,6 +94,10 @@
     Private Sub ChangeUITextInvoke(ByVal tb As Control, ByVal Content As String, ByVal Color As System.Drawing.Color)
         tb.Text = Content
         tb.ForeColor = Color
+    End Sub
+
+    Private Sub ChangeUIBackColorInvoke(ByVal tb As Control, ByVal Color As System.Drawing.Color)
+        tb.BackColor = Color
     End Sub
 
     Private Sub ChangeStatusLabelInvoke(ByVal tb As ToolStripStatusLabel, ByVal Content As String, ByVal Color As System.Drawing.Color)
