@@ -7,6 +7,12 @@
         End Try
     End Sub
 
+    Public Sub ChangeUIBackColor(ByVal tb As Control, ByVal Color As System.Drawing.Color)
+        Try
+            tb.BeginInvoke(New ChangeUIBackColorDelegate(AddressOf ChangeUIBackColorInvoke), New Object() {tb, Color})
+        Catch
+        End Try
+    End Sub
 
     Public Sub ChangeStatusLabel(ByRef lb As ToolStripStatusLabel, ByVal Content As String, ByVal Color As System.Drawing.Color)
         StatusStrip.BeginInvoke(New ChangeStatusLabelDelegate(AddressOf ChangeStatusLabelInvoke), New Object() {lb, Content, Color})
@@ -21,6 +27,13 @@
 
     End Sub
 
+    Public Sub Update_ProgressBar(ByVal value As Integer)
+        Try
+            ProgressBar_Unload.Invoke(New Update_ProgressDelegate(AddressOf ProgressBarInvoke), New Object() {value})
+        Catch
+        End Try
+    End Sub
+
     Public Function GetSelectedItemCombo(ByRef source As ComboBox) As String
         Try
             Return source.Invoke(New GetSelectedItemComboDelegate(AddressOf GetSelectedItemComboInvoke), New Object() {source})
@@ -31,6 +44,10 @@
 
     Public Sub Update_Trejectory()
         PictureBox_Trejection.BeginInvoke(New Update_PictureBoxDelegate(AddressOf Update_Trejectory_UI))
+    End Sub
+
+    Public Sub Update_Crane()
+        PictureBox_Crane.BeginInvoke(New Update_PictureBoxDelegate(AddressOf Update_Crane_Graph_UI))
     End Sub
 
     Public Sub Enable_Control(ByRef button As Control, ByVal IsEnabled As Boolean)
@@ -56,6 +73,7 @@
     '========================================下方委托等等定义===============================================
 
     Private Delegate Sub ChangeUITextDelegate(ByVal tb As Control, ByVal Conetnt As String, ByVal Color As System.Drawing.Color)
+    Private Delegate Sub ChangeUIBackColorDelegate(ByVal tb As Control, ByVal Color As System.Drawing.Color)
     Private Delegate Sub LogDelegate(ByRef Conetnt As String)
     Private Delegate Sub ChangeStatusLabelDelegate(ByVal lb As ToolStripStatusLabel, ByVal Conetnt As String, ByVal Color As System.Drawing.Color)
     Private Delegate Sub Update_PictureBoxDelegate()
@@ -63,14 +81,23 @@
     Private Delegate Function GetSelectedItemComboDelegate(ByRef source As ComboBox) As String
     Private Delegate Sub AddItemComboDelegate(ByRef source As ComboBox, ByVal item As String)
     Private Delegate Sub EnableControlDelegate(ByRef dest As Control, ByVal IsEnabled As Boolean)
+    Private Delegate Sub Update_ProgressDelegate(ByVal value As Integer)
 
     Private Sub Update_Trejectory_UI()
         PictureBox_Trejection.Refresh()
     End Sub
 
+    Private Sub Update_Crane_Graph_UI()
+        PictureBox_Crane.Refresh()
+    End Sub
+
     Private Sub ChangeUITextInvoke(ByVal tb As Control, ByVal Content As String, ByVal Color As System.Drawing.Color)
         tb.Text = Content
         tb.ForeColor = Color
+    End Sub
+
+    Private Sub ChangeUIBackColorInvoke(ByVal tb As Control, ByVal Color As System.Drawing.Color)
+        tb.BackColor = Color
     End Sub
 
     Private Sub ChangeStatusLabelInvoke(ByVal tb As ToolStripStatusLabel, ByVal Content As String, ByVal Color As System.Drawing.Color)
@@ -106,4 +133,9 @@
     Private Sub LogInvoke(ByRef str As String)
         TextBox_Console_Log.AppendText(str)
     End Sub
+
+    Private Sub ProgressBarInvoke(ByVal value As Integer)
+        ProgressBar_Unload.Value = value
+    End Sub
+
 End Class

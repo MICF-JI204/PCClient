@@ -9,11 +9,13 @@ Public Class Form_ORRM
         logfile.Close()
         Thread_Connection.Abort()
         Thread_GamePad.Abort()
+        Thread_Loader_Unload.Abort()
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Thread_Connection.Start()
         Thread_GamePad.Start()
+        Thread_Loader_Unload.Start()
         PictureBox_Trejection.Refresh()
         Log("Application Running Under" & vbCrLf & Application.StartupPath)
         Log("System Begins to function!")
@@ -88,4 +90,17 @@ WrongInput:
         Return
 
     End Sub
+
+    Private Sub Button_Loader_Release_Click(sender As Object, e As EventArgs) Handles Button_Loader_Unload.Click
+        'Static Is_Relese_Confirmed As Boolean = False
+        'If Not Is_Relese_Confirmed Then
+        '    Button_Loader_Unload.Text = "Are You Sure?"
+        '    Is_Relese_Confirmed = True
+        'Else
+        '    Button_Loader_Unload.Text = "Done!"
+        '    Button_Loader_Unload.Enabled = False
+        '    Button_Loader_Unload.BackColor = Color.Gray
+        'End If
+    End Sub
+
 End Class

@@ -170,9 +170,9 @@
 
         '================================下方输出Debugging Info =====================================
         Dim FontInfo As New Font(Me.Font.FontFamily.Name, 9, FontStyle.Regular)
-        e.Graphics.DrawString("LMotor Output:" & Str(Global_Var.SpeedCoeffientL * Global_Var.Robot_Wheel_MaxSpeed), _
+        e.Graphics.DrawString("LMotor Output:" & Str(Global_Var.Robot_WheelL_Speed), _
                               FontInfo, Brushes.Black, New PointF(0, 0))
-        e.Graphics.DrawString("RMotor Output:" & Str(Global_Var.SpeedcoeffientR * Global_Var.Robot_Wheel_MaxSpeed), _
+        e.Graphics.DrawString("RMotor Output:" & Str(Global_Var.Robot_WheelR_Speed), _
                       FontInfo, Brushes.Black, New PointF(0, 15))
         Dim t As Integer = My.Computer.Clock.TickCount()
         e.Graphics.DrawString("delay(ms):" & (t - Global_Var.TimeLastFame_Trej), _
@@ -180,6 +180,61 @@
         Global_Var.TimeLastFame_Trej = t
         'e.Graphics.DrawString("spd(ms):" & (Global_Var.spd), FontInfo, Brushes.Black, New PointF(0, 45))
         'e.Graphics.DrawString("ratio(ms):" & (Global_Var.ratio), FontInfo, Brushes.Black, New PointF(0, 60))
+        '=================================/OVER=================================================
+    End Sub
+
+    Private Sub PictureBox_Crane_Paint(sender As Object, e As PaintEventArgs) Handles PictureBox_Crane.Paint
+        Dim PenRect As New System.Drawing.Pen(Color.Black, 1.5)
+        Dim PenWheel As New System.Drawing.Pen(Color.Purple, 1.8)
+        Dim PenDash As New System.Drawing.Pen(Color.DarkGreen, 2)
+        PenDash.DashStyle = Drawing2D.DashStyle.Dash
+        Dim PenDir As New System.Drawing.Pen(Color.BlueViolet, 2)
+        Dim FontStatus As New Font(Me.Font.FontFamily.Name, 12, FontStyle.Bold)
+        Dim Point_Centre As New System.Drawing.Point(Global_Var.Graph_Crane_Graph_CentreX, _
+                                                     Global_Var.Graph_Crane_Graph_CentreY)
+
+
+        Dim RectRobo As New System.Drawing.Rectangle(Global_Var.Graph_Crane_Graph_CentreX - 0.5 * Global_Var.Graph_RoboWidth, _
+                                                     Global_Var.Graph_Crane_Graph_CentreY - 0.5 * Global_Var.Graph_RoboHeight, _
+                                                     Global_Var.Graph_RoboWidth, _
+                                                     Global_Var.Graph_RoboHeight)
+        Dim RectWheelL As New System.Drawing.Rectangle(Global_Var.Graph_Crane_Graph_CentreX - 0.5 * Global_Var.Graph_RoboWidth - 0.5 * Global_Var.Graph_Wheel_Width, _
+                                                     Global_Var.Graph_Crane_Graph_CentreY - 0.5 * Global_Var.Graph_Wheel_Height, _
+                                                     Global_Var.Graph_Wheel_Width, _
+                                                     Global_Var.Graph_Wheel_Height)
+        Dim RectWheelR As New System.Drawing.Rectangle(Global_Var.Graph_Crane_Graph_CentreX + 0.5 * Global_Var.Graph_RoboWidth - 0.5 * Global_Var.Graph_Wheel_Width, _
+                                                     Global_Var.Graph_Crane_Graph_CentreY - 0.5 * Global_Var.Graph_Wheel_Height, _
+                                                     Global_Var.Graph_Wheel_Width, _
+                                                     Global_Var.Graph_Wheel_Height)
+        Dim RectCircle As New System.Drawing.Rectangle(Point_Centre.X - 1 * Global_Var.Graph_RoboHeight, _
+                                                       Point_Centre.Y - 1 * Global_Var.Graph_RoboHeight, _
+                                                       2 * Global_Var.Graph_RoboHeight,
+                                                       2 * Global_Var.Graph_RoboHeight)
+        e.Graphics.DrawRectangle(PenRect, RectRobo)
+        e.Graphics.DrawRectangle(PenWheel, RectWheelL)
+        e.Graphics.DrawRectangle(PenWheel, RectWheelR)
+        e.Graphics.DrawEllipse(PenDash, RectCircle)
+        e.Graphics.DrawLine(PenDash, New Point(0, Global_Var.Graph_Crane_Graph_CentreY), _
+                            New Point(2 * Global_Var.Graph_Crane_Graph_CentreX, Global_Var.Graph_Crane_Graph_CentreY))
+        e.Graphics.DrawLine(PenDir, Point_Centre, New Point(Point_Centre.X + 2 * Global_Var.Graph_RoboHeight * Math.Cos(-Global_Var.Robot_Crane_Angle / 180 * Math.PI), _
+                                                             Point_Centre.Y + 2 * Global_Var.Graph_RoboHeight * Math.Sin(-Global_Var.Robot_Crane_Angle / 180 * Math.PI)))
+        Select Case Global_Var.Robot_Yuntai_Dir
+            Case 1
+                e.Graphics.DrawString("Crane Left!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 40))
+            Case 2
+                e.Graphics.DrawString("Crane Right!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 55))
+            Case Else
+
+        End Select
+
+        If Global_Var.Robot_IsHolding Then e.Graphics.DrawString("Crane Holding!", FontStatus, Brushes.Red, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 140, 120))
+        '================================下方输出Debugging Info =====================================
+        Dim FontInfo As New Font(Me.Font.FontFamily.Name, 9, FontStyle.Regular)
+        e.Graphics.DrawString("Angle:" & Str(Global_Var.Robot_Crane_Angle), _
+                              FontInfo, Brushes.Black, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 0))
+        Dim t As Integer = My.Computer.Clock.TickCount()
+        e.Graphics.DrawString("delay(ms):" & (t - Global_Var.TimeLastFame_Trej), _
+              FontInfo, Brushes.Black, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 15))
         '=================================/OVER=================================================
     End Sub
 End Class
