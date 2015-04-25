@@ -223,9 +223,9 @@ Partial Public Class Form_ORRM
         If Math.Abs(GamePadState.ThumbSticks.Right.X) < 0.15 Then
             tstate = 0 'stop
         ElseIf GamePadState.ThumbSticks.Right.X < 0 Then
-            tstate = 1 'left
+            tstate = 2 'left
         Else
-            tstate = 2 'right
+            tstate = 1 'right
         End If
         If (tstate <> Global_Var.Robot_Yuntai_Dir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
             Global_Var.Robot_Yuntai_Dir = tstate
