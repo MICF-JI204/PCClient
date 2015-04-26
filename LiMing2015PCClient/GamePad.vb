@@ -287,9 +287,9 @@ Partial Public Class Form_ORRM
             <= Math.Tan(TURNNING_CRITICAL_RAD) Then                                 '左右转临界
             If GamePadState.ThumbSticks.Left.X > 0 Then
                 Global_Var.SpeedCoeffientL = spd
-                Global_Var.SpeedCoeffientR = -spd
+                Global_Var.SpeedCoeffientR = 0
             Else
-                Global_Var.SpeedCoeffientL = -spd
+                Global_Var.SpeedCoeffientL = 0
                 Global_Var.SpeedcoeffientR = spd
             End If
         Else
