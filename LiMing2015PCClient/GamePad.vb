@@ -223,9 +223,9 @@ Partial Public Class Form_ORRM
         If Math.Abs(GamePadState.ThumbSticks.Right.X) < 0.15 Then
             tstate = 0 'stop
         ElseIf GamePadState.ThumbSticks.Right.X < 0 Then
-            tstate = 2 'left
+            tstate = 1 'left
         Else
-            tstate = 1 'right
+            tstate = 2 'right
         End If
         If (tstate <> Global_Var.Robot_Yuntai_Dir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
             Global_Var.Robot_Yuntai_Dir = tstate
@@ -248,9 +248,9 @@ Partial Public Class Form_ORRM
         If Math.Abs(GamePadState.ThumbSticks.Right.Y) < 0.15 Then
             tstate = 0 'stop
         ElseIf GamePadState.ThumbSticks.Right.Y < 0 Then
-            tstate = 1 'Back
+            tstate = 2 'Back
         Else
-            tstate = 2 'Foward
+            tstate = 1 'Foward
         End If
 
         If (tstate <> Global_Var.Robot_Crane_HDir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
@@ -287,9 +287,9 @@ Partial Public Class Form_ORRM
             <= Math.Tan(TURNNING_CRITICAL_RAD) Then                                 '左右转临界
             If GamePadState.ThumbSticks.Left.X > 0 Then
                 Global_Var.SpeedCoeffientL = spd
-                Global_Var.SpeedcoeffientR = 0
+                Global_Var.SpeedCoeffientR = -spd
             Else
-                Global_Var.SpeedCoeffientL = 0
+                Global_Var.SpeedCoeffientL = -spd
                 Global_Var.SpeedcoeffientR = spd
             End If
         Else
