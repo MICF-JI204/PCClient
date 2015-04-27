@@ -390,11 +390,11 @@ Partial Public Class Form_ORRM
             Global_Var.Robot_Loader_Dir = loader_tstate
             Select Case Global_Var.Robot_Loader_Dir
                 Case 0
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Stop, 0, 0, 0, 0))
+                    'Out_Buffer.Enque(New Out_Msg(11, &H80, 0, 0, 0, 0))
                 Case 1
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Down, 0, 0, 0, 0))
+                    Out_Buffer.Enque(New Out_Msg(11, &H80, 0, 60, 0, 0))
                 Case 2
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Up, 0, 0, 0, 0))
+                    Out_Buffer.Enque(New Out_Msg(11, &H80, 0, 180, 0, 0))
             End Select
         End If
         '===================================================================
