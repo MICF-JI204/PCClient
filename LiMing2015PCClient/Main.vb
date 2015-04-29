@@ -103,4 +103,42 @@ WrongInput:
         'End If
     End Sub
 
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Timer_Game.Start()
+        Timer_Suspend.Stop()
+        Label_Timer_Suspend.Visible = False
+        Label_Timer_Suspend.Text = Global_Var.Game_Suspend_Time
+
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Timer_Game.Stop()
+        Label_Timer_Suspend.Text = Global_Var.Game_Suspend_Time
+        Label_Timer_Suspend.Visible = True
+        Timer_Suspend.Start()
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Timer_Game.Stop()
+        Timer_Suspend.Stop()
+        Label_Timer_Game.Text = Global_Var.Game_Time
+        Label_Timer_Suspend.Visible = False
+        Label_Timer_Suspend.Text = Global_Var.Game_Suspend_Time
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer_Game.Tick
+        Label_Timer_Game.Text = Label_Timer_Game.Text - 1
+        If Label_Timer_Game.Text <= 0 Then
+            Timer_Game.Stop()
+        End If
+    End Sub
+
+    Private Sub Timer_Suspend_Tick(sender As Object, e As EventArgs) Handles Timer_Suspend.Tick
+        Label_Timer_Suspend.Text = Label_Timer_Suspend.Text - 1
+        If Label_Timer_Game.Text <= 0 Then
+            Timer_Game.Start()
+            Label_Timer_Suspend.Visible = False
+            Timer_Suspend.Stop()
+        End If
+    End Sub
 End Class

@@ -22,12 +22,12 @@ Partial Public Class Form_ORRM
             If GamePadState.IsConnected Then
                 If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
                     Update_Data(GamePadState)
-                    Update_Motion_Motor(GamePadState)
                     Update_Yuntai(GamePadState)
                     Update_Controls(GamePadState)
                     Update_Crane_Graph(GamePadState)
                     Update_Trejectory_Graph(GamePadState)
                 End If
+                Update_Motion_Motor(GamePadState)
             Else
                 ChangeUIText(Label_XBox_Connection, "Disconnected!Waiting...", Drawing.Color.Red)
                 Log("Xbox Gamepad Connection Lost")
@@ -350,11 +350,15 @@ Partial Public Class Form_ORRM
         End If
         leftspd = 256 - leftspd
         rightspd = 256 - rightspd
-        If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
-            Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
-            Global_Var.Robot_WheelL_Speed = leftspd
-            Global_Var.Robot_WheelR_Speed = rightspd
+        If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_DMotor_Last_Time > Global_Var.Com_SetDMotor_Delay Then
+            If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
+                Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
+                Global_Var.Robot_WheelL_Speed = leftspd
+                Global_Var.Robot_WheelR_Speed = rightspd
+                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
+            End If
         End If
+
     End Sub
 
     Public Sub Update_Data(ByRef GamePadState As Input.GamePadState)
