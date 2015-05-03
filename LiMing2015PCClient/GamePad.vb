@@ -22,12 +22,12 @@ Partial Public Class Form_ORRM
             If GamePadState.IsConnected Then
                 If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
                     Update_Data(GamePadState)
-                    Update_Motion_Motor(GamePadState)
                     Update_Yuntai(GamePadState)
                     Update_Controls(GamePadState)
                     Update_Crane_Graph(GamePadState)
                     Update_Trejectory_Graph(GamePadState)
                 End If
+                Update_Motion_Motor(GamePadState)
             Else
                 ChangeUIText(Label_XBox_Connection, "Disconnected!Waiting...", Drawing.Color.Red)
                 Log("Xbox Gamepad Connection Lost")
@@ -248,9 +248,9 @@ Partial Public Class Form_ORRM
         If Math.Abs(GamePadState.ThumbSticks.Right.Y) < 0.15 Then
             tstate = 0 'stop
         ElseIf GamePadState.ThumbSticks.Right.Y < 0 Then
-            tstate = 1 'Back
+            tstate = 2 'Back
         Else
-            tstate = 2 'Foward
+            tstate = 1 'Foward
         End If
 
         If (tstate <> Global_Var.Robot_Crane_HDir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
@@ -287,9 +287,9 @@ Partial Public Class Form_ORRM
             <= Math.Tan(TURNNING_CRITICAL_RAD) Then                                 '左右转临界
             If GamePadState.ThumbSticks.Left.X > 0 Then
                 Global_Var.SpeedCoeffientL = spd
-                Global_Var.SpeedcoeffientR = 0
+                Global_Var.SpeedCoeffientR = -spd
             Else
-                Global_Var.SpeedCoeffientL = 0
+                Global_Var.SpeedCoeffientL = -spd
                 Global_Var.SpeedcoeffientR = spd
             End If
         Else
@@ -339,20 +339,26 @@ Partial Public Class Form_ORRM
         Dim leftspd As Byte = 128
         Dim rightspd As Byte = 128
         If Global_Var.Robot_LTurn_Override Then
-            leftspd = CByte(128 - 127 * c)
-            rightspd = CByte(128 + 127 * c)
+            leftspd = CByte(128 - (65 + 62 * c))
+            rightspd = CByte(128 + (65 + 62 * c))
         ElseIf Global_Var.Robot_Rturn_Override Then
-            leftspd = CByte(128 + 127 * c)
-            rightspd = CByte(128 - 127 * c)
+            leftspd = CByte(128 + (65 + 62 * c))
+            rightspd = CByte(128 - (65 + 62 * c))
         Else
-            leftspd = CByte(128 + c * Global_Var.SpeedCoeffientL * 127)
-            rightspd = CByte(128 + c * Global_Var.SpeedCoeffientR * 127)
+            leftspd = CByte(128 + Global_Var.SpeedCoeffientL * (65 + 62 * c))
+            rightspd = CByte(128 + Global_Var.SpeedCoeffientR * (65 + 62 * c))
         End If
-        If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
-            Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
-            Global_Var.Robot_WheelL_Speed = leftspd
-            Global_Var.Robot_WheelR_Speed = rightspd
+        leftspd = 256 - leftspd
+        rightspd = 256 - rightspd
+        If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_DMotor_Last_Time > Global_Var.Com_SetDMotor_Delay Then
+            If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
+                Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
+                Global_Var.Robot_WheelL_Speed = leftspd
+                Global_Var.Robot_WheelR_Speed = rightspd
+                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
+            End If
         End If
+
     End Sub
 
     Public Sub Update_Data(ByRef GamePadState As Input.GamePadState)

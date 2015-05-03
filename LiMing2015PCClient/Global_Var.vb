@@ -3,6 +3,9 @@
     Public Const Thread_GamePad_Delay As Integer = 20
     Public Const Thread_Com_Delay As Integer = 10
 
+    Public Const Game_Time As Integer = 180
+    Public Const Game_Suspend_Time As Integer = 60
+
     Public Const GamePad_Trigger_Critical = 0.8
 
     Public Shared Graph_Trejection_Radius As Single = 0
@@ -36,7 +39,7 @@
     Public Shared Com_TextMode As Boolean = False
     Public Shared Com_IsClosing As Boolean = False
     Public Shared Com_LastCMDSent As Integer = 0
-    Public Shared Com_SetDMotor_Delay As Integer = 50
+    Public Shared Com_SetDMotor_Delay As Integer = 20
     Public Shared Com_SetCraneDir_Delay As Integer = 20
 
 
