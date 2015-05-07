@@ -1,48 +1,112 @@
 ﻿Imports Microsoft.Xna.Framework
 Partial Public Class Form_ORRM
-
     Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
     Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
 
-    Public Thread_GamePad As New System.Threading.Thread(AddressOf GamePadIO)
+    Public Thread_GamePad As New System.Threading.Thread(AddressOf GeneralIO)
     Public Thread_Loader_Unload As New System.Threading.Thread(AddressOf Loader_Unload)
+    Public Local_Robot_Status As New Robot_IOStatus
 
-    Public Sub GamePadIO()
-        Dim GamePadState As Input.GamePadState
-        ChangeUIText(Label_XBox_Connection, "Waiting For GamePad...", Drawing.Color.Blue)
-        ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Waiting For GamePad...", Drawing.Color.Blue)
-        Do While Input.GamePad.GetState(PlayerIndex.One).IsConnected = False
-        Loop
-        GamePadState = Input.GamePad.GetState(PlayerIndex.One)
-        Global_Var.GamePadPreState = GamePadState
-        ChangeUIText(Label_XBox_Connection, "Connected", Drawing.Color.Green)
-        Log("Xbox Connected")
-        ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established", Drawing.Color.Green)
+
+    Public Sub GeneralIO()
+        Dim CurrentGamePadState As Input.GamePadState
+        MultiInputITL.DesTbl = New OpITL_Generic
         While True
-            If GamePadState.IsConnected Then
-                If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
-                    Update_Data(GamePadState)
-                    Update_Yuntai(GamePadState)
-                    Update_Controls(GamePadState)
-                    Update_Crane_Graph(GamePadState)
-                    Update_Trejectory_Graph(GamePadState)
-                End If
-                Update_Motion_Motor(GamePadState)
+            CurrentGamePadState = Input.GamePad.GetState(PlayerIndex.One)
+            If CurrentGamePadState.IsConnected Then
+                MultiInputITL.InputSource = New PlayerInput_GenericGamePad
             Else
-                ChangeUIText(Label_XBox_Connection, "Disconnected!Waiting...", Drawing.Color.Red)
-                Log("Xbox Gamepad Connection Lost")
-                ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Disconnected!", Drawing.Color.Red)
-                Do While Input.GamePad.GetState(PlayerIndex.One).IsConnected = False
-                Loop
-                ChangeUIText(Label_XBox_Connection, "Re-Connected", Drawing.Color.Green)
-                Log("Xbox Gamepad Connection Re-established")
-                ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established!", Drawing.Color.Green)
+                MultiInputITL.InputSource = New PlayerInput_GenericKeyboard
             End If
-            Global_Var.GamePadPreState = GamePadState
-            GamePadState = Input.GamePad.GetState(PlayerIndex.One)
-            System.Threading.Thread.Sleep(Global_Var.Thread_GamePad_Delay)
+            MultiInputITL.UpdateSouce()
+            Local_Robot_Status.CraneH = MultiInputITL.GetCraneHDir()
+            Local_Robot_Status.CraneV = MultiInputITL.GetCraneVDir()
+            Local_Robot_Status.CraneRotation = MultiInputITL.GetCraneRotation()
+            Local_Robot_Status.LoaderDir = MultiInputITL.GetLoaderDir()
+            Local_Robot_Status.LoaderState = MultiInputITL.GetLoaderDir()
+            Local_Robot_Status.PumpState = MultiInputITL.GetPumpState()
+            Local_Robot_Status.MotorSpd = MultiInputITL.GetRobotSpd()
+            MultiInputITL.UpdateUIBuffer()
+            If Global_Var.Com_Connected Then
+                If Not Object.Equals(Local_Robot_Status.CraneH, Remote_Robot_Status.CraneH) Then
+                    With Local_Robot_Status.CraneH
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+                If Not Object.Equals(Local_Robot_Status.CraneV, Remote_Robot_Status.CraneV) Then
+                    With Local_Robot_Status.CraneV
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+                If Not Object.Equals(Local_Robot_Status.CraneRotation, Remote_Robot_Status.CraneRotation) Then
+                    With Local_Robot_Status.CraneRotation
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+                If Not Object.Equals(Local_Robot_Status.LoaderDir, Remote_Robot_Status.LoaderDir) Then
+                    With Local_Robot_Status.LoaderDir
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+                If Not Object.Equals(Local_Robot_Status.LoaderState, Remote_Robot_Status.LoaderState) Then
+                    With Local_Robot_Status.LoaderState
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+                If Not Object.Equals(Local_Robot_Status.PumpState, Remote_Robot_Status.PumpState) Then
+                    With Local_Robot_Status.PumpState
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+                If Not Object.Equals(Local_Robot_Status.MotorSpd, Remote_Robot_Status.MotorSpd) Then
+                    With Local_Robot_Status.MotorSpd
+                        Out_Buffer.Enque(New Out_Msg(11, .CMD, .Arg1H, .Arg1L, .Arg2H, .Arg2L))
+                    End With
+                End If
+            End If
+
+            System.Threading.Thread.Sleep(20)
         End While
+
+
     End Sub
+
+    'Public Sub GeneralIO()
+    '    Dim GamePadState As Input.GamePadState
+    '    ChangeUIText(Label_XBox_Connection, "Waiting For GamePad...", Drawing.Color.Blue)
+    '    ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Waiting For GamePad...", Drawing.Color.Blue)
+    '    Do While Input.GamePad.GetState(PlayerIndex.One).IsConnected = False
+    '    Loop
+    '    GamePadState = Input.GamePad.GetState(PlayerIndex.One)
+    '    Global_Var.GamePadPreState = GamePadState
+    '    ChangeUIText(Label_XBox_Connection, "Connected", Drawing.Color.Green)
+    '    Log("Xbox Connected")
+    '    ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established", Drawing.Color.Green)
+    '    While True
+    '        If GamePadState.IsConnected Then
+    '            If Not Global_Var.GamePadPreState.Equals(GamePadState) Then
+    '                Update_Data(GamePadState)
+    '                Update_Yuntai(GamePadState)
+    '                Update_Controls(GamePadState)
+    '                Update_Crane_Graph(GamePadState)
+    '                Update_Trejectory_Graph(GamePadState)
+    '            End If
+    '            Update_Motion_Motor(GamePadState)
+    '        Else
+    '            ChangeUIText(Label_XBox_Connection, "Disconnected!Waiting...", Drawing.Color.Red)
+    '            Log("Xbox Gamepad Connection Lost")
+    '            ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Disconnected!", Drawing.Color.Red)
+    '            Do While Input.GamePad.GetState(PlayerIndex.One).IsConnected = False
+    '            Loop
+    '            ChangeUIText(Label_XBox_Connection, "Re-Connected", Drawing.Color.Green)
+    '            Log("Xbox Gamepad Connection Re-established")
+    '            ChangeStatusLabel(ToolStripStatusLabel_GamePad_Status, "Connection Established!", Drawing.Color.Green)
+    '        End If
+    '        Global_Var.GamePadPreState = GamePadState
+    '        GamePadState = Input.GamePad.GetState(PlayerIndex.One)
+    '        System.Threading.Thread.Sleep(Global_Var.Thread_GamePad_Delay)
+    '    End While
+    'End Sub
 
     Public Sub Update_Controls(ByRef GamePadState As Input.GamePadState)
         If Global_Var.GamePadPreState.Buttons.A <> GamePadState.Buttons.A Then
@@ -278,11 +342,11 @@ Partial Public Class Form_ORRM
         If spd > 1 Then spd = 1
         If GamePadState.ThumbSticks.Left.X = 0 And GamePadState.ThumbSticks.Left.Y = 0 Then '静止态
             Global_Var.SpeedCoeffientL = 0
-            Global_Var.SpeedcoeffientR = 0
+            Global_Var.SpeedCoeffientR = 0
         ElseIf Math.Abs(GamePadState.ThumbSticks.Left.Y / GamePadState.ThumbSticks.Left.X) _
             >= Math.Tan(FBCRTITICAL_RAD) Then                                        '几乎直线态
             Global_Var.SpeedCoeffientL = spd * Math.Sign(GamePadState.ThumbSticks.Left.Y)
-            Global_Var.SpeedcoeffientR = Global_Var.SpeedCoeffientL
+            Global_Var.SpeedCoeffientR = Global_Var.SpeedCoeffientL
         ElseIf Math.Abs(GamePadState.ThumbSticks.Left.Y / GamePadState.ThumbSticks.Left.X) _
             <= Math.Tan(TURNNING_CRITICAL_RAD) Then                                 '左右转临界
             If GamePadState.ThumbSticks.Left.X > 0 Then
@@ -290,16 +354,16 @@ Partial Public Class Form_ORRM
                 Global_Var.SpeedCoeffientR = -spd
             Else
                 Global_Var.SpeedCoeffientL = -spd
-                Global_Var.SpeedcoeffientR = spd
+                Global_Var.SpeedCoeffientR = spd
             End If
         Else
             Dim ratio As Double = Math.Abs(GamePadState.ThumbSticks.Left.Y) / (Math.Abs(GamePadState.ThumbSticks.Left.X) + Math.Abs(GamePadState.ThumbSticks.Left.Y))
             If GamePadState.ThumbSticks.Left.Y > 0 And GamePadState.ThumbSticks.Left.X < 0 Then
-                Global_Var.SpeedcoeffientR = spd
+                Global_Var.SpeedCoeffientR = spd
                 Global_Var.SpeedCoeffientL = spd * ratio
             ElseIf GamePadState.ThumbSticks.Left.Y > 0 And GamePadState.ThumbSticks.Left.X > 0 Then
                 Global_Var.SpeedCoeffientL = spd
-                Global_Var.SpeedcoeffientR = spd * ratio
+                Global_Var.SpeedCoeffientR = spd * ratio
             ElseIf GamePadState.ThumbSticks.Left.Y < 0 And GamePadState.ThumbSticks.Left.X < 0 Then
                 spd = -spd
                 Global_Var.SpeedCoeffientR = spd
@@ -390,6 +454,7 @@ Partial Public Class Form_ORRM
                 loader_tstate = 0
             End If
         End If
+
         If loader_tstate <> Global_Var.Robot_Loader_Dir Then
             Global_Var.Robot_Loader_Dir = loader_tstate
             Select Case Global_Var.Robot_Loader_Dir
@@ -526,5 +591,31 @@ Partial Public Class Form_ORRM
             last_known_state = t
         End While
     End Sub
+
+  
 End Class
 
+Public Class UIBuffer
+
+    Public Shared InfoString As String
+    Public Shared LogString As String
+    Public Shared IsInfoStrChanged As Boolean
+    Public Shared IsLogStrChanged As Boolean
+
+    Public Shared Graph_Trejection_Radius As Single
+    Public Shared Graph_Trejection_Direction As Graph_Trejection_Dir = Graph_Trejection_Dir.Dir_Null
+    Public Shared IsTrejChanged As Boolean
+
+    Public Shared Robot_LTurn_Override As Boolean = False
+    Public Shared Robot_Rturn_Override As Boolean = False
+
+    Public Enum Graph_Trejection_Dir As Integer
+        Dir_Null = 0
+        Forward_Left = 1
+        Forward_Right = 2
+        BackWard_Left = 3
+        BackWard_Right = 4
+        Forward = 5
+        Backward = 6
+    End Enum
+End Class

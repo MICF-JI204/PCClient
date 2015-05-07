@@ -35,6 +35,7 @@
     Public Shared Robot_Loader_Dir As Integer = 0 '0 stop, 1 down, 2 up
     Public Shared Robot_Loader_State As Integer = 0 '0 Loading, 1 Preparing,2 Unloading, 3 Unloaded
 
+    Public Shared Com_Connected As Boolean = False
     Public Shared Com_Ready2Connect As Boolean = False
     Public Shared Com_TextMode As Boolean = False
     Public Shared Com_IsClosing As Boolean = False

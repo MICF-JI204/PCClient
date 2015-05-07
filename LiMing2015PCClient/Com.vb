@@ -1,6 +1,7 @@
 ﻿Partial Public Class Form_ORRM
     Private Const OUT_MSG_LENGTH As Integer = 8
     Private Thread_Connection As New Threading.Thread(AddressOf Com_Connection)
+    Public Remote_Robot_Status As New Robot_IOStatus
 
     Private Sub Com_Connection()
         While Not Me.IsHandleCreated
@@ -92,6 +93,7 @@
             Enable_Control(Button_Connect, True)
             Enable_Control(ComboPort, True)
             Enable_Control(Button_Com_Close, False)
+            Global_Var.Com_Connected = False
             Global_Var.Com_Ready2Connect = False
             Threading.Thread.Sleep(500)
             While Not Global_Var.Com_Ready2Connect
@@ -125,6 +127,7 @@
         Enable_Control(Button_ConsoleSend, True)
         Enable_Control(TextBox_ConsoleSend, True)
         Out_Buffer.QueEmpty()
+        Global_Var.Com_Connected = True
         Log(SerialPort.PortName & " Established")
     End Sub
 

@@ -12,7 +12,7 @@
 
         '===========================================================================================
         '===================================下方是绘制轨迹预测线的内容==============================
-        '===========================================================================================
+        '==========================================================================================
         Dim RectRobo As New System.Drawing.Rectangle(Global_Var.Graph_Trejection_Graph_CentreX - 0.5 * Global_Var.Graph_RoboWidth, _
                                                      Global_Var.Graph_Trejection_Graph_CentreY - 0.5 * Global_Var.Graph_RoboHeight, _
                                                      Global_Var.Graph_RoboWidth, _
