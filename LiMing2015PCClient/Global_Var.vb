@@ -8,8 +8,8 @@
 
     Public Const GamePad_Trigger_Critical = 0.8
 
-    Public Shared Graph_Trejection_Radius As Single = 0
-    Public Shared Graph_Trejection_Direction As Graph_Trejection_Dir = Graph_Trejection_Dir.Dir_Null
+    'Public Shared Graph_Trejection_Radius As Single = 0
+    'Public Shared Graph_Trejection_Direction As Graph_Trejection_Dir = Graph_Trejection_Dir.Dir_Null
     Public Shared Graph_Trejection_Graph_CentreX As Single = 0.5 * Form_ORRM.PictureBox_Trejection.Width
     Public Shared Graph_Trejection_Graph_CentreY As Single = 0.5 * Form_ORRM.PictureBox_Trejection.Height
     Public Shared Graph_RoboWidth As Single = 30
@@ -21,12 +21,8 @@
     Public Shared Graph_Crane_Graph_CentreY As Single = 0.5 * Form_ORRM.PictureBox_Crane.Height
 
     Public Shared Robot_Crane_Angle As Single = 0
-    Public Shared Robot_WheelL_Speed As Byte = 0
-    Public Shared Robot_WheelR_Speed As Byte = 0
-    Public Shared Robot_Wheel_MaxSpeed As Integer = 255
-    Public Shared Robot_Wheel_MinSpeed As Integer = 0
-    Public Shared Robot_LTurn_Override As Boolean = False
-    Public Shared Robot_Rturn_Override As Boolean = False
+    'Public Shared Robot_LTurn_Override As Boolean = False
+    'Public Shared Robot_Rturn_Override As Boolean = False
     Public Shared Robot_Crane_VDir As Crane_State = Crane_State.Crane_Still
     Public Shared Robot_Crane_HDir As Integer = 0
     Public Shared Robot_IsHolding As Boolean = False

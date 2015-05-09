@@ -54,6 +54,11 @@ Partial Class Form_ORRM
         Me.Button_LR = New System.Windows.Forms.Button()
         Me.PictureBox_Trejection = New System.Windows.Forms.PictureBox()
         Me.GroupBox_GameStatus = New System.Windows.Forms.GroupBox()
+        Me.Label_Timer_Suspend = New System.Windows.Forms.Label()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label_Timer_Game = New System.Windows.Forms.Label()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -69,12 +74,7 @@ Partial Class Form_ORRM
         Me.Button_Crane_Holder = New System.Windows.Forms.Button()
         Me.Button_Crane_Down = New System.Windows.Forms.Button()
         Me.Button_Crane_UP = New System.Windows.Forms.Button()
-        Me.Label_Timer_Game = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
         Me.Timer_Game = New System.Windows.Forms.Timer(Me.components)
-        Me.Label_Timer_Suspend = New System.Windows.Forms.Label()
         Me.Timer_Suspend = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
@@ -404,6 +404,55 @@ Partial Class Form_ORRM
         Me.GroupBox_GameStatus.TabStop = False
         Me.GroupBox_GameStatus.Text = "Game Status"
         '
+        'Label_Timer_Suspend
+        '
+        Me.Label_Timer_Suspend.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label_Timer_Suspend.Font = New System.Drawing.Font("宋体", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label_Timer_Suspend.ForeColor = System.Drawing.Color.Red
+        Me.Label_Timer_Suspend.Location = New System.Drawing.Point(64, 69)
+        Me.Label_Timer_Suspend.Name = "Label_Timer_Suspend"
+        Me.Label_Timer_Suspend.Size = New System.Drawing.Size(37, 26)
+        Me.Label_Timer_Suspend.TabIndex = 10
+        Me.Label_Timer_Suspend.Text = "60"
+        Me.Label_Timer_Suspend.Visible = False
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(138, 72)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(75, 23)
+        Me.Button4.TabIndex = 9
+        Me.Button4.Text = "Reset"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(138, 45)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(75, 23)
+        Me.Button3.TabIndex = 8
+        Me.Button3.Text = "Suspend"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(138, 17)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 7
+        Me.Button2.Text = "Start"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Label_Timer_Game
+        '
+        Me.Label_Timer_Game.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label_Timer_Game.Font = New System.Drawing.Font("宋体", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label_Timer_Game.Location = New System.Drawing.Point(44, 20)
+        Me.Label_Timer_Game.Name = "Label_Timer_Game"
+        Me.Label_Timer_Game.Size = New System.Drawing.Size(71, 37)
+        Me.Label_Timer_Game.TabIndex = 6
+        Me.Label_Timer_Game.Text = "180"
+        '
         'StatusStrip
         '
         Me.StatusStrip.AllowMerge = False
@@ -530,58 +579,9 @@ Partial Class Form_ORRM
         Me.Button_Crane_UP.Text = "Crane Up"
         Me.Button_Crane_UP.UseVisualStyleBackColor = False
         '
-        'Label_Timer_Game
-        '
-        Me.Label_Timer_Game.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label_Timer_Game.Font = New System.Drawing.Font("宋体", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label_Timer_Game.Location = New System.Drawing.Point(44, 20)
-        Me.Label_Timer_Game.Name = "Label_Timer_Game"
-        Me.Label_Timer_Game.Size = New System.Drawing.Size(71, 37)
-        Me.Label_Timer_Game.TabIndex = 6
-        Me.Label_Timer_Game.Text = "180"
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(138, 17)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 7
-        Me.Button2.Text = "Start"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(138, 45)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 23)
-        Me.Button3.TabIndex = 8
-        Me.Button3.Text = "Suspend"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'Button4
-        '
-        Me.Button4.Location = New System.Drawing.Point(138, 72)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(75, 23)
-        Me.Button4.TabIndex = 9
-        Me.Button4.Text = "Reset"
-        Me.Button4.UseVisualStyleBackColor = True
-        '
         'Timer_Game
         '
         Me.Timer_Game.Interval = 1000
-        '
-        'Label_Timer_Suspend
-        '
-        Me.Label_Timer_Suspend.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label_Timer_Suspend.Font = New System.Drawing.Font("宋体", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label_Timer_Suspend.ForeColor = System.Drawing.Color.Red
-        Me.Label_Timer_Suspend.Location = New System.Drawing.Point(64, 69)
-        Me.Label_Timer_Suspend.Name = "Label_Timer_Suspend"
-        Me.Label_Timer_Suspend.Size = New System.Drawing.Size(37, 26)
-        Me.Label_Timer_Suspend.TabIndex = 10
-        Me.Label_Timer_Suspend.Text = "60"
-        Me.Label_Timer_Suspend.Visible = False
         '
         'Timer_Suspend
         '
@@ -599,6 +599,7 @@ Partial Class Form_ORRM
         Me.Controls.Add(Me.GroupBox_Connection)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "Form_ORRM"

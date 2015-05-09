@@ -69,6 +69,10 @@
         End If
     End Sub
 
+    Public Sub UpdateSource()
+        Me.Invoke(New UpdateSourceDelegate(AddressOf MultiInputITL.UpdateSouce))
+    End Sub
+
     '============================================上方接口===================================================
     '========================================下方委托等等定义===============================================
 
@@ -82,6 +86,7 @@
     Private Delegate Sub AddItemComboDelegate(ByRef source As ComboBox, ByVal item As String)
     Private Delegate Sub EnableControlDelegate(ByRef dest As Control, ByVal IsEnabled As Boolean)
     Private Delegate Sub Update_ProgressDelegate(ByVal value As Integer)
+    Private Delegate Sub UpdateSourceDelegate()
 
     Private Sub Update_Trejectory_UI()
         PictureBox_Trejection.Refresh()

@@ -10,22 +10,61 @@ Public Class MultiInputITL 'Translation Layer,
     End Sub
 
     Public Shared Function GetRobotSpd() As Generic_IOStatus
-        Dim t As New Generic_IOStatus
-        Dim tspd As PlayerInputHAL.RobotDMotorSpdCo
-        If InputSource.RobotRotation = PlayerInputHAL.RobotLeftRotate Then 'Overriding Original Spd
-            tspd.LeftSpd = -1
-            tspd.RightSpd = 1
-        ElseIf InputSource.RobotRotation = PlayerInputHAL.RobotRightRotate Then
-            tspd.LeftSpd = -1
-            tspd.RightSpd = 1
+        Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
+        Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
+        Dim tthumb As PlayerInputHAL.MThumbStickInput = InputSource.MotorSpd
+        Dim SpdCoL As Single = 0
+        Dim SpdCoR As Single = 0
+        Dim spd As Double = Math.Sqrt(Math.Pow(tthumb.X, 2) + Math.Pow(tthumb.Y, 2))
+        If spd > 1 Then spd = 1
+        If tthumb.X = 0 And tthumb.Y = 0 Then '静止态
+            SpdCoL = 0
+            SpdCoR = 0
+        ElseIf Math.Abs(tthumb.Y / tthumb.X) _
+            >= Math.Tan(FBCRTITICAL_RAD) Then                                        '几乎直线态
+            SpdCoL = spd * Math.Sign(tthumb.Y)
+            SpdCoR = SpdCoL
+        ElseIf Math.Abs(tthumb.Y / tthumb.X) _
+            <= Math.Tan(TURNNING_CRITICAL_RAD) Then                                 '左右转临界
+            If tthumb.X > 0 Then
+                SpdCoL = spd
+                SpdCoR = -spd
+            Else
+                SpdCoL = -spd
+                SpdCoR = spd
+            End If
         Else
-            tspd = InputSource.MotorSpd
+            Dim ratio As Double = Math.Abs(tthumb.Y) / (Math.Abs(tthumb.X) + Math.Abs(tthumb.Y))
+            If tthumb.Y > 0 And tthumb.X < 0 Then
+                SpdCoR = spd
+                SpdCoL = spd * ratio
+            ElseIf tthumb.Y > 0 And tthumb.X > 0 Then
+                SpdCoL = spd
+                SpdCoR = spd * ratio
+            ElseIf tthumb.Y < 0 And tthumb.X < 0 Then
+                spd = -spd
+                SpdCoR = spd
+                SpdCoL = spd * ratio
+            ElseIf tthumb.Y < 0 And tthumb.X > 0 Then
+                spd = -spd
+                SpdCoR = spd * ratio
+                SpdCoL = spd
+            End If
+        End If
+        '=========================左右自转=================================
+        Dim t As New Generic_IOStatus
+        If InputSource.RobotRotation = PlayerInputHAL.RobotLeftRotate Then 'Overriding Original Spd
+            SpdCoL = -1
+            SpdCoR = 1
+        ElseIf InputSource.RobotRotation = PlayerInputHAL.RobotRightRotate Then
+            SpdCoL = -1
+            SpdCoR = 1
         End If
         t.CMD = Global_Var.Com_CMD.Set_DMotor
-        t.Arg1L = DesTbl.DMotorMidPoint + Math.Sign(tspd.LeftSpd) * _
-                    (DesTbl.DMotorRespondingOffset + (128 - DesTbl.DMotorRespondingOffset) * Math.Abs(tspd.LeftSpd))
-        t.Arg2L = DesTbl.DMotorMidPoint + Math.Sign(tspd.RightSpd) * _
-            (DesTbl.DMotorRespondingOffset + (128 - DesTbl.DMotorRespondingOffset) * Math.Abs(tspd.RightSpd))
+        t.Arg1L = DesTbl.DMotorMidPoint + Math.Sign(SpdCoL) * _
+                    (DesTbl.DMotorRespondingOffset + (127 - DesTbl.DMotorRespondingOffset) * Math.Abs(SpdCoL))
+        t.Arg2L = DesTbl.DMotorMidPoint + Math.Sign(SpdCoR) * _
+            (DesTbl.DMotorRespondingOffset + (127 - DesTbl.DMotorRespondingOffset) * Math.Abs(SpdCoR))
         Return t
     End Function
 
@@ -88,25 +127,109 @@ Public Class MultiInputITL 'Translation Layer,
     End Function
 
     Public Shared Sub UpdateUIBuffer()
-        'Prepare data for Trej. Graph
-        If InputSource.MotorSpd.LeftSpd > 0 And InputSource.MotorSpd.RightSpd < 0 Then
-            UIBuffer.Graph_Trejection_Direction = UIBuffer.Graph_Trejection_Dir.Forward_Left
-        ElseIf InputSource.MotorSpd.LeftSpd > 0 And InputSource.MotorSpd.RightSpd > 0 Then
-            UIBuffer.Graph_Trejection_Direction = UIBuffer.Graph_Trejection_Dir.Forward_Right
-        ElseIf InputSource.MotorSpd.LeftSpd < 0 And InputSource.MotorSpd.RightSpd < 0 Then
-            UIBuffer.Graph_Trejection_Direction = UIBuffer.Graph_Trejection_Dir.BackWard_Left
-        ElseIf InputSource.MotorSpd.LeftSpd < 0 And InputSource.MotorSpd.RightSpd > 0 Then
-            UIBuffer.Graph_Trejection_Direction = UIBuffer.Graph_Trejection_Dir.BackWard_Right
+        '=====================Trej. Graph=======================================
+        Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
+        Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
+        Dim tthumb As PlayerInputHAL.MThumbStickInput = InputSource.MotorSpd
+        If tthumb.X = 0 And tthumb.Y = 0 Then '静止态
+            UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Dir_Null
+        ElseIf Math.Abs(tthumb.Y / tthumb.X) _
+            >= Math.Tan(FBCRTITICAL_RAD) Then                                        '几乎直线态
+            If tthumb.Y > 0 Then
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Forward
+            Else
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Backward
+            End If
+        ElseIf Math.Abs(tthumb.Y / tthumb.X) _
+            <= Math.Tan(TURNNING_CRITICAL_RAD) Then '左右转临界
+            If tthumb.X > 0 Then
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Forward_Right
+            Else
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Forward_Left
+            End If
+            UIBuffer.Graph_Trejection_Radius = 1
+        Else
+            If tthumb.Y > 0 And tthumb.X < 0 Then
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Forward_Left
+            ElseIf tthumb.Y > 0 And tthumb.X > 0 Then
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.Forward_Right
+            ElseIf tthumb.Y < 0 And tthumb.X < 0 Then
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.BackWard_Left
+            ElseIf tthumb.Y < 0 And tthumb.X > 0 Then
+                UIBuffer.Graph_Trejection_Direction = Global_Var.Graph_Trejection_Dir.BackWard_Right
+            End If
+            UIBuffer.Graph_Trejection_Radius = Global_Var.Graph_RoboWidth * Math.Abs(tthumb.Y / tthumb.X)
         End If
-        If InputSource.RobotRotation = PlayerInputHAL.RobotLeftRotate Then
+        If InputSource.RobotRotation = PlayerInputHAL.RobotLeftRotate Then 'Overriding Original Spd
             UIBuffer.Robot_LTurn_Override = True
+            UIBuffer.Robot_Rturn_Override = False
         ElseIf InputSource.RobotRotation = PlayerInputHAL.RobotRightRotate Then
+            UIBuffer.Robot_LTurn_Override = False
             UIBuffer.Robot_Rturn_Override = True
         Else
             UIBuffer.Robot_LTurn_Override = False
-            UIBuffer.Robot_Rturn_Override = True
+            UIBuffer.Robot_Rturn_Override = False
         End If
-
+        '======================================================================================================
+        If TypeOf InputSource Is PlayerInput_GenericGamePad Then
+            UIBuffer.IsCraneGraphUpdateRequire = True
+        Else
+            UIBuffer.IsCraneGraphUpdateRequire = False
+        End If
+        '======================================================================================================
+        Dim t As Integer
+        t = InputSource.CraneRotation()
+        If t = PlayerInputHAL.CraneRotationClockwise Then
+            UIBuffer.CraneRotationLeft = True
+            UIBuffer.CraneRotationRight = False
+        ElseIf t = PlayerInputHAL.CraneRotationCtClockwise Then
+            UIBuffer.CraneRotationLeft = False
+            UIBuffer.CraneRotationRight = True
+        Else
+            UIBuffer.CraneRotationLeft = False
+            UIBuffer.CraneRotationRight = False
+        End If
+        t = InputSource.CraneHDir()
+        If t = PlayerInputHAL.CraneHFoward Then
+            UIBuffer.CraneHForward = True
+            UIBuffer.CraneHBackward = False
+        ElseIf t = PlayerInputHAL.CraneHBack Then
+            UIBuffer.CraneHForward = False
+            UIBuffer.CraneHBackward = True
+        Else
+            UIBuffer.CraneHForward = False
+            UIBuffer.CraneHBackward = False
+        End If
+        t = InputSource.CraneVDir()
+        If t = PlayerInputHAL.CraneVUp Then
+            UIBuffer.CraneVUp = True
+            UIBuffer.CraneVDown = False
+        ElseIf t = PlayerInputHAL.CraneVDown Then
+            UIBuffer.CraneVUp = False
+            UIBuffer.CraneVDown = True
+        Else
+            UIBuffer.CraneVUp = False
+            UIBuffer.CraneVDown = False
+        End If
+        '=======================================================================================================
+        t = InputSource.LoaderDir
+        If t = PlayerInputHAL.LoaderUp Then
+            UIBuffer.LoaderUp = True
+            UIBuffer.LoaderDown = False
+        ElseIf t = PlayerInputHAL.LoaderDown Then
+            UIBuffer.LoaderUp = False
+            UIBuffer.LoaderDown = True
+        Else
+            UIBuffer.LoaderUp = False
+            UIBuffer.LoaderDown = False
+        End If
+        '=======================================================================
+        t = InputSource.PumpState
+        If t = PlayerInputHAL.PumpOn Then
+            UIBuffer.PumpState = True
+        Else
+            UIBuffer.PumpState = False
+        End If
     End Sub
 End Class
 
@@ -142,9 +265,9 @@ Public MustInherit Class PlayerInputHAL 'Generic HAL
     Public Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
     Public Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
 
-    Public Structure RobotDMotorSpdCo
-        Public LeftSpd As Single
-        Public RightSpd As Single
+    Public Structure MThumbStickInput
+        Public X As Single
+        Public Y As Single
     End Structure
 
     Public MustOverride Sub RefreshSource()
@@ -154,7 +277,7 @@ Public MustInherit Class PlayerInputHAL 'Generic HAL
     Public MustOverride Function CraneRotation() As Integer
     Public MustOverride Function CraneHDir() As Integer
     Public MustOverride Function CraneVDir() As Integer
-    Public MustOverride Function MotorSpd() As RobotDMotorSpdCo
+    Public MustOverride Function MotorSpd() As MThumbStickInput
     Public MustOverride Function ShiftButton() As Boolean
 
     Public MustOverride Function PumpState() As Boolean
@@ -258,91 +381,8 @@ Public Class PlayerInput_GenericGamePad
         End If
     End Function
 
-    Public Overrides Function MotorSpd() As RobotDMotorSpdCo
-        Dim spd As Double = Math.Sqrt(Math.Pow(GamePadState.ThumbSticks.Left.X, 2) + Math.Pow(GamePadState.ThumbSticks.Left.Y, 2))
-        If spd > 1 Then spd = 1
-        If GamePadState.ThumbSticks.Left.X = 0 And GamePadState.ThumbSticks.Left.Y = 0 Then '静止态
-            Global_Var.SpeedCoeffientL = 0
-            Global_Var.SpeedCoeffientR = 0
-        ElseIf Math.Abs(GamePadState.ThumbSticks.Left.Y / GamePadState.ThumbSticks.Left.X) _
-            >= Math.Tan(FBCRTITICAL_RAD) Then                                        '几乎直线态
-            Global_Var.SpeedCoeffientL = spd * Math.Sign(GamePadState.ThumbSticks.Left.Y)
-            Global_Var.SpeedCoeffientR = Global_Var.SpeedCoeffientL
-        ElseIf Math.Abs(GamePadState.ThumbSticks.Left.Y / GamePadState.ThumbSticks.Left.X) _
-            <= Math.Tan(TURNNING_CRITICAL_RAD) Then                                 '左右转临界
-            If GamePadState.ThumbSticks.Left.X > 0 Then
-                Global_Var.SpeedCoeffientL = spd
-                Global_Var.SpeedCoeffientR = -spd
-            Else
-                Global_Var.SpeedCoeffientL = -spd
-                Global_Var.SpeedCoeffientR = spd
-            End If
-        Else
-            Dim ratio As Double = Math.Abs(GamePadState.ThumbSticks.Left.Y) / (Math.Abs(GamePadState.ThumbSticks.Left.X) + Math.Abs(GamePadState.ThumbSticks.Left.Y))
-            If GamePadState.ThumbSticks.Left.Y > 0 And GamePadState.ThumbSticks.Left.X < 0 Then
-                Global_Var.SpeedCoeffientR = spd
-                Global_Var.SpeedCoeffientL = spd * ratio
-            ElseIf GamePadState.ThumbSticks.Left.Y > 0 And GamePadState.ThumbSticks.Left.X > 0 Then
-                Global_Var.SpeedCoeffientL = spd
-                Global_Var.SpeedCoeffientR = spd * ratio
-            ElseIf GamePadState.ThumbSticks.Left.Y < 0 And GamePadState.ThumbSticks.Left.X < 0 Then
-                spd = -spd
-                Global_Var.SpeedCoeffientR = spd
-                Global_Var.SpeedCoeffientL = spd * ratio
-            ElseIf GamePadState.ThumbSticks.Left.Y < 0 And GamePadState.ThumbSticks.Left.X > 0 Then
-                spd = -spd
-                Global_Var.SpeedCoeffientR = spd * ratio
-                Global_Var.SpeedCoeffientL = spd
-            End If
-        End If
+    Public Overrides Function MotorSpd() As MThumbStickInput
 
-        '=========================左右自转=================================
-        If Global_Var.GamePadPreState.DPad.Left <> GamePadState.DPad.Left Then
-            If GamePadState.IsButtonDown(Input.Buttons.DPadLeft) Then
-                Global_Var.Robot_LTurn_Override = True
-                Global_Var.Robot_Rturn_Override = False
-            End If
-            If GamePadState.IsButtonUp(Input.Buttons.DPadLeft) Then
-                Global_Var.Robot_LTurn_Override = False
-            End If
-        End If
-        If Global_Var.GamePadPreState.DPad.Right <> GamePadState.DPad.Right Then
-            If GamePadState.IsButtonDown(Input.Buttons.DPadRight) Then
-                Global_Var.Robot_LTurn_Override = False
-                Global_Var.Robot_Rturn_Override = True
-            End If
-            If GamePadState.IsButtonUp(Input.Buttons.DPadRight) Then
-                Global_Var.Robot_Rturn_Override = False
-            End If
-        End If
-        '===================================================================
-
-        Dim c As Single = 1
-        If Global_Var.Robot_Shift Then
-            c = 0.5
-        End If
-        Dim leftspd As Byte = 128
-        Dim rightspd As Byte = 128
-        If Global_Var.Robot_LTurn_Override Then
-            leftspd = CByte(128 - (65 + 62 * c))
-            rightspd = CByte(128 + (65 + 62 * c))
-        ElseIf Global_Var.Robot_Rturn_Override Then
-            leftspd = CByte(128 + (65 + 62 * c))
-            rightspd = CByte(128 - (65 + 62 * c))
-        Else
-            leftspd = CByte(128 + Global_Var.SpeedCoeffientL * (65 + 62 * c))
-            rightspd = CByte(128 + Global_Var.SpeedCoeffientR * (65 + 62 * c))
-        End If
-        leftspd = 256 - leftspd
-        rightspd = 256 - rightspd
-        If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_DMotor_Last_Time > Global_Var.Com_SetDMotor_Delay Then
-            If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
-                Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
-                Global_Var.Robot_WheelL_Speed = leftspd
-                Global_Var.Robot_WheelR_Speed = rightspd
-                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
-            End If
-        End If
     End Function
 
     Public Overrides Function ShiftButton() As Boolean
@@ -376,33 +416,24 @@ Public Class PlayerInput_GenericGamePad
     End Function
 
     Public Overrides Function RobotRotation() As Integer
-        If Global_Var.GamePadPreState.DPad.Left <> GamePadState.DPad.Left Then
-            If GamePadState.IsButtonDown(Input.Buttons.DPadLeft) Then
-                Global_Var.Robot_LTurn_Override = True
-                Global_Var.Robot_Rturn_Override = False
-            End If
-            If GamePadState.IsButtonUp(Input.Buttons.DPadLeft) Then
-                Global_Var.Robot_LTurn_Override = False
-            End If
+        If GamePadState.IsButtonDown(Input.Buttons.DPadLeft) Then
+            Return PlayerInputHAL.RobotLeftRotate
         End If
-        If Global_Var.GamePadPreState.DPad.Right <> GamePadState.DPad.Right Then
-            If GamePadState.IsButtonDown(Input.Buttons.DPadRight) Then
-                Global_Var.Robot_LTurn_Override = False
-                Global_Var.Robot_Rturn_Override = True
-            End If
-            If GamePadState.IsButtonUp(Input.Buttons.DPadRight) Then
-                Global_Var.Robot_Rturn_Override = False
-            End If
+        If GamePadState.IsButtonDown(Input.Buttons.DPadRight) Then
+            Return PlayerInputHAL.RobotRightRotate
         End If
+        Return RobotRotateStop
     End Function
 
 End Class
 
 Public Class PlayerInput_GenericKeyboard
     Inherits PlayerInputHAL
-    Private BufferedKeyboardState As Input.KeyboardState
+    Public BufferedKeyboardState As Input.KeyboardState
+
     Public Overrides Sub RefreshSource()
         BufferedKeyboardState = Input.Keyboard.GetState
+        Return
     End Sub
 
     Public Overrides Function CraneHDir() As Integer
@@ -455,17 +486,17 @@ Public Class PlayerInput_GenericKeyboard
         End If
     End Function
 
-    Public Overrides Function MotorSpd() As PlayerInputHAL.RobotDMotorSpdCo
-        Dim t As New RobotDMotorSpdCo
+    Public Overrides Function MotorSpd() As PlayerInputHAL.MThumbStickInput
+        Dim t As New PlayerInputHAL.MThumbStickInput
         If BufferedKeyboardState.Item(Input.Keys.W) = Input.KeyState.Down Then
-            t.LeftSpd = 1
-            t.RightSpd = 1
+            t.X = 0
+            t.Y = 1
         ElseIf BufferedKeyboardState.Item(Input.Keys.S) = Input.KeyState.Down Then
-            t.LeftSpd = -1
-            t.RightSpd = -1
+            t.X = 0
+            t.Y = -1
         Else
-            t.LeftSpd = 0
-            t.RightSpd = 0
+            t.X = 0
+            t.Y = 0
         End If
         Return t
     End Function
@@ -473,13 +504,15 @@ Public Class PlayerInput_GenericKeyboard
     Public Overrides Function PumpState() As Boolean
         Static tpumpstate As Boolean
         Static tstate As Boolean
-        Dim nstate As Boolean = BufferedKeyboardState.Item(Input.Keys.P) = Input.KeyState.Down
+        Dim nstate As Boolean = BufferedKeyboardState.IsKeyDown(Input.Keys.P)
         If tstate <> nstate Then
             If nstate Then tpumpstate = Not tpumpstate
             tstate = nstate
         End If
+
         If tpumpstate Then
             Return PumpOn
+
         Else
             Return PumpOff
         End If
@@ -495,8 +528,10 @@ Public Class PlayerInput_GenericKeyboard
 
     Public Overrides Function RobotRotation() As Integer
         If BufferedKeyboardState.Item(Input.Keys.A) = Input.KeyState.Down Then
+            Debug.Print("AAA")
             Return RobotLeftRotate
         ElseIf BufferedKeyboardState.Item(Input.Keys.D) = Input.KeyState.Down Then
+            Debug.Print("DDD")
             Return RobotRightRotate
         Else
             Return RobotRotateStop

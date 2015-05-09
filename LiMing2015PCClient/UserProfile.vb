@@ -1,4 +1,5 @@
-﻿Public Class OpITL_Generic
+﻿
+Public Class OpITL_Generic
     Inherits OpTranslationDesTbl
 
     Public Overrides Property CraneHMaxSpd As Integer = 127

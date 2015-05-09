@@ -13,8 +13,11 @@ Public Class Form_ORRM
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Thread_Connection.Name = "Arduino Bluetooth COM"
         Thread_Connection.Start()
+        Thread_GamePad.Name = "General User Input"
         Thread_GamePad.Start()
+        Thread_Loader_Unload.Name = "Loader Status Thread"
         Thread_Loader_Unload.Start()
         PictureBox_Trejection.Refresh()
         Log("Application Running Under" & vbCrLf & Application.StartupPath)
@@ -141,4 +144,6 @@ WrongInput:
             Timer_Suspend.Stop()
         End If
     End Sub
+
+
 End Class

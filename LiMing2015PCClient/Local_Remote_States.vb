@@ -1,4 +1,5 @@
-﻿Public Class Robot_IOStatus
+﻿
+Public Class Robot_IOStatus
     Public MotorSpd As Generic_IOStatus
     Public LoaderDir As Generic_IOStatus
     Public LoaderState As Generic_IOStatus
