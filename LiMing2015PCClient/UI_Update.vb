@@ -27,9 +27,9 @@
 
     End Sub
 
-    Public Sub Update_ProgressBar(ByVal value As Integer)
+    Public Sub Update_ProgressBar()
         Try
-            ProgressBar_Unload.Invoke(New Update_ProgressDelegate(AddressOf ProgressBarInvoke), New Object() {value})
+            PictureBox_Unload_Progress.BeginInvoke(New Update_PictureBoxDelegate(AddressOf Update_Unloading_Progress_UI))
         Catch
         End Try
     End Sub
@@ -92,6 +92,10 @@
         PictureBox_Trejection.Refresh()
     End Sub
 
+    Private Sub Update_Unloading_Progress_UI()
+        PictureBox_Unload_Progress.Refresh()
+    End Sub
+
     Private Sub Update_Crane_Graph_UI()
         PictureBox_Crane.Refresh()
     End Sub
@@ -137,10 +141,6 @@
 
     Private Sub LogInvoke(ByRef str As String)
         TextBox_Console_Log.AppendText(str)
-    End Sub
-
-    Private Sub ProgressBarInvoke(ByVal value As Integer)
-        ProgressBar_Unload.Value = value
     End Sub
 
 End Class

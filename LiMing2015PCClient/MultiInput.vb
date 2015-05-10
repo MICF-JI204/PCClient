@@ -126,6 +126,10 @@ Public Class MultiInputITL 'Translation Layer,
         Return Nothing
     End Function
 
+    Public Shared Function GetLoaderState() As Integer
+        Return InputSource.LoaderState
+    End Function
+
     Public Shared Sub UpdateUIBuffer()
         '=====================Trej. Graph=======================================
         Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
@@ -230,7 +234,9 @@ Public Class MultiInputITL 'Translation Layer,
         Else
             UIBuffer.PumpState = False
         End If
+        '======================================================================
     End Sub
+
 End Class
 
 Public MustInherit Class OpTranslationDesTbl
@@ -239,6 +245,9 @@ Public MustInherit Class OpTranslationDesTbl
     Public MustOverride Property CraneHMaxSpd As Integer
     Public MustOverride Property CraneVMaxSpd As Integer
     Public MustOverride Property CraneRotateMaxSpd As Integer
+    Public MustOverride Property GamePad_Trigger_Critical As Single
+    Public MustOverride Property GamePad_CraneRotation_Critical As Single
+    Public MustOverride Property GamePad_CraneHCritical As Single
 End Class
 
 Public MustInherit Class PlayerInputHAL 'Generic HAL
@@ -247,7 +256,7 @@ Public MustInherit Class PlayerInputHAL 'Generic HAL
     Public Const LoaderDown As Integer = &H12
     Public Const LoaderHolding As Integer = &H13
     Public Const LoaderUnloading As Integer = &H14
-    Public Const LoaderUnloaded As Integer = &H14
+    Public Const LoaderNotUnloading As Integer = &H15
     Public Const CraneRotationCtClockwise As Integer = &H20
     Public Const CraneRotationClockwise As Integer = &H21
     Public Const CraneRotationStop As Integer = &H22
@@ -279,8 +288,7 @@ Public MustInherit Class PlayerInputHAL 'Generic HAL
     Public MustOverride Function CraneVDir() As Integer
     Public MustOverride Function MotorSpd() As MThumbStickInput
     Public MustOverride Function ShiftButton() As Boolean
-
-    Public MustOverride Function PumpState() As Boolean
+    Public MustOverride Function PumpState() As Integer
 End Class
 
 Public Class PlayerInput_GenericGamePad
@@ -289,71 +297,32 @@ Public Class PlayerInput_GenericGamePad
     Public GamePadState As Input.GamePadState
 
     Public Overrides Sub RefreshSource()
-
+        GamePadState = Input.GamePad.GetState(PlayerIndex.One)
     End Sub
 
     Public Overrides Function CraneHDir() As Integer
-        Dim tstate As Integer
         If Math.Abs(GamePadState.ThumbSticks.Right.Y) < 0.15 Then
-            tstate = 0 'stop
+            Return CraneHStop
         ElseIf GamePadState.ThumbSticks.Right.Y < 0 Then
-            tstate = 2 'Back
+            Return CraneHBack
         Else
-            tstate = 1 'Foward
-        End If
-
-        If (tstate <> Global_Var.Robot_Crane_HDir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
-            Global_Var.Robot_Crane_HDir = tstate
-            If tstate = 0 Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HStop, 0, 0, 0, 0))
-            ElseIf tstate = 1 Then
-                If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 255, 0, 2))
-                Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 255, 0, 2))
-                End If
-            ElseIf tstate = 2 Then
-                If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 150, 0, 1))
-                Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 150, 0, 1))
-                End If
-            End If
+            Return CraneHFoward
         End If
     End Function
 
     Public Overrides Function CraneRotation() As Integer
-        Dim tstate As Integer
         If Math.Abs(GamePadState.ThumbSticks.Right.X) < 0.15 Then
-            tstate = 0 'stop
+            Return CraneRotationStop
         ElseIf GamePadState.ThumbSticks.Right.X < 0 Then
-            tstate = 1 'left
+            Return CraneRotationCtClockwise
         Else
-            tstate = 2 'right
-        End If
-        If (tstate <> Global_Var.Robot_Yuntai_Dir) Or (GamePadState.Buttons.B <> Global_Var.GamePadPreState.Buttons.B) Then
-            Global_Var.Robot_Yuntai_Dir = tstate
-            If tstate = 0 Then
-                Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Stop, 0, 0, 0, 0))
-            ElseIf tstate = 1 Then
-                If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 1, 0, 200))
-                Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 1, 0, 200))
-                End If
-            ElseIf tstate = 2 Then
-                If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 200))
-                Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 200))
-                End If
-            End If
+            Return CraneRotationClockwise
         End If
     End Function
 
     Public Overrides Function CraneVDir() As Integer
-        Dim LT_State As Boolean = GamePadState.Triggers.Left > Global_Var.GamePad_Trigger_Critical
-        Dim RT_State As Boolean = GamePadState.Triggers.Right > Global_Var.GamePad_Trigger_Critical
+        Dim LT_State As Boolean = GamePadState.Triggers.Left > 0.8
+        Dim RT_State As Boolean = GamePadState.Triggers.Right > 0.8
         If (LT_State And RT_State) Then
             Return CraneVStop
         ElseIf (LT_State) And (Not RT_State) Then
@@ -366,29 +335,22 @@ Public Class PlayerInput_GenericGamePad
     End Function
 
     Public Overrides Function LoaderState() As Integer
-
-        If Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State) < 2 Then
-            If GamePadState.Buttons.X = Input.ButtonState.Pressed Then
-                Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 1)
-            Else
-                Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 0)
-            End If
-        End If
-        If Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State) = 2 Then
-            If GamePadState.Buttons.X = Input.ButtonState.Released Then
-                Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 3)
-            End If
+        If GamePadState.IsButtonDown(Input.Buttons.A) Then
+            Return LoaderUnloading
+        Else
+            Return LoaderNotUnloading
         End If
     End Function
 
     Public Overrides Function MotorSpd() As MThumbStickInput
-
+        Dim t As MThumbStickInput
+        t.X = GamePadState.ThumbSticks.Left.X
+        t.Y = GamePadState.ThumbSticks.Left.Y
+        Return t
     End Function
 
     Public Overrides Function ShiftButton() As Boolean
-
         Return GamePadState.Buttons.B = Input.ButtonState.Pressed
-
     End Function
 
     Public Overrides Function LoaderDir() As Integer
@@ -406,13 +368,19 @@ Public Class PlayerInput_GenericGamePad
         End If
     End Function
 
-    Public Overrides Function PumpState() As Boolean
-        If Global_Var.GamePadPreState.Buttons.Y <> GamePadState.Buttons.Y Then
-            If GamePadState.Buttons.Y = Input.ButtonState.Pressed Then
-                Global_Var.Robot_IsHolding = Not Global_Var.Robot_IsHolding
-            End If
+    Private Shared tpumpstate As Boolean
+    Private Shared tstate As Boolean
+    Public Overrides Function PumpState() As Integer
+        Dim nstate As Boolean = GamePadState.IsButtonDown(Input.Buttons.X)
+        If tstate <> nstate Then
+            If nstate Then tpumpstate = Not tpumpstate
+            tstate = nstate
         End If
-        Return Global_Var.Robot_IsHolding
+        If tpumpstate Then
+            Return PumpOn
+        Else
+            Return PumpOff
+        End If
     End Function
 
     Public Overrides Function RobotRotation() As Integer
@@ -477,12 +445,10 @@ Public Class PlayerInput_GenericKeyboard
     End Function
 
     Public Overrides Function LoaderState() As Integer
-        Static tState As Boolean '[
-        tState = Not tState
-        If tState Then
-
+        If BufferedKeyboardState.Item(Input.Keys.Space) = Input.KeyState.Down Then
+            Return LoaderUnloading
         Else
-
+            Return LoaderNotUnloading
         End If
     End Function
 
@@ -501,18 +467,16 @@ Public Class PlayerInput_GenericKeyboard
         Return t
     End Function
 
-    Public Overrides Function PumpState() As Boolean
-        Static tpumpstate As Boolean
-        Static tstate As Boolean
+    Private Shared tpumpstate As Boolean
+    Private Shared tstate As Boolean
+    Public Overrides Function PumpState() As Integer
         Dim nstate As Boolean = BufferedKeyboardState.IsKeyDown(Input.Keys.P)
         If tstate <> nstate Then
             If nstate Then tpumpstate = Not tpumpstate
             tstate = nstate
         End If
-
         If tpumpstate Then
             Return PumpOn
-
         Else
             Return PumpOff
         End If

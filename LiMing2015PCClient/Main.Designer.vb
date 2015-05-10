@@ -42,7 +42,6 @@ Partial Class Form_ORRM
         Me.TextBox_ConsoleSend = New System.Windows.Forms.TextBox()
         Me.TextBox_Console_Log = New System.Windows.Forms.TextBox()
         Me.GroupBox_Operation = New System.Windows.Forms.GroupBox()
-        Me.ProgressBar_Unload = New System.Windows.Forms.ProgressBar()
         Me.Button_Loader_Unload = New System.Windows.Forms.Button()
         Me.Button_Loader_Down = New System.Windows.Forms.Button()
         Me.Button_Loader_Up = New System.Windows.Forms.Button()
@@ -76,6 +75,7 @@ Partial Class Form_ORRM
         Me.Button_Crane_UP = New System.Windows.Forms.Button()
         Me.Timer_Game = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Suspend = New System.Windows.Forms.Timer(Me.components)
+        Me.PictureBox_Unload_Progress = New System.Windows.Forms.PictureBox()
         Me.GroupBox_Connection.SuspendLayout()
         Me.GroupBox_Operation.SuspendLayout()
         CType(Me.PictureBox_Trejection, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,6 +83,7 @@ Partial Class Form_ORRM
         Me.StatusStrip.SuspendLayout()
         CType(Me.PictureBox_Crane, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox_Crane.SuspendLayout()
+        CType(Me.PictureBox_Unload_Progress, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox_Connection
@@ -272,7 +273,7 @@ Partial Class Form_ORRM
         '
         'GroupBox_Operation
         '
-        Me.GroupBox_Operation.Controls.Add(Me.ProgressBar_Unload)
+        Me.GroupBox_Operation.Controls.Add(Me.PictureBox_Unload_Progress)
         Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Unload)
         Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Down)
         Me.GroupBox_Operation.Controls.Add(Me.Button_Loader_Up)
@@ -289,13 +290,6 @@ Partial Class Form_ORRM
         Me.GroupBox_Operation.TabIndex = 1
         Me.GroupBox_Operation.TabStop = False
         Me.GroupBox_Operation.Text = "Motions && Loader"
-        '
-        'ProgressBar_Unload
-        '
-        Me.ProgressBar_Unload.Location = New System.Drawing.Point(112, 357)
-        Me.ProgressBar_Unload.Name = "ProgressBar_Unload"
-        Me.ProgressBar_Unload.Size = New System.Drawing.Size(166, 23)
-        Me.ProgressBar_Unload.TabIndex = 10
         '
         'Button_Loader_Unload
         '
@@ -587,6 +581,16 @@ Partial Class Form_ORRM
         '
         Me.Timer_Suspend.Interval = 1000
         '
+        'PictureBox_Unload_Progress
+        '
+        Me.PictureBox_Unload_Progress.BackColor = System.Drawing.SystemColors.Control
+        Me.PictureBox_Unload_Progress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox_Unload_Progress.Location = New System.Drawing.Point(112, 354)
+        Me.PictureBox_Unload_Progress.Name = "PictureBox_Unload_Progress"
+        Me.PictureBox_Unload_Progress.Size = New System.Drawing.Size(173, 25)
+        Me.PictureBox_Unload_Progress.TabIndex = 10
+        Me.PictureBox_Unload_Progress.TabStop = False
+        '
         'Form_ORRM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -613,6 +617,7 @@ Partial Class Form_ORRM
         Me.StatusStrip.PerformLayout()
         CType(Me.PictureBox_Crane, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox_Crane.ResumeLayout(False)
+        CType(Me.PictureBox_Unload_Progress, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -659,7 +664,6 @@ Partial Class Form_ORRM
     Friend WithEvents Button_Crane_Holder As System.Windows.Forms.Button
     Friend WithEvents Button_Crane_Down As System.Windows.Forms.Button
     Friend WithEvents Button_Crane_UP As System.Windows.Forms.Button
-    Friend WithEvents ProgressBar_Unload As System.Windows.Forms.ProgressBar
     Friend WithEvents Button_Crane_Back As System.Windows.Forms.Button
     Friend WithEvents Button_Crane_Forward As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button
@@ -669,5 +673,6 @@ Partial Class Form_ORRM
     Friend WithEvents Timer_Game As System.Windows.Forms.Timer
     Friend WithEvents Label_Timer_Suspend As System.Windows.Forms.Label
     Friend WithEvents Timer_Suspend As System.Windows.Forms.Timer
+    Friend WithEvents PictureBox_Unload_Progress As System.Windows.Forms.PictureBox
 
 End Class

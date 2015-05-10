@@ -1,15 +1,17 @@
 ﻿Imports Microsoft.Xna.Framework
 Partial Public Class Form_ORRM
-    Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
-    Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
+    'Const FBCRTITICAL_RAD As Single = 88 / 180 * Math.PI
+    'Const TURNNING_CRITICAL_RAD As Single = 4 / 180 * Math.PI
 
     Public Thread_GamePad As New System.Threading.Thread(AddressOf GeneralIO)
-    Public Thread_Loader_Unload As New System.Threading.Thread(AddressOf Loader_Unload)
+    'Public Thread_Loader_Unload As New System.Threading.Thread(AddressOf Loader_Unload)
     Public Local_Robot_Status As New Robot_IOStatus
 
     Public Sub GeneralIO()
         Dim CurrentGamePadState As Input.GamePadState
         MultiInputITL.DesTbl = New OpITL_Generic
+        Dim LoaderStage As Integer = 0
+        Dim LoaderTStart As Integer
         While True
             CurrentGamePadState = Input.GamePad.GetState(PlayerIndex.One)
             If CurrentGamePadState.IsConnected Then
@@ -24,13 +26,50 @@ Partial Public Class Form_ORRM
             Local_Robot_Status.CraneV = MultiInputITL.GetCraneVDir()
             Local_Robot_Status.CraneRotation = MultiInputITL.GetCraneRotation()
             Local_Robot_Status.LoaderDir = MultiInputITL.GetLoaderDir()
-            Local_Robot_Status.LoaderState = MultiInputITL.GetLoaderDir()
             Local_Robot_Status.PumpState = MultiInputITL.GetPumpState()
             Local_Robot_Status.MotorSpd = MultiInputITL.GetRobotSpd()
+            '========Special Treatment For Loader State====================
+            If LoaderStage = 0 Then
+                If MultiInputITL.InputSource.LoaderState = PlayerInputHAL.LoaderUnloading Then
+                    LoaderStage = 1
+                    UIBuffer.LoaderPercent = 0
+                    LoaderTStart = My.Computer.Clock.TickCount
+                    Log("Unloading Preparing")
+                End If
+            ElseIf LoaderStage = 1 Then
+                If MultiInputITL.InputSource.LoaderState = PlayerInputHAL.LoaderUnloading Then
+                    UIBuffer.LoaderPercent = Int((My.Computer.Clock.TickCount - LoaderTStart) / 15)
+                    If UIBuffer.LoaderPercent >= 100 Then
+                        UIBuffer.LoaderPercent = 100
+                        LoaderStage = 2
+                        Log("Unloading Confrimed!")
+                    End If
+                ElseIf MultiInputITL.InputSource.LoaderState = PlayerInputHAL.LoaderNotUnloading Then
+                    LoaderStage = 0
+                    UIBuffer.LoaderPercent = 0
+                    Log("Unloading Canceled")
+                End If
+            ElseIf LoaderStage = 2 Then
+                LoaderStage = 3
+                Local_Robot_Status.LoaderState = New Generic_IOStatus(Global_Var.Com_CMD.Loader_StartUnload, 0, 0, 0, 0)
+                Log("Unloading CMD Sent")
+            ElseIf LoaderStage = 3 Then
+                If MultiInputITL.InputSource.LoaderState = PlayerInputHAL.LoaderNotUnloading Then
+                    LoaderStage = 4
+                    Local_Robot_Status.LoaderState = New Generic_IOStatus(Global_Var.Com_CMD.Loader_StopUnload, 0, 0, 0, 0)
+                    Log("Stop Unloading CMD Sent")
+                End If
+            ElseIf LoaderStage = 4 Then
+                LoaderStage = 5
+                Log("Unloading Complete")
+            Else
+            End If
+            '==============================================================
             MultiInputITL.UpdateUIBuffer()
             Update_Trejectory()
             Update_Crane()
             Update_Controls()
+            Update_Unloader()
             If Global_Var.Com_Connected Then
                 If Not Object.Equals(Local_Robot_Status.CraneH, Remote_Robot_Status.CraneH) Then
                     With Local_Robot_Status.CraneH
@@ -68,8 +107,7 @@ Partial Public Class Form_ORRM
                     End With
                 End If
             End If
-
-            System.Threading.Thread.Sleep(20)
+            System.Threading.Thread.Sleep(Global_Var.Game_Suspend_Time)
         End While
     End Sub
 
@@ -99,41 +137,6 @@ Partial Public Class Form_ORRM
         Update_Crane()
     End Sub
 
-    Public Sub Loader_Unload()
-        Dim last_known_state As Integer = 0
-        Dim i As Integer = 1
-        Dim starttime As Integer = 0
-        While True
-            Dim t As Integer = Threading.Thread.VolatileRead(Global_Var.Robot_Loader_State)
-            If (last_known_state = 0) And (t = 1) Then
-                Update_ProgressBar(0)
-                starttime = My.Computer.Clock.TickCount
-                Input.GamePad.SetVibration(PlayerIndex.One, 1, 1)
-            ElseIf (last_known_state = 1) And (t = 1) Then
-                i = Int(My.Computer.Clock.TickCount - starttime) / 15
-                If i >= 100 Then
-                    Global_Var.Robot_Loader_State = 2
-                    i = 100
-                End If
-                Update_ProgressBar(i)
-                'Threading.Thread.Sleep(30)
-            ElseIf (last_known_state = 1) And (t = 2) Then
-                Input.GamePad.SetVibration(PlayerIndex.One, 0, 0)
-                Log("Starting to UNLOAD")
-                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StartUnload, 0, 0, 0, 0))
-            ElseIf (last_known_state = 1) And (t = 0) Then
-                i = 1
-                Update_ProgressBar(0)
-                Input.GamePad.SetVibration(PlayerIndex.One, 0, 0)
-            ElseIf (last_known_state = 2) And (t = 3) Then
-                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StopUnload, 0, 0, 0, 0))
-                Log("UNLOADING COMPLETE")
-            End If
-            last_known_state = t
-        End While
-    End Sub
-
-
 End Class
 
 Public Class UIBuffer
@@ -156,6 +159,9 @@ Public Class UIBuffer
     Public Shared LoaderUp As Boolean
     Public Shared LoaderDown As Boolean
     Public Shared PumpState As Boolean
+
+    Public Shared LoaderPercent As Integer = 0
+    Public Shared LoaderStage As Integer = 0
 
     Public Shared Robot_LTurn_Override As Boolean = False
     Public Shared Robot_Rturn_Override As Boolean = False

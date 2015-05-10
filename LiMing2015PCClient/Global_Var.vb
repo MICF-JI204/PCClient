@@ -1,12 +1,12 @@
 ﻿Public Class Global_Var
 
-    Public Const Thread_GamePad_Delay As Integer = 20
+    Public Const Thread_GamePad_Delay As Integer = 0
     Public Const Thread_Com_Delay As Integer = 10
 
     Public Const Game_Time As Integer = 180
     Public Const Game_Suspend_Time As Integer = 60
 
-    Public Const GamePad_Trigger_Critical = 0.8
+
 
     'Public Shared Graph_Trejection_Radius As Single = 0
     'Public Shared Graph_Trejection_Direction As Graph_Trejection_Dir = Graph_Trejection_Dir.Dir_Null
@@ -23,13 +23,6 @@
     Public Shared Robot_Crane_Angle As Single = 0
     'Public Shared Robot_LTurn_Override As Boolean = False
     'Public Shared Robot_Rturn_Override As Boolean = False
-    Public Shared Robot_Crane_VDir As Crane_State = Crane_State.Crane_Still
-    Public Shared Robot_Crane_HDir As Integer = 0
-    Public Shared Robot_IsHolding As Boolean = False
-    Public Shared Robot_Yuntai_Dir As Integer = 0 '0 stop, 1 Left ,2 Right
-    Public Shared Robot_Shift As Boolean = False
-    Public Shared Robot_Loader_Dir As Integer = 0 '0 stop, 1 down, 2 up
-    Public Shared Robot_Loader_State As Integer = 0 '0 Loading, 1 Preparing,2 Unloading, 3 Unloaded
 
     Public Shared Com_Connected As Boolean = False
     Public Shared Com_Ready2Connect As Boolean = False
@@ -39,17 +32,11 @@
     Public Shared Com_SetDMotor_Delay As Integer = 20
     Public Shared Com_SetCraneDir_Delay As Integer = 20
 
-
-    Public Shared SpeedCoeffientL As Single = 0
-    Public Shared SpeedCoeffientR As Single = 0
-
     'Public Shared spd As Single = 0
     'Public Shared ratio As Single = 0
 
     Public Shared TimeLastFame_Trej As Integer = 0
     Public Shared StartUpTime As Long = My.Computer.Clock.TickCount
-
-    Public Shared GamePadPreState As Microsoft.Xna.Framework.Input.GamePadState
 
     Public Enum Crane_State As Integer
         Crane_Still = 0

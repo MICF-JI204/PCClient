@@ -12,4 +12,9 @@ Public Class OpITL_Generic
 
     Public Overrides Property DMotorRespondingOffset As Integer = 0
 
+    Public Overrides Property GamePad_Trigger_Critical As Single = 0.8
+
+    Public Overrides Property GamePad_CraneHCritical As Single = 0.15
+
+    Public Overrides Property GamePad_CraneRotation_Critical As Single = 0.15
 End Class

@@ -9,7 +9,7 @@ Public Class Form_ORRM
         logfile.Close()
         Thread_Connection.Abort()
         Thread_GamePad.Abort()
-        Thread_Loader_Unload.Abort()
+        'Thread_Loader_Unload.Abort()
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -17,8 +17,8 @@ Public Class Form_ORRM
         Thread_Connection.Start()
         Thread_GamePad.Name = "General User Input"
         Thread_GamePad.Start()
-        Thread_Loader_Unload.Name = "Loader Status Thread"
-        Thread_Loader_Unload.Start()
+        'Thread_Loader_Unload.Name = "Loader Status Thread"
+        'Thread_Loader_Unload.Start()
         PictureBox_Trejection.Refresh()
         Log("Application Running Under" & vbCrLf & Application.StartupPath)
         Log("System Begins to function!")
@@ -144,6 +144,5 @@ WrongInput:
             Timer_Suspend.Stop()
         End If
     End Sub
-
 
 End Class

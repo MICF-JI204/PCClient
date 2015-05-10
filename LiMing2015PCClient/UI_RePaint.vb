@@ -233,7 +233,7 @@
         Dim FontInfo As New Font(Me.Font.FontFamily.Name, 9, FontStyle.Regular)
         e.Graphics.DrawString("Angle:" & Str(Global_Var.Robot_Crane_Angle), _
                               FontInfo, Brushes.Black, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 0))
-        Dim t As Integer = My.Computer.Clock.TickCount()
+        'Dim t As Integer = My.Computer.Clock.TickCount()
         'e.Graphics.DrawString("delay(ms):" & (t - Global_Var.TimeLastFame_Trej), _
         '      FontInfo, Brushes.Black, New PointF(2 * Global_Var.Graph_Crane_Graph_CentreX - 45, 15))
         '=================================/OVER=================================================
@@ -278,6 +278,14 @@
             ChangeUIBackColor(Button_Crane_Back, Drawing.Color.Gainsboro)
             ChangeUIBackColor(Button_Crane_Forward, Drawing.Color.Gainsboro)
         End If
+    End Sub
 
+    Private Sub PictureBox_Unload_Progress_Paint(sender As Object, e As PaintEventArgs) Handles PictureBox_Unload_Progress.Paint
+        Dim RectBar As New System.Drawing.Rectangle(0, 0, PictureBox_Unload_Progress.Width / 100 * UIBuffer.LoaderPercent, PictureBox_Unload_Progress.Height)
+        e.Graphics.FillRectangle(Brushes.DarkGreen, RectBar)
+    End Sub
+
+    Private Sub Update_Unloader()
+        Update_ProgressBar()
     End Sub
 End Class
