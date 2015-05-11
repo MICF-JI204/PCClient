@@ -265,9 +265,9 @@ Partial Public Class Form_ORRM
                 End If
             ElseIf tstate = 2 Then
                 If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 150, 0, 1))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 255, 0, 1))
                 Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 150, 0, 1))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Crane_HSetSpeed, 0, 255, 0, 1))
                 End If
             End If
         End If
@@ -514,14 +514,18 @@ Partial Public Class Form_ORRM
             ElseIf (last_known_state = 1) And (t = 2) Then
                 Input.GamePad.SetVibration(PlayerIndex.One, 0, 0)
                 Log("Starting to UNLOAD")
-                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StartUnload, 0, 0, 0, 0))
+                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StartUnload, 0, 255, 0, 0))
             ElseIf (last_known_state = 1) And (t = 0) Then
                 i = 1
                 Update_ProgressBar(0)
                 Input.GamePad.SetVibration(PlayerIndex.One, 0, 0)
             ElseIf (last_known_state = 2) And (t = 3) Then
                 Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StopUnload, 0, 0, 0, 0))
+                Enable_Control(Button_Loader_Unload, True)
                 Log("UNLOADING COMPLETE")
+            ElseIf (last_known_state = 3) And (t = 0) Then
+                Log("Reseted Unloader")
+                Update_ProgressBar(0)
             End If
             last_known_state = t
         End While

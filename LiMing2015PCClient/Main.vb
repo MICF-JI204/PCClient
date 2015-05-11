@@ -92,15 +92,8 @@ WrongInput:
     End Sub
 
     Private Sub Button_Loader_Release_Click(sender As Object, e As EventArgs) Handles Button_Loader_Unload.Click
-        'Static Is_Relese_Confirmed As Boolean = False
-        'If Not Is_Relese_Confirmed Then
-        '    Button_Loader_Unload.Text = "Are You Sure?"
-        '    Is_Relese_Confirmed = True
-        'Else
-        '    Button_Loader_Unload.Text = "Done!"
-        '    Button_Loader_Unload.Enabled = False
-        '    Button_Loader_Unload.BackColor = Color.Gray
-        'End If
+        Button_Loader_Unload.Enabled = False
+        Global_Var.Robot_Loader_State = 0
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
