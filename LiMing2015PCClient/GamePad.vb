@@ -356,6 +356,7 @@ Partial Public Class Form_ORRM
                 Global_Var.Robot_WheelL_Speed = leftspd
                 Global_Var.Robot_WheelR_Speed = rightspd
                 Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
+                'Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
             End If
         End If
 
