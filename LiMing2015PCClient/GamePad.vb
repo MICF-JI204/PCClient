@@ -233,15 +233,15 @@ Partial Public Class Form_ORRM
                 Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Stop, 0, 0, 0, 0))
             ElseIf tstate = 1 Then
                 If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 1, 0, 200))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 1, 0, 175))
                 Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 1, 0, 200))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 1, 0, 125))
                 End If
             ElseIf tstate = 2 Then
                 If Global_Var.Robot_Shift Then
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 200))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Slow, 0, 2, 0, 175))
                 Else
-                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 200))
+                    Out_Buffer.Enque(New Out_Msg(20, Global_Var.Com_CMD.Yuntai_Fast, 0, 2, 0, 125))
                 End If
             End If
         End If
@@ -524,6 +524,7 @@ Partial Public Class Form_ORRM
                 Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_StopUnload, 0, 0, 0, 0))
                 Enable_Control(Button_Loader_Unload, True)
                 Log("UNLOADING COMPLETE")
+                Threading.Thread.VolatileWrite(Global_Var.Robot_Loader_State, 0)
             ElseIf (last_known_state = 3) And (t = 0) Then
                 Log("Reseted Unloader")
                 Update_ProgressBar(0)
