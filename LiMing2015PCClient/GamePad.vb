@@ -349,7 +349,7 @@ Partial Public Class Form_ORRM
             rightspd = CByte(128 + Global_Var.SpeedCoeffientR * (65 + 62 * c))
         End If
         leftspd = 256 - leftspd
-        rightspd = 256 - rightspd
+        'rightspd = 256 - rightspd
         If My.Computer.Clock.TickCount - Out_Buffer.CMD_Set_DMotor_Last_Time > Global_Var.Com_SetDMotor_Delay Then
             If ((Global_Var.Robot_WheelL_Speed <> leftspd) Or (Global_Var.Robot_WheelR_Speed <> rightspd)) Then
                 Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
