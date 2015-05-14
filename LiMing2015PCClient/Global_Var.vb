@@ -27,6 +27,8 @@
     Public Shared Robot_Wheel_MinSpeed As Integer = 0
     Public Shared Robot_LTurn_Override As Boolean = False
     Public Shared Robot_Rturn_Override As Boolean = False
+    Public Shared Robot_Go_Ahead As Boolean = False
+    Public Shared Robot_Go_Back As Boolean = False
     Public Shared Robot_Crane_VDir As Crane_State = Crane_State.Crane_Still
     Public Shared Robot_Crane_HDir As Integer = 0
     Public Shared Robot_IsHolding As Boolean = False

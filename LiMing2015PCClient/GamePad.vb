@@ -316,6 +316,8 @@ Partial Public Class Form_ORRM
             If GamePadState.IsButtonDown(Input.Buttons.DPadLeft) Then
                 Global_Var.Robot_LTurn_Override = True
                 Global_Var.Robot_Rturn_Override = False
+                Global_Var.Robot_Go_Ahead = False
+                Global_Var.Robot_Go_Back = False
             End If
             If GamePadState.IsButtonUp(Input.Buttons.DPadLeft) Then
                 Global_Var.Robot_LTurn_Override = False
@@ -325,9 +327,33 @@ Partial Public Class Form_ORRM
             If GamePadState.IsButtonDown(Input.Buttons.DPadRight) Then
                 Global_Var.Robot_LTurn_Override = False
                 Global_Var.Robot_Rturn_Override = True
+                Global_Var.Robot_Go_Ahead = False
+                Global_Var.Robot_Go_Back = False
             End If
             If GamePadState.IsButtonUp(Input.Buttons.DPadRight) Then
                 Global_Var.Robot_Rturn_Override = False
+            End If
+        End If
+        If Global_Var.GamePadPreState.DPad.Up <> GamePadState.DPad.Up Then
+            If GamePadState.IsButtonDown(Input.Buttons.DPadUp) Then
+                Global_Var.Robot_LTurn_Override = False
+                Global_Var.Robot_Rturn_Override = False
+                Global_Var.Robot_Go_Ahead = True
+                Global_Var.Robot_Go_Back = False
+            End If
+            If GamePadState.IsButtonUp(Input.Buttons.DPadUp) Then
+                Global_Var.Robot_Go_Ahead = False
+            End If
+        End If
+        If Global_Var.GamePadPreState.DPad.Down <> GamePadState.DPad.Down Then
+            If GamePadState.IsButtonDown(Input.Buttons.DPadDown) Then
+                Global_Var.Robot_LTurn_Override = False
+                Global_Var.Robot_Rturn_Override = False
+                Global_Var.Robot_Go_Ahead = False
+                Global_Var.Robot_Go_Back = True
+            End If
+            If GamePadState.IsButtonUp(Input.Buttons.DPadDown) Then
+                Global_Var.Robot_Go_Back = False
             End If
         End If
         '===================================================================
@@ -344,6 +370,12 @@ Partial Public Class Form_ORRM
         ElseIf Global_Var.Robot_Rturn_Override Then
             leftspd = CByte(128 + (65 + 62 * c))
             rightspd = CByte(128 - (65 + 62 * c))
+        ElseIf Global_Var.Robot_Go_Ahead Then
+            leftspd = CByte(128 + (65 + 62 * c))
+            rightspd = CByte(128 + (65 + 62 * c))
+        ElseIf Global_Var.Robot_Go_Back Then
+            leftspd = CByte(128 - (65 + 62 * c))
+            rightspd = CByte(128 - (65 + 62 * c))
         Else
             leftspd = CByte(128 + Global_Var.SpeedCoeffientL * (65 + 62 * c))
             rightspd = CByte(128 + Global_Var.SpeedCoeffientR * (65 + 62 * c))
@@ -355,8 +387,8 @@ Partial Public Class Form_ORRM
                 Out_Buffer.CMD_Set_DMotor_Last_Time = My.Computer.Clock.TickCount
                 Global_Var.Robot_WheelL_Speed = leftspd
                 Global_Var.Robot_WheelR_Speed = rightspd
-                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
-                'Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
+                'Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, rightspd, 0, leftspd))
+                Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Set_DMotor, 0, leftspd, 0, rightspd))
             End If
         End If
 
@@ -390,17 +422,18 @@ Partial Public Class Form_ORRM
             Else
                 loader_tstate = 0
             End If
-        End If
-        If loader_tstate <> Global_Var.Robot_Loader_Dir Then
-            Global_Var.Robot_Loader_Dir = loader_tstate
-            Select Case Global_Var.Robot_Loader_Dir
-                Case 0
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Stop, 0, 0, 0, 0))
-                Case 1
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Down, 0, 0, 0, 0))
-                Case 2
-                    Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Up, 0, 0, 0, 0))
-            End Select
+            '    End If
+            If loader_tstate <> Global_Var.Robot_Loader_Dir Then
+                Global_Var.Robot_Loader_Dir = loader_tstate
+                Select Case Global_Var.Robot_Loader_Dir
+                    Case 0
+                        Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Stop, 0, 0, 0, 0))
+                    Case 1
+                        Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Down, 0, 0, 0, 0))
+                    Case 2
+                        Out_Buffer.Enque(New Out_Msg(11, Global_Var.Com_CMD.Loader_Up, 0, 0, 0, 0))
+                End Select
+            End If
         End If
         '===================================================================
 
